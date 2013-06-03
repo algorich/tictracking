@@ -5,6 +5,7 @@ ruby '2.0.0'
 gem 'rails', '3.2.13'
 gem 'mysql2'
 gem 'jquery-rails'
+gem 'devise', '2.2.4'
 
 group :assets do
   gem 'therubyracer', :platforms => :ruby
