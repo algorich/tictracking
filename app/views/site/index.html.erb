@@ -1,0 +1,6 @@
+<% if user_signed_in? %>
+  <%= current_user.email %>
+  <%= link_to 'Sigout', destroy_user_session_path, {method: :delete} %>
+<% else %>
+<%= link_to 'Sigin', new_user_session_path %>
+<% end %>
