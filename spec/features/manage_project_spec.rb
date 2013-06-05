@@ -6,9 +6,10 @@ feature 'manage project' do
       visit new_project_path
       expect(page).to have_content 'New Project'
 
-      fill_in 'Name', with: 'project_1'
+      fill_in 'Name', with: 'Project_1'
       click_button 'Create Project'
       expect(page).to have_content 'Project was successfully created.'
+      expect(page).to have_content 'Project_1'
     end
 
     scenario 'failure' do
