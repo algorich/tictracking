@@ -33,4 +33,13 @@ feature 'manage project' do
     expect(page).to have_content 'Project was successfully updated.'
     expect(page).to have_content 'Project_Foo'
   end
+
+  scenario 'should be deletable' do
+    project = create(:project, name: 'Project_1')
+    visit projects_path
+    expect(page).to have_content 'Project_1'
+
+    click_link 'Destroy'
+    expect(page).not_to have_content 'Project_1'
+  end
 end
