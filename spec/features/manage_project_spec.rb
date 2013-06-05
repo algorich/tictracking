@@ -11,6 +11,14 @@ feature 'manage project' do
       expect(page).to have_content 'Project was successfully created.'
     end
 
-    
+    scenario 'failure' do
+      visit new_project_path
+      
+      fill_in 'Name', with: ''
+      click_button 'Create Project'
+
+      expect(page).not_to have_content 'Project was successfully created.'
+      expect(page).to have_content "Namecan't be blank"
+    end
   end
 end
