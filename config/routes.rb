@@ -1,6 +1,6 @@
 TimeTracking::Application.routes.draw do
-  
-  resources :projects,  only: [:new, :create, :show]
+
+  resources :projects, except: [:destroy]
 
   devise_for :users
 

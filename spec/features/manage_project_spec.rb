@@ -22,4 +22,15 @@ feature 'manage project' do
       expect(page).to have_content "Namecan't be blank"
     end
   end
+
+  scenario 'should be editable' do
+    project = create(:project, name: 'Project_1')
+    visit edit_project_path(project)
+    expect(page).to have_content 'Edit Project_1'
+
+    fill_in 'Name', with: 'Project_Foo'
+    click_button 'Update Project'
+    expect(page).to have_content 'Project was successfully updated.'
+    expect(page).to have_content 'Project_Foo'
+  end
 end
