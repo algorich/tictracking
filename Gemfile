@@ -3,9 +3,10 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'rails', '3.2.13'
-gem 'mysql2'
+gem 'pg'
 gem 'jquery-rails'
 gem 'devise', '2.2.4'
+gem 'simple_form', '~> 2.1.0'
 
 group :assets do
   gem 'therubyracer', :platforms => :ruby
