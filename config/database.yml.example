@@ -4,7 +4,8 @@ development:
   database: timetracking_development
   pool: 5
   username: postgres
-  password:
+  password: postgres
+  host: localhost
 
 test:
   adapter: postgresql
@@ -12,12 +13,5 @@ test:
   database: timetracking_test
   pool: 5
   username: postgres
-  password:
-
-production:
-  adapter: postgresql
-  encoding: unicode
-  database: timetracking_production
-  pool: 5
-  username: postgres
-  password:
+  password: postgres
+  host: localhost
