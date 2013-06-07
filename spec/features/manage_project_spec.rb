@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 feature 'manage project' do
+  before do
+    @user = User.create(email: 'rodrigomageste@gmail.com',
+     password: '123456')
+    @user.confirm!
+    login_as @user
+  end
+
   context 'new' do
     scenario 'successfully' do
       visit new_project_path
@@ -14,7 +21,7 @@ feature 'manage project' do
 
     scenario 'failure' do
       visit new_project_path
-      
+
       fill_in 'Name', with: ''
       click_button 'Create Project'
 

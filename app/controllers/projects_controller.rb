@@ -1,10 +1,15 @@
 class ProjectsController < ApplicationController
+  before_filter :authenticate_user!
+
   def index
     @projects = Project.all
   end
 
   def show
+    @user = current_user
     @project = Project.find(params[:id])
+    @task = Task.new
+    @tasks = current_user.tasks.where(project_id: @project.id)
 
     respond_to do |format|
       format.html

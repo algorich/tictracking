@@ -1,1 +1,18 @@
 <h1><%= @project.name %></h1>
+
+<%= simple_form_for @task do |f| %>
+  <%= f.input :name, autofocus: true %>
+  <%= f.input :project_id, as: :hidden, input_html: { value: @project.id } %>
+  <%= f.input :user_id, as: :hidden, input_html: { value: @user.id } %>
+  <%= f.submit 'Start' %>
+<% end %>
+
+<% @tasks.each do |t| %>
+  <ul>
+    <li><%= t.name %></li>
+  </ul>
+<% end %>
+
+
+
+
