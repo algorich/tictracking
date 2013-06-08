@@ -5,10 +5,29 @@ class TasksController < ApplicationController
     @task = Task.new(params[:task])
 
     if @task.save
-      redirect_to project_path @task.project_id, notice: 'Criado com sucesso'
+      flash[:notice] = 'Task successfully created'
+      redirect_to project_path @task.project_id, notice: 'Successfully created'
     else
-      flash[:error] = 'Não pode ser criado'
+      flash[:error] = "Task can't be created"
       redirect_to project_path @task.project_id
     end
+  end
+
+  def edit
+    @task = Task.find(params[:id])
+  end
+
+  def update
+    @task = Task.find(params[:id])
+    @task.update_attributes(params[:task])
+    flash[:notice] = 'Update successfully'
+    redirect_to project_path @task.project_id
+  end
+
+  def destroy
+    @task = Task.find(params[:id])
+    Task.destroy(params[:id])
+    flash[:notice] = 'Delete successfully'
+    redirect_to project_path @task.project_id
   end
 end

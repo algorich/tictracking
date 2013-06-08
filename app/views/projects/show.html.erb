@@ -10,6 +10,8 @@
 <% @tasks.each do |t| %>
   <ul>
     <li><%= t.name %></li>
+    <li><%= link_to 'Edit', edit_task_path(t) %></li>
+    <li><%= link_to 'Delete', task_path(t), {method: :delete} %></li>
   </ul>
 <% end %>
 
