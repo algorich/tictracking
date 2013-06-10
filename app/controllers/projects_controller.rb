@@ -9,7 +9,9 @@ class ProjectsController < ApplicationController
     @user = current_user
     @project = Project.find(params[:id])
     @task = Task.new
+    @worktime = Worktime.new
     @tasks = @project.tasks
+
 
     respond_to do |format|
       format.html

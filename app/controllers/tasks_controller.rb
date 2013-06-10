@@ -5,8 +5,8 @@ class TasksController < ApplicationController
     @task = Task.new(params[:task])
 
     if @task.save
-      flash[:notice] = 'Task successfully created'
-      redirect_to project_path @task.project_id, notice: 'Successfully created'
+      Worktime.create(begin: Time.now, user_id: current_user.id, task_id: @task.id)
+      redirect_to project_path(@task.project_id), notice: 'Successfully created'
     else
       flash[:error] = "Task can't be created"
       redirect_to project_path @task.project_id

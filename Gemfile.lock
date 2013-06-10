@@ -156,6 +156,7 @@ GEM
       ref
     thor (0.18.1)
     tilt (1.4.1)
+    timecop (0.6.1)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
@@ -193,6 +194,7 @@ DEPENDENCIES
   simple_form (~> 2.1.0)
   simplecov (~> 0.7.1)
   therubyracer
+  timecop (~> 0.6.1)
   uglifier (>= 1.0.3)
   valid_attribute (~> 1.3.1)
   xray-rails
