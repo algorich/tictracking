@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :project do
     name "project_name"
+    users { [create(:user)] }
   end
 
   factory :user do
@@ -11,5 +12,4 @@ FactoryGirl.define do
       after(:create) { |u| u.confirm! }
     end
   end
-
 end
