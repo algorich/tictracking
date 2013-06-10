@@ -8,6 +8,7 @@ class ProjectsController < ApplicationController
   def show
     @user = current_user
     @project = Project.find(params[:id])
+    @users = @project.users
     @task = Task.new
     @tasks = current_user.tasks.where(project_id: @project.id)
 
