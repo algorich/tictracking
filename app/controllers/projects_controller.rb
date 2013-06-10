@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
     @user = current_user
     @project = Project.find(params[:id])
     @task = Task.new
-    @tasks = current_user.tasks.where(project_id: @project.id)
+    @tasks = @project.tasks
 
     respond_to do |format|
       format.html

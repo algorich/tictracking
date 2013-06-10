@@ -27,7 +27,7 @@ feature 'Task' do
 
   context 'show' do
     scenario 'should show a task in the view of the project' do
-      Task.create(name: 'tarefa xx', project_id: @project.id, user_id: @user.id)
+      Task.create(name: 'tarefa xx', project_id: @project.id)
       visit project_path @project
       expect(page).to have_content 'tarefa xx'
     end
@@ -35,7 +35,7 @@ feature 'Task' do
 
   context 'edit' do
     scenario 'should edit a task' do
-      Task.create(name: 'tarefa xx', project_id: @project.id, user_id: @user.id)
+      Task.create(name: 'tarefa xx', project_id: @project.id)
       visit project_path @project
       expect(page).to have_content 'tarefa xx'
       click_link 'Edit'
@@ -47,7 +47,7 @@ feature 'Task' do
 
   context 'delete' do
     scenario 'should allow delete a task' do
-      Task.create(name: 'tarefa xx', project_id: @project.id, user_id: @user.id)
+      Task.create(name: 'tarefa xx', project_id: @project.id)
       visit project_path @project
       expect(page).to have_content 'tarefa xx'
       click_link 'Delete'
