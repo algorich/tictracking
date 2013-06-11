@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-TimeTracking::Application.load_tasks
+TicTracking::Application.load_tasks

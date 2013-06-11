@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: timetracking_development
+  database: tictracking_development
   pool: 5
   username: postgres
   password: postgres
@@ -10,7 +10,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: timetracking_test
+  database: tictracking_test
   pool: 5
   username: postgres
   password: postgres

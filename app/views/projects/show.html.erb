@@ -1,5 +1,10 @@
 <h1><%= @project.name %></h1>
 
+<p><b>Users:</b></p>
+<% @users.each do |user| %>
+  <p><%= user.email %></p>
+<% end %>
+
 <%= simple_form_for @task do |f| %>
   <%= f.input :name, autofocus: true %>
   <%= f.input :project_id, as: :hidden, input_html: { value: @project.id } %>

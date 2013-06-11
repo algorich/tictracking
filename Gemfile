@@ -17,6 +17,7 @@ group :test, :development do
   gem 'pry', '~> 0.9.12'
   gem 'pry-rails', '~> 0.3.0'
   gem 'rspec-rails', '~> 2.13.2'
+  gem 'factory_girl_rails', '~> 4.2.1'
 end
 
 group :test do
@@ -25,7 +26,7 @@ group :test do
   gem 'poltergeist', '~> 1.1.0'
   gem 'launchy', '~> 2.3.0'
   gem 'valid_attribute', '~> 1.3.1'
-  gem 'factory_girl_rails', '~> 4.2.1'
+  gem 'shoulda', '~> 3.5.0'
   gem 'simplecov', '~> 0.7.1', require: false
 end
 
