@@ -38,7 +38,7 @@ feature 'User' do
   scenario 'deve pode editar o usuario logado' do
     login_as @user
     visit root_path
-    click_link 'Edit'
+    click_link @user.email
     fill_in 'Name', with: 'Rodrigo'
     fill_in 'Password', with: '1234567'
     fill_in 'Password confirmation', with: '1234567'
