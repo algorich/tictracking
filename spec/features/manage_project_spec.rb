@@ -35,16 +35,35 @@ feature 'manage project' do
     end
   end
 
-  # TODO: edit with failure
-  scenario 'should be editable' do
-    project = create(:project, name: 'Project_1')
-    visit edit_project_path(project)
-    expect(page).to have_content('Edit Project_1')
+  context "edit" do
+    scenario 'successfully' do
+      project = create(:project, name: 'Project_1')
+      visit edit_project_path(project)
+      expect(page).to have_content('Edit Project_1')
 
-    fill_in 'Name', with: 'Project_Foo'
-    click_button 'Update Project'
-    expect(page).to have_content('Project was successfully updated.')
-    expect(page).to have_content('Project_Foo')
+      fill_in 'Name', with: 'Project_Foo'
+      click_button 'Update Project'
+      expect(page).to have_content('Project was successfully updated.')
+      expect(page).to have_content('Project_Foo')
+    end
+
+    scenario 'failure' do
+      user = create(:user_confirmed)
+      project = create(:project, name: 'Project_1', users: [user])
+      visit edit_project_path(project)
+      expect(page).to have_content('Edit Project_1')
+
+      fill_in 'Name', with: ''
+      click_button 'Update Project'
+      expect(page).not_to have_content('Project was successfully updated.')
+      expect(page).not_to have_content('Project_Foo')
+
+      visit edit_project_path(project)
+      unselect user.email
+
+      click_button 'Update Project'
+      expect(page).not_to have_content('Project was successfully updated.')
+    end
   end
 
   scenario 'should be deletable' do
