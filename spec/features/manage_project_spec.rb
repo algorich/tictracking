@@ -2,9 +2,7 @@ require 'spec_helper'
 
 feature 'manage project' do
   before do
-    @user = User.create(email: 'greenlantern@gmail.com',
-     password: '123456')
-    @user.confirm!
+    @user = create(:user_confirmed)
     login_as @user
   end
 
