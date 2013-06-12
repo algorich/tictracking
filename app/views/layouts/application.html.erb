@@ -11,8 +11,16 @@
   <% flash.each do |type, message| %>
     <p class="<%= type %>"><%= message %></p>
   <% end %>
+  <% if user_signed_in? %>
+    <%= image_tag avatar_url(current_user) %>
+    <%= current_user.email %>
+    <%= link_to 'Sign out', destroy_user_session_path, {method: :delete} %>
+    <%= link_to 'Edit', edit_user_registration_path %>
+  <% else %>
+    <%= link_to 'Sign in', new_user_session_path %>
+  <% end %>
 
-<%= yield %>
+  <%= yield %>
 
 </body>
 </html>
