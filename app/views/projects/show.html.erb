@@ -18,7 +18,8 @@
     <%= simple_form_for @worktime do |w| %>
       <%= w.input :project_id, as: :hidden, input_html: { value: @project.id} %>
       <%= w.input :task_id, as: :hidden, input_html: { value: t.id} %>
-      <%= w.submit 'Begin' %>
+      <%= w.submit 'Continue' %>
+      <%= w.submit 'Stop' %>
     <% end %>
 
     <% t.worktimes.each do |worktime|  %>
@@ -28,12 +29,9 @@
           <li><%= worktime.end %></li>
         <% end %>
       </ul>
+      <br />
     <% end %>
     <li><%= link_to 'Edit', edit_task_path(t) %></li>
     <li><%= link_to 'Delete', task_path(t), {method: :delete} %></li>
   </ul>
 <% end %>
-
-
-
-
