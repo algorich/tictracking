@@ -9,5 +9,4 @@ describe Task do
     expect(subject).to_not have_valid(:name).when('Ro')
     expect(subject.errors[:name]).to include('has already been taken')
   end
-
 end

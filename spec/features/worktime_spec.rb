@@ -2,8 +2,7 @@ require 'spec_helper'
 
 feature 'Worktime' do
   background do
-    @user = create :user
-    @user.confirm!
+    @user = create :user_confirmed
     login_as @user
     @project = create :project, users: [@user]
   end
@@ -17,6 +16,7 @@ feature 'Worktime' do
       Timecop.freeze(time)
       click_button 'Begin'
       expect(page).to have_content '2008-09-01 13:05:00 UTC'
+      Timecop.return
     end
   end
 end
