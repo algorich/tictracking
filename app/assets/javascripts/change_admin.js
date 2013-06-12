@@ -1,4 +1,4 @@
-$(document).ready(function() 
+$(document).ready(function()
 {
     $('.set_admin').change(function() {
         var id = this.value;
