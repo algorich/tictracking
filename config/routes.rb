@@ -1,7 +1,8 @@
 TicTracking::Application.routes.draw do
-  resources :worktimes
 
-  resources :tasks
+  resources :tasks do
+    resources :worktimes
+  end
 
   resources :projects do
     member do

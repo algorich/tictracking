@@ -19,7 +19,7 @@
   <ul>
     <li><%= t.name %></li>
 
-    <%= simple_form_for @worktime do |w| %>
+    <%= simple_form_for [t, @worktime] do |w| %>
       <%= w.input :project_id, as: :hidden, input_html: { value: @project.id} %>
       <%= w.input :task_id, as: :hidden, input_html: { value: t.id} %>
       <%= w.submit 'Continue' %>
