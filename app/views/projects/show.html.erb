@@ -12,18 +12,28 @@
 <%= simple_form_for @task do |f| %>
   <%= f.input :name, autofocus: true %>
   <%= f.input :project_id, as: :hidden, input_html: { value: @project.id } %>
-  <%= f.input :user_id, as: :hidden, input_html: { value: @user.id } %>
   <%= f.submit 'Start' %>
 <% end %>
 
 <% @tasks.each do |t| %>
   <ul>
     <li><%= t.name %></li>
+
+    <%= simple_form_for @worktime do |w| %>
+      <%= w.input :project_id, as: :hidden, input_html: { value: @project.id} %>
+      <%= w.input :task_id, as: :hidden, input_html: { value: t.id} %>
+      <%= w.submit 'Begin' %>
+    <% end %>
+
+    <% t.worktimes.each do |worktime|  %>
+      <ul>
+        <li><%= worktime.begin %></li>
+        <% if worktime.end.present? %>
+          <li><%= worktime.end %></li>
+        <% end %>
+      </ul>
+    <% end %>
     <li><%= link_to 'Edit', edit_task_path(t) %></li>
     <li><%= link_to 'Delete', task_path(t), {method: :delete} %></li>
   </ul>
 <% end %>
-
-
-
-

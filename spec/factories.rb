@@ -4,6 +4,18 @@ FactoryGirl.define do
     users { [create(:user_confirmed)] }
   end
 
+  factory :task do
+    name 'tarefa x'
+    project { create(:project) }
+  end
+
+  factory :worktime do
+    self.begin Time.now
+    self.end Time.now + 1.day
+    user { [create(:user)] }
+    task { create(:task) }
+  end
+
   factory :user do
     sequence(:email) {|n| "user#{n}@email.com" }
     password '123456'

@@ -1,8 +1,9 @@
 class Task < ActiveRecord::Base
-  attr_accessible :name, :project, :project_id, :user, :user_id
   belongs_to :project
-  belongs_to :user
+  has_many :worktimes
+
+  attr_accessible :name, :project, :project_id
 
   validates :name, presence: true, uniqueness: true
-  validates :user, :project, presence: true
+  validates :project, presence: true
 end

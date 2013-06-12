@@ -21,6 +21,7 @@ group :test, :development do
 end
 
 group :test do
+  gem 'timecop', '~> 0.6.1'
   gem 'capybara', '~> 2.1.0'
   gem 'poltergeist', '~> 1.3.0'
   gem 'launchy', '~> 2.3.0'
