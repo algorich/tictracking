@@ -19,5 +19,4 @@ describe Worktime do
     it { should have_valid(:task).when(Task.new) }
     it { should_not have_valid(:task).when(nil) }
   end
-
 end

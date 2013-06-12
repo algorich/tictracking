@@ -9,10 +9,9 @@ class ProjectsController < ApplicationController
     @user = current_user
     @project = Project.find(params[:id])
     @users = @project.users
-    @task = Task.new
-    @worktime = Worktime.new
     @tasks = @project.tasks
-
+    @worktime = Worktime.new
+    @task = Task.new
 
     respond_to do |format|
       format.html
@@ -69,5 +68,12 @@ class ProjectsController < ApplicationController
       format.html { redirect_to projects_url }
       format.json { head :no_content }
     end
+  end
+
+  def change_admin
+    project = Project.find(params[:id])
+    membership = project.memberships.where(user_id: params[:admin_id]).first
+    membership.toggle_admin!
+    render json: { success: true }
   end
 end

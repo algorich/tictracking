@@ -3,7 +3,11 @@ TicTracking::Application.routes.draw do
 
   resources :tasks
 
-  resources :projects
+  resources :projects do
+    member do
+      post :change_admin
+    end
+  end
 
   devise_for :users
 
