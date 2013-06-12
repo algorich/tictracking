@@ -1,9 +1,13 @@
 <h1><%= @project.name %></h1>
 
-<p><b>Users:</b></p>
-<% @users.each do |user| %>
-  <p><%= user.email %></p>
-<% end %>
+<p>
+  <b>Users (If the check box was checked, user is an admin):</b>
+  <% @users.each do |user| %>
+    <input type='checkbox' id='user-<%= user.id %>' class='set_admin'
+      value='<%= user.id %>' data-project='<%= @project.id %>'
+      <%= 'checked' if user.admin?(@project) %>> <%= user.email %>
+  <% end %>
+</p>
 
 <%= simple_form_for @task do |f| %>
   <%= f.input :name, autofocus: true %>

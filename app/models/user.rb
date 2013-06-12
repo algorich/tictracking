@@ -8,4 +8,10 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   has_many :tasks
+  has_many :memberships
+  has_many :projects, through: :memberships
+
+  def admin?(project)
+    memberships.where(project_id: project.id, admin: true).any?
+  end
 end

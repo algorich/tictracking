@@ -68,4 +68,11 @@ class ProjectsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def change_admin
+    project = Project.find(params[:id])
+    membership = project.memberships.where(user_id: params[:admin_id]).first
+    membership.toggle_admin!
+    render json: { success: true }
+  end
 end
