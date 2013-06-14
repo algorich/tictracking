@@ -22,6 +22,10 @@ feature 'manage project' do
       expect(page).to have_content('Project_1')
 
       click_link "Team"
+
+      admin_box = find("#user-#{@user.id}")
+      expect(admin_box).to be_checked
+
       expect(page).to have_content(user_1.email)
       expect(page).to have_content(user_2.email)
       expect(page).not_to have_content(user_3.email)
