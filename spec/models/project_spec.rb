@@ -5,13 +5,14 @@ describe Project do
   it { should_not have_valid(:user_ids).when(nil) }
   it { should have_many(:users).through(:memberships) }
 
-  describe '#admins' do
-    it "should return project's admin" do
-      # user = create(:user_confirmed)
-      # membership = create(:membership, user: user, admin: true)
-      # project = membership.project
+  describe '#set_admin' do
+    it "should associate an admin to the project" do
+      user = create(:user_confirmed)
+      project = create(:project)
 
-      # expect(project.admins).to include(user)
+      project.set_admin(user)
+
+      expect(user.admin?(project)).to be_true
     end
   end
 end

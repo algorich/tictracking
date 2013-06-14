@@ -6,4 +6,8 @@ class Project < ActiveRecord::Base
   attr_accessible :name, :user_ids
 
   validates :name, :user_ids, presence: true
+
+  def set_admin(user)
+    self.memberships.create!(admin: true, user: user)
+  end
 end

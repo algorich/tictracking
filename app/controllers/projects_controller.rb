@@ -35,6 +35,8 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+        @project.set_admin(current_user)
+
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render json: @project, status: :created, location: @project }
       else
@@ -71,8 +73,11 @@ class ProjectsController < ApplicationController
   def change_admin
     project = Project.find(params[:id])
     membership = project.memberships.where(user_id: params[:admin_id]).first
-    membership.toggle_admin!
-    render json: { success: true }
+    if membership.toggle_admin!
+      render json: { success: true }
+    else
+      render json: { success: false, message: 'Project should have at least one admin!'}
+    end
   end
 
   def team
