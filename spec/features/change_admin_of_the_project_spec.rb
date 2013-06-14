@@ -33,8 +33,7 @@ feature 'Set admin(s) to project', js:true do
     user_box = find("#user-#{user.id}")
 
     uncheck("user-#{user.id}")
-    sleep(1)
-    expect(user_box).to be_checked
     expect(page).to have_content('Project should have at least one admin!')
+    expect(user_box).to be_checked
   end
 end
