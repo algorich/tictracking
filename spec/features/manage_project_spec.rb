@@ -20,6 +20,8 @@ feature 'manage project' do
       click_button 'Create Project'
       expect(page).to have_content('Project was successfully created.')
       expect(page).to have_content('Project_1')
+
+      click_link "Team"
       expect(page).to have_content(user_1.email)
       expect(page).to have_content(user_2.email)
       expect(page).not_to have_content(user_3.email)

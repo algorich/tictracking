@@ -1,0 +1,10 @@
+<h1>Team</h1>
+
+<p>
+  <b>Admins (If the check box was checked, user will become an admin):</b><br>
+  <% @users.each do |user| %>
+    <input type='checkbox' id='user-<%= user.id %>' class='set_admin'
+      value='<%= user.id %>' data-project='<%= @project.id %>'
+      <%= 'checked' if user.admin?(@project) %>> <%= user.email %><br>
+  <% end %>
+</p>

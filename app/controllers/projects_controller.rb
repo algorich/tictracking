@@ -6,9 +6,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @user = current_user
     @project = Project.find(params[:id])
-    @users = @project.users
     @tasks = @project.tasks
     @worktime = Worktime.new
     @task = Task.new
@@ -75,5 +73,10 @@ class ProjectsController < ApplicationController
     membership = project.memberships.where(user_id: params[:admin_id]).first
     membership.toggle_admin!
     render json: { success: true }
+  end
+
+  def team
+    @project = Project.find(params[:id])
+    @users = @project.users
   end
 end

@@ -7,6 +7,7 @@ TicTracking::Application.routes.draw do
   resources :projects do
     member do
       post :change_admin
+      get :team
     end
   end
 
