@@ -124,6 +124,16 @@ feature 'manage project' do
       expect(current_path).to eq(project_path(@project))
     end
   end
+
+  context 'show' do
+    scenario 'users should show only your projects' do
+      project = create(:project, name: 'Project GG')
+      project = create(:project, users: [@user])
+      membership = create(:membership, project: project, user: @user, admin: true)
+      visit projects_path
+      expect(page).not_to have_content 'Project GG'
+    end
+  end
 end
 
 
