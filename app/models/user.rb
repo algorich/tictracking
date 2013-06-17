@@ -13,4 +13,8 @@ class User < ActiveRecord::Base
   def admin?(project)
     memberships.where(project_id: project.id, admin: true).any?
   end
+
+  def member?(project)
+    memberships.where(project_id: project.id).any?
+  end
 end
