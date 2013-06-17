@@ -16,4 +16,16 @@ describe User do
       expect(user.admin?(project_2)).to eq(false)
     end
   end
+
+  describe '#member?' do
+    it "should return true if user is a project's member" do
+      user = create(:user_confirmed)
+      project_1 = create(:project)
+      project_2 = create(:project)
+      create(:membership, user: user, project: project_1)
+
+      expect(user.member?(project_1)).to be_true
+      expect(user.member?(project_2)).to be_false
+    end
+  end
 end

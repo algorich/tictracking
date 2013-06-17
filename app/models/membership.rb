@@ -2,7 +2,7 @@ class Membership < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
 
-  attr_accessible :admin, :user
+  attr_accessible :admin, :project, :user
 
   def toggle_admin!
     if can_toggle_admin?

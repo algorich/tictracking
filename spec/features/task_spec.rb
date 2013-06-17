@@ -4,7 +4,7 @@ feature 'Task' do
   background do
     @user = create(:user_confirmed)
     login_as @user
-    @project = create(:project)
+    @project = create(:project, users: [@user])
   end
 
   context 'create' do
