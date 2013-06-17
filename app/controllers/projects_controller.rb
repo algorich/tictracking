@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @projects = Project.all
+    @projects = current_user.projects
   end
 
   def show
