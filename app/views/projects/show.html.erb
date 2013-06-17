@@ -26,8 +26,11 @@
       </ul>
       <br />
     <% end %>
-    <li><%= link_to 'Edit', edit_task_path(t) %></li>
-    <li><%= link_to 'Delete', task_path(t), {method: :delete} %></li>
+
+
+      <li><%= link_to 'Edit', edit_task_path(t) %></li>
+
+      <li><%= link_to 'Delete', task_path(t), {method: :delete} %></li>
   </ul>
 <% end %>
 <%= link_to 'Team', team_project_path(@project) %>

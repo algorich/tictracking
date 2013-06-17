@@ -18,10 +18,13 @@ class TasksController < ApplicationController
   end
 
   def update
-    # TODO: where is the error case?
     @task = Task.find(params[:id])
-    @task.update_attributes(params[:task])
-    redirect_to project_path(@task.project_id), notice: 'Update successfully'
+
+    if @task.update_attributes(params[:task])
+      redirect_to project_path(@task.project_id), notice: 'Update successfully'
+    else
+      render action: 'edit'
+    end
   end
 
   def destroy
