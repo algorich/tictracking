@@ -33,11 +33,10 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(params[:project])
+    @project.set_admin(current_user)
 
     respond_to do |format|
       if @project.save
-        @project.set_admin(current_user)
-
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render json: @project, status: :created, location: @project }
       else

@@ -1,7 +1,9 @@
 FactoryGirl.define do
   factory :project do
     name "project_name"
-    users { [create(:user_confirmed)] }
+    after(:build) do |p|
+      p.memberships = [build(:membership, project: p)] if p.memberships.empty?
+    end
   end
 
   factory :task do
