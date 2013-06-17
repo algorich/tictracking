@@ -20,7 +20,7 @@ class WorktimesController < ApplicationController
       end
     else
       @worktime = Worktime.last.update_attribute(:end, Time.now)
-      redirect_to project_path(params[:worktime][:project_id]), notice:'Deleted'
+      redirect_to project_path(params[:worktime][:project_id]), notice:'Stopped'
     end
   end
 end
