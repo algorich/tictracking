@@ -56,4 +56,31 @@ feature 'Task' do
       expect(page).not_to have_content('tarefa xx')
     end
   end
+
+  context 'listener' do
+    scenario 'only owner should edit or destroy a tasks' do
+      user = create(:user_confirmed)
+      login_as user
+      membership = create(:membership, project: @project, user: user,
+       admin: false)
+      task2 = create(:task, project: @project, name: 'Task2')
+      visit project_path(@project)
+      click_link 'Sign'
+
+      membership = create(:membership, project: @project, user: @user,
+       admin: true)
+      login_as @user
+      task = create(:task, project: @project)
+      visit project_path(@project)
+      page.should have_css("a[href='/tasks/#{task.id}/edit']")
+      page.should have_css("a[href='/tasks/#{task2.id}/edit']")
+    end
+  end
 end
+
+
+
+
+
+
+

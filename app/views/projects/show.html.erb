@@ -7,7 +7,7 @@
 <% end %>
 
 <% @tasks.each do |t| %>
-  <ul>
+  <ul data-id="<%= t.id %>">
     <li><%= t.name %></li>
 
     <%= simple_form_for [t, @worktime] do |w| %>
@@ -27,10 +27,12 @@
       <br />
     <% end %>
 
-
+    <% if can? :update, t %>
       <li><%= link_to 'Edit', edit_task_path(t) %></li>
-
+    <% end %>
+    <% if can? :destroy, t %>
       <li><%= link_to 'Delete', task_path(t), {method: :delete} %></li>
+    <% end %>
   </ul>
 <% end %>
 <%= link_to 'Team', team_project_path(@project) %>
