@@ -1,5 +1,7 @@
 <%= simple_form_for @project do |f| %>
   <%= f.input :name %>
   <%= f.association :users, label_method: :email, value_method: :id, include_blank: false, as: :select %>
-  <%= f.button :submit %>
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn-primary' %>
+  </div>
 <% end %>

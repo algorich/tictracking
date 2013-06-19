@@ -8,6 +8,23 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
  *= require_tree .
+ *= require_self
  */
+
+/*
+** Header
+*/
+
+#app-header .container {
+  padding: 5px 0;
+}
+
+#app-header.navbar .nav > li:not(.app-profile-image),
+#app-header .brand {
+  margin-top: 5px;
+}
+
+#app-header.navbar .nav > li.app-profile-image img {
+  border: 3px solid #fff;
+}

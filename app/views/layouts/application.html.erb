@@ -15,15 +15,28 @@
 <body>
 
   <!-- HEADER BEGIN -->
-  <header id="app-header">
-    <% if user_signed_in? %>
-      <%= image_tag avatar_url(current_user) %>
-      <%= link_to 'Sign out', destroy_user_session_path, {method: :delete} %>
-      <%= link_to current_user.email, edit_user_registration_path %>
-      <%= link_to 'Dashboard', dashboard_path %>
-    <% else %>
-      <%= link_to 'Sign in', new_user_session_path %>
-    <% end %>
+  <header class="navbar navbar-inverse navbar-fixed-top" id="app-header">
+    <div class="navbar-inner">
+
+      <div class="container">
+        <%= link_to 'TicTraking', root_path, class: 'brand' %>
+
+        <ul class="nav pull-right">
+          <% if user_signed_in? %>
+            <li><%= link_to '<i class="icon-circle-arrow-left"></i> Sign out'.html_safe,
+              destroy_user_session_path, { method: :delete } %></li>
+            <li><%= link_to current_user.email,
+              edit_user_registration_path %></li>
+            <li class="app-profile-image">
+              <%= image_tag avatar_url(current_user), alt: current_user.name,
+              size: '40x40', class: 'img-circle' %></li>
+          <% else %>
+            <li><%= link_to 'Sign in', new_user_session_path %></li>
+          <% end %>
+        </ul>
+      </div>
+
+    </div>
   </header>
   <!-- HEADER END -->
 
@@ -34,8 +47,20 @@
   <!-- FLASH MESSAGE END -->
 
   <!-- CONTENT BEGIN -->
-  <section id="app-content">
-    <%= yield %>
+  <section id="app-content" class="container">
+    <div clas="row-fluid">
+
+      <div class="<%= yield(:sidebar).blank? ? 'span12'.html_safe : 'span8'.html_safe %>">
+        <%= yield %>
+      </div>
+
+      <% unless (yield :sidebar).blank? %>
+        <aside class="span4">
+          <%= yield :sidebar %>
+        </aside>
+      <% end %>
+
+    </div>
   </section>
   <!-- CONTENT END -->
 
