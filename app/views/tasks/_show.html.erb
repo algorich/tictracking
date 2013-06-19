@@ -2,7 +2,6 @@
   <li><%= task.name %></li>
 
   <%= simple_form_for [task, worktime] do |w| %>
-    <%= w.input :project_id, as: :hidden, input_html: { value: task.project.id} %>
     <%= w.input :task_id, as: :hidden, input_html: { value: task.id} %>
     <%= w.submit 'Continue' %>
     <%= w.submit 'Stop' %>

@@ -28,3 +28,7 @@
 #app-header.navbar .nav > li.app-profile-image img {
   border: 3px solid #fff;
 }
+
+.span12 > h1:nth-child(1) {
+  padding-top:60px;
+}
