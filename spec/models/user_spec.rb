@@ -32,11 +32,19 @@ describe User do
   describe '#latest_tasks' do
     it 'should return the lastet tasks' do
       user = create(:user_confirmed)
-      membership_1 = create(:membership, user: user)
-      membership_2 = create(:membership, user: user)
-      membership_3 = create(:membership, user: user)
+      project_1 = create(:project, users: [user])
+      task_1 = create(:task, project: project_1, name: 'Task 1')
+      task_2 = create(:task, project: project_1, name: 'Task 2')
+      task_3 = create(:task, project: project_1, name: 'Task 3')
 
-      expect(user.latest_tasks(2)).to eq([membership_3, membership_2])
+      create(:worktime, user: user, task: task_1)
+      create(:worktime, user: user, task: task_3)
+      create(:worktime, user: user, task: task_2)
+
+      expect(user.latest_tasks(2)).to include(task_3, task_2)
+
+      create(:worktime, user: user, task: task_1)
+      expect(user.latest_tasks(2)).to include(task_1, task_2)
     end
   end
 end

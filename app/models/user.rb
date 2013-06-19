@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   has_many :worktimes
+  has_many :tasks, through: :worktimes, uniq: true
   has_many :memberships
   has_many :projects, through: :memberships
 
@@ -17,6 +18,6 @@ class User < ActiveRecord::Base
   end
 
   def latest_tasks(n=1)
-    worktimes.order('updated_at DESC').first(20).uniq_by(&:task_id).map(&:task).first(n)
+    tasks.order('updated_at DESC').first(n)
   end
 end

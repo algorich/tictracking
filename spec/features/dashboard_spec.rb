@@ -53,8 +53,6 @@ feature 'Dashboard' do
       create(:worktime, user: @user, task: task_2)
       create(:worktime, user: @user, task: task_2)
 
-      create(:worktime, task: task_1)
-
       visit dashboard_path
 
       expect(page).to have_content('Task 4')
