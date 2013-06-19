@@ -7,14 +7,14 @@ FactoryGirl.define do
   end
 
   factory :task do
-    name 'tarefa x'
+    sequence(:name) { |n| "tarefa #{n}" }
     project { create(:project) }
   end
 
   factory :worktime do
     self.begin Time.now
     self.end Time.now + 1.day
-    user { [create(:user)] }
+    user { create(:user) }
     task { create(:task) }
   end
 

@@ -23,6 +23,9 @@
         <% if worktime.end.present? %>
           <li><%= worktime.end %></li>
         <% end %>
+        <li><%= link_to 'Edit', edit_task_worktime_path(t, worktime) %></li>
+        <li><%= link_to 'Destroy', task_worktime_path(t, worktime),
+         {method: :delete} %></li>
       </ul>
       <br />
     <% end %>
