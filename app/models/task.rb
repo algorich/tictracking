@@ -1,5 +1,5 @@
 class Task < ActiveRecord::Base
-  belongs_to :project
+  belongs_to :project, touch: true
   has_many :worktimes, dependent: :destroy
 
   attr_accessible :name, :project, :project_id

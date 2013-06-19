@@ -28,4 +28,15 @@ describe User do
       expect(user.member?(project_2)).to be_false
     end
   end
+
+  describe '#latest_tasks' do
+    it 'should return the lastet tasks' do
+      user = create(:user_confirmed)
+      membership_1 = create(:membership, user: user)
+      membership_2 = create(:membership, user: user)
+      membership_3 = create(:membership, user: user)
+
+      expect(user.latest_tasks(2)).to eq([membership_3, membership_2])
+    end
+  end
 end
