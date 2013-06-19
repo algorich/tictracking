@@ -18,5 +18,9 @@ class Ability
       user.member? t.project
     end
 
+    #Worktime
+    can [:manage], Worktime do |w|
+      user.member? w.task.project
+    end
   end
 end

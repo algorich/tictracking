@@ -1,7 +1,6 @@
 <h1>Edit worktime</h1>
-<%= simple_form_for [@task, @worktime] do |w| %>
-  binding.pry
-  <%= w.input :begin %>
-  <%= w.input :end %>
-  <%= w.button :submit %>
+  <%= simple_form_for [@task, @worktime] do |w| %>
+    <%= w.input :begin %>
+    <%= w.input :end %>
+    <%= w.button :submit %>
 <% end %>

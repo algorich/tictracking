@@ -1,4 +1,6 @@
 class WorktimesController < ApplicationController
+  load_and_authorize_resource
+
   def create
     if params[:commit] == 'Continue'
       if Worktime.last.end != nil
@@ -7,20 +9,21 @@ class WorktimesController < ApplicationController
          task_id: params[:worktime][:task_id ])
 
           if @worktime.save
-            redirect_to project_path(params[:worktime][:project_id]),
+            redirect_to project_path(@worktime.task.project_id),
              notice: 'Successfully'
           else
-            redirect_to project_path(params[:worktime][:project_id]),
+            redirect_to project_path(@worktime.task.project_id),
              notice: "Can't be created"
           end
 
       else
-        redirect_to project_path(params[:worktime][:project_id]), alert:
+        redirect_to project_path(@worktime.task.project_id), alert:
         'Should stop worktime'
       end
     else
-      @worktime = Worktime.last.update_attribute(:end, Time.now)
-      redirect_to project_path(params[:worktime][:project_id]), notice:'Stopped'
+      @worktime = Worktime.last
+      @worktime.update_attributes(end: Time.now)
+      redirect_to project_path(@worktime.task.project_id), notice:'Stopped'
     end
   end
 
