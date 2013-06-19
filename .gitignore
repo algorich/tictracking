@@ -18,3 +18,4 @@ config/database.yml
 libpeerconnection.log
 .ruby-version
 .rake_tasks_cache
+coverage
