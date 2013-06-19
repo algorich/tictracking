@@ -6,5 +6,6 @@ class SiteController < ApplicationController
 
   def dashboard
     @projects = current_user.projects.order('updated_at DESC').first(3)
+    @tasks = current_user.latest_tasks(3)
   end
 end

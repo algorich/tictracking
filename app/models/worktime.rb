@@ -1,6 +1,6 @@
 class Worktime < ActiveRecord::Base
   belongs_to :user
-  belongs_to :task
+  belongs_to :task, touch: true
 
   attr_accessible :begin, :end, :user, :user_id, :task, :task_id
 

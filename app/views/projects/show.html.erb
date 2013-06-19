@@ -7,34 +7,6 @@
 <% end %>
 
 <% @tasks.each do |t| %>
-  <ul data-id="<%= t.id %>">
-    <li><%= t.name %></li>
-
-    <%= simple_form_for [t, @worktime] do |w| %>
-      <%= w.input :task_id, as: :hidden, input_html: { value: t.id} %>
-      <%= w.submit 'Continue' %>
-      <%= w.submit 'Stop' %>
-    <% end %>
-
-    <% t.worktimes.each do |worktime|  %>
-      <ul>
-        <li><%= worktime.begin %></li>
-        <% if worktime.end.present? %>
-          <li><%= worktime.end %></li>
-        <% end %>
-        <li><%= link_to 'Edit', edit_task_worktime_path(t, worktime) %></li>
-        <li><%= link_to 'Destroy', task_worktime_path(t, worktime),
-         {method: :delete} %></li>
-      </ul>
-      <br />
-    <% end %>
-
-    <% if can? :update, t %>
-      <li><%= link_to 'Edit', edit_task_path(t) %></li>
-    <% end %>
-    <% if can? :destroy, t %>
-      <li><%= link_to 'Delete', task_path(t), {method: :delete} %></li>
-    <% end %>
-  </ul>
+  <%= render 'tasks/show', task: t, worktime: @worktime %>
 <% end %>
 <%= link_to 'Team', team_project_path(@project) %>

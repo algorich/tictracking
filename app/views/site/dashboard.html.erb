@@ -5,7 +5,14 @@
 <%= link_to 'My projects', projects_path %>
 <%= link_to 'New project', new_project_path %>
 
-  <div class="projects">
+<div class="projects">
   <p>Lasted Projects</p>
   <%= render 'projects/list' %>
+</div>
+
+<div class="tasks">
+  <p>Lasted Tasks</p>
+  <% @tasks.each do |t| %>
+    <%= render 'tasks/show', task: t, worktime: Worktime.new %>
+  <% end %>
 </div>
