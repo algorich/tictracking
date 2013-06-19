@@ -135,13 +135,3 @@ feature 'manage project' do
     end
   end
 end
-
-
-
-
-
-
-
-
-
-

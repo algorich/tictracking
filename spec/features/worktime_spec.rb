@@ -6,7 +6,10 @@ feature 'Worktime' do
     login_as @user
     @project = create :project, users: [@user]
     @task = create :task, project: @project
-    @worktime = create :worktime, user: @user, task: @task
+    @begin_time = Time.local(2013, 6, 1, 11, 5, 0)
+    @end_time = Time.local(2012, 6, 1, 11, 5, 0)
+    @worktime = create :worktime, user: @user, task: @task, begin: @begin_time,
+      end: @end_time
     visit project_path(@project.id)
   end
 
@@ -39,10 +42,7 @@ feature 'Worktime' do
 
   context 'edit' do
     scenario 'should edit a worktime' do
-      begin_time = Time.local(2013, 6, 1, 11, 5, 0)
-      end_time = Time.local(2012, 6, 1, 11, 5, 0)
-      worktime = create(:worktime, begin: begin_time, end: end_time)
-
+      membership = create(:membership, project: @project, user: @user)
       link_edit = page.find(:xpath,
        ".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}/edit\"]")
       link_edit.click
@@ -63,6 +63,11 @@ feature 'Worktime' do
 
       expect(page).to have_content '2010-05-09 22:04:00 UTC'
       expect(page).to have_content '2011-05-09 22:04:00 UTC'
+
+      expect(@worktime.end.day).to eq(@begin_time.day)
+      # @worktime.end.day
+      # @worktime.end.day
+
     end
   end
 
@@ -77,11 +82,18 @@ feature 'Worktime' do
     end
   end
 
-  # context 'listning' do
-  #   scenario 'only members should edit, destroy and read worktime' do
-  #     link_edit = page.find(:xpath,
-  #      ".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}/edit\"]")
+  context 'listning' do
+    scenario 'only members should edit, destroy and read worktime' do
+      link_edit = page.find(:xpath,
+       ".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}/edit\"]")
+      expect(link_edit).to be_visible
 
-  #   end
-  # end
+      click_link 'Sign out'
+
+      user = create(:user_confirmed)
+      login_as user
+      visit "/tasks/#{@task.id}/worktimes/#{@worktime.id}/edit"
+      expect(page).to have_content 'You are not authorized to access this page.'
+    end
+  end
 end
