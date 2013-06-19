@@ -51,12 +51,7 @@ feature 'Project team' do
     expect(user_1_box).to be_checked
     expect(user_2_box).not_to be_checked
 
-    check("user-#{user_2.id}")
-
-    visit team_project_path(project)
-    user_1_box = find("#user-#{user_1.id}")
-    user_2_box = find("#user-#{user_2.id}")
-    expect(user_1_box).to be_checked
-    expect(user_2_box).not_to be_checked
+    expect(user_1_box).to be_disabled
+    expect(user_2_box).to be_disabled
   end
 end
