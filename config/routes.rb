@@ -1,5 +1,7 @@
 TicTracking::Application.routes.draw do
 
+  get 'dashboard' => 'site#dashboard'
+
   resources :tasks do
     resources :worktimes
   end

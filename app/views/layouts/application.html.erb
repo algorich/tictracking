@@ -15,6 +15,7 @@
     <%= image_tag avatar_url(current_user) %>
     <%= link_to 'Sign out', destroy_user_session_path, {method: :delete} %>
     <%= link_to current_user.email, edit_user_registration_path %>
+    <%= link_to 'Dashboard', dashboard_path %>
   <% else %>
     <%= link_to 'Sign in', new_user_session_path %>
   <% end %>

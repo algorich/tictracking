@@ -1,0 +1,8 @@
+<h1>Dashboard</h1>
+<%= link_to 'My projects', projects_path %>
+<%= link_to 'New project', new_project_path %>
+
+  <div class="projects">
+  <p>Lasted Projects</p>
+  <%= render 'projects/list' %>
+</div>
