@@ -56,25 +56,29 @@ feature 'manage project' do
       expect(page).to have_content('Project_Foo')
     end
 
-    scenario 'failure' do
-      user = create(:user_confirmed)
-      project = create(:project, name: 'Project_1')
-      membership = create(:membership, admin: true, project: project, user: user)
-      login_as user
+    context 'failure' do
+      scenario 'name and user cant be blank' do
+        project = create(:project, name: 'Project_1')
+        membership = project.memberships.first
+        membership.toggle_admin!
+        user = membership.user
+        login_as user
 
-      visit edit_project_path(project)
-      expect(page).to have_content('Edit Project_1')
+        visit edit_project_path(project)
+        expect(page).to have_content('Edit Project_1')
 
-      fill_in 'Name', with: ''
-      click_button 'Update Project'
-      expect(page).not_to have_content('Project was successfully updated.')
-      expect(page).not_to have_content('Project_Foo')
+        fill_in 'Name', with: ''
+        click_button 'Update Project'
+        expect(page).not_to have_content('Project_Foo')
+        expect(page).to have_content("Namecan't be blank")
 
-      visit edit_project_path(project)
-      unselect user.email
+        visit edit_project_path(project)
+        fill_in 'Name', with: 'Something'
+        unselect user.email
 
-      click_button 'Update Project'
-      expect(page).not_to have_content('Project was successfully updated.')
+        click_button 'Update Project'
+        expect(page).to have_content("can't be blank")
+      end
     end
   end
 

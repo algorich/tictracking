@@ -40,17 +40,14 @@
   </header>
   <!-- HEADER END -->
 
-  <!-- FLASH MESSAGE BEGIN -->
-  <% flash.each do |type, message| %>
-    <p class="<%= type %>"><%= message %></p>
-  <% end %>
-  <!-- FLASH MESSAGE END -->
 
   <!-- CONTENT BEGIN -->
   <section id="app-content" class="container">
-    <div clas="row-fluid">
+    <div class="row-fluid">
 
       <div class="<%= yield(:sidebar).blank? ? 'span12'.html_safe : 'span8'.html_safe %>">
+        <%= bootstrap_flash %>
+
         <%= yield %>
       </div>
 

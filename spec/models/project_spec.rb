@@ -5,9 +5,9 @@ describe Project do
 
   it { should_not have_valid(:name).when(nil) }
 
-  it 'validate memberships presence' do
+  it 'validate users presence' do
     expect(subject.valid?).to be_false
-    expect(subject.errors[:memberships]).to eq(["can't be blank"])
+    expect(subject.errors[:users]).to eq(["can't be blank"])
   end
 
 

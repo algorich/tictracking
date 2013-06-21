@@ -29,6 +29,6 @@
   border: 3px solid #fff;
 }
 
-.span12 > h1:nth-child(1) {
+#app-content {
   padding-top:60px;
 }
