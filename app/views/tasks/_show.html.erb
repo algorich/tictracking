@@ -18,7 +18,7 @@
   <div class="row-fluid">
     <div class="span7">
         <% task.worktimes.each do |worktime|  %>
-          <ul id="worktime-left">
+          <ul class="inline">
             <li><%= worktime.begin %></li>
             <% if worktime.end.present? %>
               <li><%= worktime.end %></li>
