@@ -3,6 +3,7 @@ class WorktimesController < ApplicationController
 
   def create
     if params[:commit] == 'Continue'
+
       if Worktime.last.end != nil
 
         @worktime = Worktime.new(begin: Time.now, user_id: current_user.id,

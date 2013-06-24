@@ -36,14 +36,23 @@ feature 'Task' do
   end
 
   context 'edit' do
-    scenario 'should edit a task' do
+    before do
       Task.create(name: 'tarefa xx', project_id: @project.id)
       visit project_path @project
       expect(page).to have_content('tarefa xx')
       click_link 'Edit'
+    end
+
+    scenario 'should edit a task' do
       fill_in 'Name', with: 'tarefa green'
       click_button 'Update'
       expect(page).to have_content('tarefa green')
+    end
+
+    scenario 'failure' do
+      fill_in 'Name', with: ''
+      click_button 'Update'
+      expect(page).to have_content("can't be blank")
     end
   end
 
