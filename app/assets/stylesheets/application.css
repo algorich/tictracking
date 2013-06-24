@@ -42,3 +42,25 @@ a.brand:nth-child(2), a.brand:nth-child(3) {
 a.brand:nth-child(3) {
   margin-left: -10px;
 }
+
+#new_worktime {
+  float: right;
+  margin-top: 4px;
+}
+
+#worktime-left > li {
+  float: left;
+  margin-left: 28px;
+}
+
+.span12 > ul > div:nth-child(3) > div:nth-child(1) > li {
+  float: left;
+  margin-left: 15px;
+  list-style: none;
+  font-size: 18px;
+  padding: 1px 4px;
+}
+
+.span12 > ul > div:nth-child(3) > div:nth-child(1) > li:nth-child(1) {
+  margin-left: -5px;
+}
