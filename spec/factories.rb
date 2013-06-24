@@ -1,7 +1,13 @@
 FactoryGirl.define do
   factory :project do
     name "project_name"
-    users { [create(:user_confirmed)] }
+
+    before(:create) do |project, evaluator|
+      user = evaluator.users.first || create(:user_confirmed)
+      evaluator.users.delete(user)
+      evaluator.users = evaluator.users
+      project.set_admin(user)
+    end
   end
 
   factory :task do
@@ -27,7 +33,11 @@ FactoryGirl.define do
 
   factory :membership do
     admin false
-    project { create(:project) }
-    user { create(:user_confirmed) }
+
+    before(:create) do |membership, evaluator|
+      user = evaluator.user || create(:user_confirmed)
+      membership.user = user
+      membership.project = evaluator.project || create(:project, users: [user])
+    end
   end
 end
