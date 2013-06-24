@@ -10,6 +10,7 @@ gem 'devise', '2.2.4'
 gem 'cancan', '~> 1.6.10'
 gem 'simple_form', '~> 2.1.0'
 gem 'twitter-bootstrap-rails', '~> 2.2.7'
+gem 'select2-rails', '~> 3.4.2'
 
 group :assets do
   gem 'therubyracer', :platforms => :ruby

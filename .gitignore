@@ -19,3 +19,4 @@ libpeerconnection.log
 .ruby-version
 .rake_tasks_cache
 coverage
+.sass-cache/*
