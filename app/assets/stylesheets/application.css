@@ -32,3 +32,13 @@
 #app-content {
   padding-top:60px;
 }
+
+a.brand:nth-child(2), a.brand:nth-child(3) {
+  font-size: 14px;
+  margin-left: 3px;
+  padding-top: 12px;
+}
+
+a.brand:nth-child(3) {
+  margin-left: -10px;
+}
