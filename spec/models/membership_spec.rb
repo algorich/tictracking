@@ -18,9 +18,9 @@ describe Membership do
 
   describe '#can_toggle_admin?' do
     it 'should return false case the project has only one admin' do
-      membership_1 = create(:membership, admin: true)
-      project = membership_1.project
-      membership_2 = create(:membership, admin: true, project: project)
+      project = create :project
+      membership_1 = project.memberships.first
+      membership_2 = create :membership, admin: true, project: project
 
       expect(membership_1.send(:can_toggle_admin?)).to be_true
 

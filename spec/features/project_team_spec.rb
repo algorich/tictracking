@@ -5,8 +5,8 @@ feature 'Project team' do
     scenario 'should have a check box to set the admins on project#team' do
       user_1 = create(:user_confirmed)
       user_2 = create(:user_confirmed)
-      project = create(:project, users: [user_2])
-      membership = create(:membership, project: project, user: user_1, admin: true)
+      project = create(:project, users: [user_1])
+      membership = create(:membership, project: project, user: user_2, admin: false)
       login_as user_1
       visit team_project_path(project)
       user_1_box = find("#user-#{user_1.id}")
@@ -24,9 +24,8 @@ feature 'Project team' do
     end
 
     scenario 'project should have at least one admin' do
-      membership = create(:membership, admin: true)
-      user = membership.user
-      project = membership.project
+      project = create(:project)
+      user = project.memberships.first.user
 
       login_as user
       visit team_project_path(project)
@@ -41,8 +40,8 @@ feature 'Project team' do
   scenario 'show team' do
     user_1 = create(:user_confirmed)
     user_2 = create(:user_confirmed)
-    project = create(:project, users: [user_2])
-    membership = create(:membership, project: project, user: user_1, admin: true)
+    project = create(:project, users: [user_1])
+    membership = create(:membership, project: project, user: user_2, admin: false)
     login_as user_2
 
     visit team_project_path(project)

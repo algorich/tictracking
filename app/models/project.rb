@@ -5,9 +5,14 @@ class Project < ActiveRecord::Base
 
   attr_accessible :name, :user_ids
 
-  validates :name, :users, presence: true
+  validates :name, :memberships, presence: true
 
   def set_admin(user)
-    self.memberships.build(admin: true, user: user)
+    membership = memberships.where(user_id: user.id).first
+    if membership
+      membership.update_attribute(:admin, true)
+    else
+      memberships.build(admin: true, user: user)
+    end
   end
 end

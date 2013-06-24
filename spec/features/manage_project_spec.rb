@@ -57,7 +57,7 @@ feature 'manage project' do
     end
 
     context 'failure' do
-      scenario 'name and user cant be blank' do
+      scenario 'name  cant be blank' do
         project = create(:project, name: 'Project_1')
         membership = project.memberships.first
         membership.toggle_admin!
@@ -71,13 +71,6 @@ feature 'manage project' do
         click_button 'Update Project'
         expect(page).not_to have_content('Project_Foo')
         expect(page).to have_content("Namecan't be blank")
-
-        visit edit_project_path(project)
-        fill_in 'Name', with: 'Something'
-        unselect user.email
-
-        click_button 'Update Project'
-        expect(page).to have_content("can't be blank")
       end
     end
   end

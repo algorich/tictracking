@@ -5,16 +5,29 @@ describe Project do
 
   it { should_not have_valid(:name).when(nil) }
 
-  it 'validate users presence' do
+  it 'validate membership presence' do
     expect(subject.valid?).to be_false
-    expect(subject.errors[:users]).to eq(["can't be blank"])
+    expect(subject.errors[:memberships]).to eq(["can't be blank"])
   end
 
 
   describe '#set_admin' do
-    it "should associate an admin to the project" do
+    it 'if user already have a membership, set it as admin' do
+      user = create(:user)
+      project = Project.new(name: 'some')
+      project.memberships.build(user: user, admin: false)
+      project.save!
+
+      membership = Membership.where(project_id: project.id, user_id: user.id).first
+      expect(membership).to_not be_admin
+
+      project.set_admin(user)
+      expect(membership.reload).to be_admin
+    end
+
+    it 'if user do not have a membership, create one as admin' do
       user = build(:user_confirmed)
-      project = build(:project)
+      project = Project.new
 
       project.set_admin(user)
 
