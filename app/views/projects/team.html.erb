@@ -2,7 +2,14 @@
 
 <% is_admin = current_user.admin?(@project) %>
 
-<p>
+<form class="form-inline">
+  <%= simple_form_for @project do |p| %>
+    <%= p.association :users, label_method: :email, value_method: :id, include_blank: false, as: :select %>
+    <%= p.button :submit, class: 'btn-primary' %>
+  <% end %>
+</form>
+
+<div class="team">
   <b>Admins (If the check box was checked, user will become an admin):</b><br>
   <p class="alert"></p>
   <% @users.each do |user| %>
@@ -11,4 +18,4 @@
       <%= 'checked' if user.admin?(@project) %>
       <%= 'disabled' if !is_admin %>> <%= user.email %><br>
   <% end %>
-</p>
+</div>
