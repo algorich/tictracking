@@ -37,20 +37,54 @@ feature 'Project team' do
     end
   end
 
-  scenario 'show team' do
-    user_1 = create(:user_confirmed)
-    user_2 = create(:user_confirmed)
-    project = create(:project, users: [user_1])
-    membership = create(:membership, project: project, user: user_2, admin: false)
-    login_as user_2
+  before(:each) do
+    @user = create(:user_confirmed)
+    @admin = create(:user_confirmed)
+    @project = create(:project, users: [@admin])
+    create(:membership, project: @project, user: @user, admin: false)
 
-    visit team_project_path(project)
-    user_1_box = find("#user-#{user_1.id}")
-    user_2_box = find("#user-#{user_2.id}")
-    expect(user_1_box).to be_checked
-    expect(user_2_box).not_to be_checked
+    visit team_project_path(@project)
+    expect(current_path).to eq(new_user_session_path)
+  end
 
-    expect(user_1_box).to be_disabled
-    expect(user_2_box).to be_disabled
+  context 'show team' do
+    scenario 'as a comum user' do
+      login_as @user, scope: :user
+
+      visit team_project_path(@project)
+      expect(page).not_to have_select('post[user]')
+
+      user_box = find("#user-#{@user.id}")
+      admin_box = find("#user-#{@admin.id}")
+
+      expect(user_box).not_to be_checked
+      expect(admin_box).to be_checked
+
+      expect(user_box).to be_disabled
+      expect(admin_box).to be_disabled
+      expect(page).not_to have_link('Remove')
+    end
+
+    scenario 'as an admin' do
+      login_as @admin
+
+      visit team_project_path(@project)
+      user_box = find("#user-#{@user.id}")
+      admin_box = find("#user-#{@admin.id}")
+
+      expect(page).to have_select('post[user]', with_options: [
+        @user.email,
+        @admin.email])
+      expect(user_box).not_to be_checked
+      expect(admin_box).to be_checked
+      expect(page).to have_link('Remove')
+
+      expect(user_box).not_to be_disabled
+      expect(admin_box).not_to be_disabled
+    end
+  end
+
+  scenario 'remove user' do
+    #TODO
   end
 end
