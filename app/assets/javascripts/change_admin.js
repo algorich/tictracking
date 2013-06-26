@@ -8,13 +8,13 @@ $(document).ready(function()
         var $alert = $('.alert');
 
         $.post(url, function(data) {
-          $alert.text(data.message);
-            $alert.removeClass('hide');
-
           if (data.success === false) {
             $(that).prop('checked', true);
-          } else{
-            // $alert.addClass('hide');
+            $alert.text(data.message);
+            $alert.removeClass('hide');
+          } else {
+            $alert.text('');
+            $alert.addClass('hide');
           };
         });
     });

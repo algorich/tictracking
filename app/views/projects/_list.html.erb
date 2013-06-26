@@ -1,19 +1,26 @@
-<table>
-  <tr>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-  </tr>
+<div class="row-fluid">
+  <div class="span7">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th></th>
+        </tr>
+      </thead>
 
-  <% @projects.each do |project| %>
-    <tr>
-      <td><%= link_to project.name, project %></td>
-      <% if can? :update, project %>
-        <td><%= link_to 'Edit', edit_project_path(project) %></td>
-      <% end %>
-      <% if can? :destroy, project %>
-        <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
+      <tbody>
+        <% @projects.each do |project| %>
+          <tr>
+            <td><%= link_to project.name, project %></td>
+            <% if can? :update, project %>
+              <td><%= link_to 'Edit', edit_project_path(project) %></td>
+            <% end %>
+            <% if can? :destroy, project %>
+              <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
