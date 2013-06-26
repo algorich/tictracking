@@ -8,14 +8,10 @@ feature 'manage project' do
 
   context 'new' do
     scenario 'successfully' do
-      user_1 = create(:user)
       user_2 = create(:user)
-      user_3 = create(:user)
       visit new_project_path
 
       fill_in 'Name', with: 'Project_1'
-      select user_1.email
-      select user_2.email
 
       click_button 'Create Project'
       expect(@user).to be_admin(Project.last)
@@ -28,9 +24,8 @@ feature 'manage project' do
 
       within('.team') do
         expect(admin_box).to be_checked
-        expect(page).to have_content(user_1.email)
-        expect(page).to have_content(user_2.email)
-        expect(page).not_to have_content(user_3.email)
+        expect(page).to have_content(@user.email)
+        expect(page).not_to have_content(user_2.email)
       end
     end
 
