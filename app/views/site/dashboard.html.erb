@@ -5,7 +5,7 @@
 <div class="row-fluid">
   <div class="span7">
     <div class="tasks">
-      <h4>Lasted Tasks</h4>
+      <h4>Lasted Tasks</h4></br>
       <% @tasks.each do |t| %>
         <%= render 'tasks/show', task: t, worktime: Worktime.new %>
       <% end %>
@@ -13,7 +13,7 @@
   </div>
 
   <div class="projects span4 offset1">
-    <h5><h4>Lasted Projects</h4></h5>
+    <h4>Lasted Projects</h4></br>
     <%= render 'projects/list' %>
   </div>
 </div>

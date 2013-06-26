@@ -6,13 +6,12 @@
           <span class="lead"><%= task.name %></span>
           <%= simple_form_for [task, worktime] do |w| %>
             <%= w.input :task_id, as: :hidden, input_html: { value: task.id} %>
-            <%= w.submit 'Continue' %>
-            <%= w.submit 'Stop' %>
+            <%= w.submit 'Continue',  class: 'btn-primary'%>
+            <%= w.submit 'Stop',  class: 'btn-primary' %>
           <% end %>
         </div>
       </div>
     </div>
-
   </li>
 
 
@@ -27,6 +26,7 @@
          {method: :delete} %></li>
       </ul>
     <% end %>
+  </br>
 
   <% if can? :update, task %>
     <li><%= link_to 'Edit', edit_task_path(task) %></li>
@@ -34,4 +34,4 @@
   <% if can? :destroy, task %>
     <li><%= link_to 'Delete', task_path(task), {method: :delete} %></li>
   <% end %>
-  </ul>
+</ul>
