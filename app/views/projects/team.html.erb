@@ -1,21 +1,13 @@
+<p class="alert"></p>
+
 <h1>Team</h1>
 
-<% is_admin = current_user.admin?(@project) %>
-
-<form class="form-inline">
-  <%= simple_form_for @project do |p| %>
-    <%= p.association :users, label_method: :email, value_method: :id, include_blank: false, as: :select %>
-    <%= p.button :submit, class: 'btn-primary' %>
-  <% end %>
+<form class="form-inline" id="user_to_add">
+  <label>Add Users:</label>
+  <%= collection_select 'post', 'user', User.all, :id, :email, { include_blank: true },
+    { id: 'select_users_by_select2', data: { url: add_user_project_path(@project) } } %>
 </form>
 
 <div class="team">
-  <b>Admins (If the check box was checked, user will become an admin):</b><br>
-  <p class="alert"></p>
-  <% @users.each do |user| %>
-    <input type='checkbox' id='user-<%= user.id %>' class='set_admin'
-      value='<%= user.id %>' data-project='<%= @project.id %>'
-      <%= 'checked' if user.admin?(@project) %>
-      <%= 'disabled' if !is_admin %>> <%= user.email %><br>
-  <% end %>
+  <%= render 'team', project: @project %>
 </div>

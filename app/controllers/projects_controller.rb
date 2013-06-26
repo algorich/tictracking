@@ -84,4 +84,12 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @users = @project.users
   end
+
+  def add_user
+    @project = Project.find(params[:id])
+    user = User.find(params[:user_id])
+    #TODO: passar logica para model
+    @project.users << user if !@project.users.include? user
+    respond_to :js
+  end
 end
