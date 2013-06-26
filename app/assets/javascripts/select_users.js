@@ -11,5 +11,6 @@ $(document).ready(function() {
             data: {user_id: id},
             type: 'POST'
         });
+        $(this).select2('val', '');
     });
 });
