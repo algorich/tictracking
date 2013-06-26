@@ -5,7 +5,7 @@ $(document).ready(function()
         var that = $(this);
         var project_id = that.data('project');
         var url = '/projects/' + project_id + '/change_admin?admin_id=' + id;
-        var $alert = $('.alert');
+        var $alert = $('.alert-error');
 
         $.post(url, function(data) {
           if (data.success === false) {
