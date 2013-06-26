@@ -21,6 +21,9 @@
       <div class="container">
         <%= link_to 'TicTraking', root_path, class: 'brand' %>
 
+        <%= link_to 'All Projects', projects_path, class: 'brand' %>
+        <%= link_to 'New Project', new_project_path, class: 'brand' %>
+
         <ul class="nav pull-right">
           <% if user_signed_in? %>
             <li><%= link_to '<i class="icon-circle-arrow-left"></i> Sign out'.html_safe,

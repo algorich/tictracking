@@ -21,8 +21,8 @@ feature 'Dashboard' do
 
     scenario 'should have links to create and list projects' do
       visit dashboard_path
-      expect(page).to have_link('My projects', href: projects_path)
-      expect(page).to have_link('New project', href: new_project_path)
+      expect(page).to have_link('All Projects', href: projects_path)
+      expect(page).to have_link('New Project', href: new_project_path)
     end
 
     scenario 'should have the 3 latest projects' do
