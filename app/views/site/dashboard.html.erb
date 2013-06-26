@@ -1,11 +1,11 @@
 <%= content_for :page_title do 'Dashboard' end %>
 
 <h1>Dashboard</h1>
-
+</br>
 <div class="row-fluid">
   <div class="span7">
     <div class="tasks">
-      <h4>Lasted Tasks</h4></br>
+      <h4 id="latest-task">Latest Tasks</h4></br>
       <% @tasks.each do |t| %>
         <%= render 'tasks/show', task: t, worktime: Worktime.new %>
       <% end %>
@@ -13,7 +13,6 @@
   </div>
 
   <div class="projects span4 offset1">
-    <h4>Lasted Projects</h4></br>
     <%= render 'projects/list' %>
   </div>
 </div>
