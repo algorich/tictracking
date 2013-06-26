@@ -1,17 +1,15 @@
 <div id="background-tasks">
   <ul data-id="<%= task.id %>">
     <li>
-      <div class="span">
-        <div class="row-fluid">
-          <div class="span5">
-            <span class="lead"><%= task.name %></span>
-            <%= simple_form_for [task, worktime] do |w| %>
-              <%= w.input :task_id, as: :hidden, input_html: { value: task.id} %>
-              <%= w.submit 'Continue',  class: 'btn-primary'%>
-              <%= w.submit 'Stop',  class: 'btn-primary' %>
-            <% end %>
+      <div class="row-fluid">
+        <span class="lead pull-left"><%= task.name %></span>
+          <%= simple_form_for [task, worktime] do |w| %>
+            <%= w.input :task_id, as: :hidden, input_html: { value: task.id} %>
+          <div class="btn-group pull-right">
+            <%= w.submit 'Continue',  class: 'btn'%>
+            <%= w.submit 'Stop',  class: 'btn' %>
+          <% end %>
           </div>
-        </div>
       </div>
     </li>
 

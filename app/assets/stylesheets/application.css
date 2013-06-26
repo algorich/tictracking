@@ -43,11 +43,6 @@ a.brand:nth-child(3) {
   margin-left: -10px;
 }
 
-#new_worktime {
-  float: right;
-  margin-top: 4px;
-}
-
 .span12 > ul > div:nth-child(3) > div:nth-child(1) > li {
   float: left;
   margin-left: 15px;
@@ -59,6 +54,10 @@ a.brand:nth-child(3) {
 .tasks > ul {
   list-style: none;
   margin-left: 0;
+}
+
+#background-tasks > ul:nth-child(1) {
+  list-style: none;
 }
 
 .span12 > ul > div:nth-child(3) > div:nth-child(1) > li:nth-child(1) {
@@ -94,6 +93,7 @@ a.brand:nth-child(3) {
   margin-top: 8px;
 }
 
-#div123 {
+/*#div123 {
   border: 1px solid black
-}
+}*/
+

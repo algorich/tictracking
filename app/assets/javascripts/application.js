@@ -16,3 +16,9 @@
 //= require select2
 //= require_tree .
 //= require_self
+
+
+// $(function () {
+//   $('#btn-edit').on('mouseover', function() { $(this).addClass('btn-danger'); });
+//   $('#btn-edit').on('mouseleave', function() { $(this).removeClass('btn-danger'); });
+// });

@@ -13,7 +13,7 @@ feature 'Task' do
     scenario 'successfully create task and worktime' do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.freeze(time)
-      fill_in 'Name', with: 'tarefa x'
+      fill_in 'New task', with: 'tarefa x'
       click_button 'Start'
       expect(page).to have_content('tarefa x')
       expect(page).to have_content('2008-09-01 13:05:00 UTC')
@@ -21,7 +21,7 @@ feature 'Task' do
     end
 
     scenario 'failure' do
-      fill_in 'Name', with: ''
+      fill_in 'New task', with: ''
       click_button 'Start'
       expect(page).to have_content("Task can't be created")
     end
@@ -40,7 +40,8 @@ feature 'Task' do
       Task.create(name: 'tarefa xx', project_id: @project.id)
       visit project_path @project
       expect(page).to have_content('tarefa xx')
-      click_link 'Edit'
+      link_edit = page.find(:xpath, ".//a[@href=\"/projects/#{@project.id}/edit\"]")
+      link_edit.click
     end
 
     scenario 'should edit a task' do

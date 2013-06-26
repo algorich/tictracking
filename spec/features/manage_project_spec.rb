@@ -81,9 +81,8 @@ feature 'manage project' do
     project = create(:project, name: 'Project_1')
     membership = create(:membership, admin: true, project: project)
     login_as membership.user
-    visit projects_path
+    visit project_path(project)
     expect(page).to have_content('Project_1')
-
     click_link 'Destroy'
     expect(page).not_to have_content('Project_1')
   end
@@ -96,7 +95,7 @@ feature 'manage project' do
     scenario 'only project admin can show links edit and destroy' do
       membership = create(:membership, admin: true, project: @project)
       login_as membership.user
-      visit projects_path
+      visit project_path(@project)
 
       link = page.find(:xpath, ".//a[@href=\"/projects/#{@project.id}/edit\"]")
       link_delete = page.find(:xpath, ".//a[@href=\"/projects/#{@project.id}\"
