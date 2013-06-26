@@ -2,14 +2,18 @@
 
 <h1>Dashboard</h1>
 
-<div class="projects">
-  <h5><p>Lasted Projects</p></h5>
-  <%= render 'projects/list' %>
-</div>
+<div class="row-fluid">
+  <div class="span7">
+    <div class="tasks">
+      <h4>Lasted Tasks</h4>
+      <% @tasks.each do |t| %>
+        <%= render 'tasks/show', task: t, worktime: Worktime.new %>
+      <% end %>
+    </div>
+  </div>
 
-<div class="tasks">
-  <p>Lasted Tasks</p>
-  <% @tasks.each do |t| %>
-    <%= render 'tasks/show', task: t, worktime: Worktime.new %>
-  <% end %>
+  <div class="projects span4 offset1">
+    <h5><h4>Lasted Projects</h4></h5>
+    <%= render 'projects/list' %>
+  </div>
 </div>
