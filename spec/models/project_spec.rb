@@ -36,4 +36,15 @@ describe Project do
       expect(membership.user).to eq(user)
     end
   end
+
+  describe '#can_add?' do
+    it 'should return true if the user is not in the project' do
+      project = create(:project)
+      user = create(:user)
+
+      expect(project.can_add?(user)).to be_true
+      project.users << user
+      expect(project.can_add?(user)).to be_false
+    end
+  end
 end

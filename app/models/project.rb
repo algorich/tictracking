@@ -15,4 +15,8 @@ class Project < ActiveRecord::Base
       memberships.build(admin: true, user: user)
     end
   end
+
+  def can_add?(user)
+    !users.include? user
+  end
 end
