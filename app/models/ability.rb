@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user)
     #Project
-    can [:manage, :change_admin, :team], Project do |p|
+    can [:manage, :change_admin, :team, :add_admin], Project do |p|
       user.admin? p
     end
 

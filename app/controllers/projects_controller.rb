@@ -84,4 +84,13 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @users = @project.users
   end
+
+  def add_user
+    @project = Project.find(params[:id])
+    user = User.find(params[:user_id])
+    if @project.can_add? user
+      @project.users << user
+      respond_to :js
+    end
+  end
 end
