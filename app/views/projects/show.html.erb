@@ -1,18 +1,22 @@
+<%= content_for :page_id do 'project_page' end %>
+
 <div class="row-fluid">
-  <h1><%= @project.name %></h1>
-    <div class="btn-group pull-right">
-      <%= link_to '<i class="icon-edit"></i> Edit'.html_safe,
-       edit_project_path(@project), class: "btn"%>
-      <%= link_to '<i class="icon-remove"></i> Destroy'.html_safe,
-       project_path(@project), {method: :delete, class: "btn btn-danger"} %>
-    </div>
+  <h1 class="pull-left"><%= @project.name %></h1>
+  <div class="app-header-actions btn-group pull-right">
+    <% if current_user.admin? @project %>
+    <%= link_to '<i class="icon-edit"></i> Edit'.html_safe,
+     edit_project_path(@project), class: "btn"%>
+    <%= link_to '<i class="icon-remove"></i> Destroy'.html_safe,
+     project_path(@project), {method: :delete, class: "btn btn-danger"} %>
+    <% end %>
+  </div>
 </div>
 
 <div class="row-fluid">
   <%= simple_form_for @task do |f| %>
-    <div class="input-append">
+    <div class="input-append app-new-task">
       <%= f.input_field :name, autofocus: true, placeholder: 'New task' %>
-      <%= f.submit 'Start', class: 'btn app-add' %>
+      <%= f.submit 'Start', class: 'btn app-add', id: "button-task" %>
     </div>
     <%= f.input :project_id, as: :hidden, input_html: { value: @project.id } %>
   <% end %>

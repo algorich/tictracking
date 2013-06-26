@@ -89,6 +89,33 @@ a.brand:nth-child(3) {
   margin-top: 0;
 }
 
+.project_page .app-header-actions {
+  margin: 15px 0;
+}
+
+.app-new-task {
+  margin-top: 25px;
+  width: 100%;
+  max-width: 1170px;
+}
+
+.app-new-task input {
+  font-size: 40px;
+  line-height: 50px;
+}
+
+.app-new-task input:first-child {
+  height: 70px;
+  width: 990px;
+  padding: 10px;
+}
+
+.app-new-task input:last-child {
+  height: 92px;
+  width: 160px;
+  padding: 10px;
+}
+
 .well {
   margin-top: 8px;
 }

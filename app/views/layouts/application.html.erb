@@ -45,7 +45,7 @@
 
 
   <!-- CONTENT BEGIN -->
-  <section id="app-content" class="container">
+  <section id="app-content" class="container <%= yield :page_id %>">
     <div class="row-fluid">
 
       <div class="<%= yield(:sidebar).blank? ? 'span12'.html_safe : 'span8'.html_safe %>">
