@@ -1,9 +1,8 @@
 <p class="alert hide"></p>
-<% is_admin = current_user.admin?(@project) %>
 
 <h1>Team</h1>
 
-<% if is_admin %>
+<% if current_user.admin?(@project) %>
   <form class="form-inline" id="user_to_add">
     <label>Add Users:</label>
     <%= collection_select 'post', 'user', User.all, :id, :email, { include_blank: true },
@@ -12,5 +11,5 @@
 <% end %>
 
 <div class="team">
-  <%= render 'team', project: @project, is_admin: is_admin %>
+  <%= render 'team', project: @project %>
 </div>

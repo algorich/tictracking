@@ -41,7 +41,7 @@ feature 'Project team' do
     @user = create(:user_confirmed)
     @admin = create(:user_confirmed)
     @project = create(:project, users: [@admin])
-    create(:membership, project: @project, user: @user, admin: false)
+    @user_membership = create(:membership, project: @project, user: @user, admin: false)
 
     visit team_project_path(@project)
     expect(current_path).to eq(new_user_session_path)
@@ -49,7 +49,7 @@ feature 'Project team' do
 
   context 'show team' do
     scenario 'as a comum user' do
-      login_as @user, scope: :user
+      login_as @user
 
       visit team_project_path(@project)
       expect(page).not_to have_select('post[user]')
@@ -84,7 +84,13 @@ feature 'Project team' do
     end
   end
 
-  scenario 'remove user' do
-    #TODO
+  scenario 'remove user', js: true do
+    login_as @admin
+    visit team_project_path(@project)
+    expect(page).to have_content(@user.email)
+
+    click_link 'Remove', href: membership_path(@user_membership.id)
+    expect(page).to_not have_content(@user.email)
+    expect(page).to have_content('User was removed from this project')
   end
 end

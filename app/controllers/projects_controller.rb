@@ -90,7 +90,7 @@ class ProjectsController < ApplicationController
     user = User.find(params[:user_id])
     if @project.can_add? user
       @project.users << user
-      respond_to :js
+      render 'update_team'
     end
   end
 end

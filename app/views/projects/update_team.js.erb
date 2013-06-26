@@ -1,0 +1,8 @@
+$('.team').html(
+  "<%= escape_javascript render 'projects/team', project: @project %>");
+
+<% if params[:message] %>
+  var $flash = $('.alert-<%= params[:message][:type] %>');
+  $flash.children('span').text('<%= params[:message][:text] %>');
+  $flash.removeClass('hide');
+<% end %>
