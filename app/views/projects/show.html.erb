@@ -4,10 +4,8 @@
   <h1 class="pull-left"><%= @project.name %></h1>
   <div class="app-header-actions btn-group pull-right">
     <% if current_user.admin? @project %>
-    <%= link_to '<i class="icon-edit"></i> Edit'.html_safe,
+    <%= link_to '<i class="icon-wrench"></i> Settings'.html_safe,
      edit_project_path(@project), class: "btn"%>
-    <%= link_to '<i class="icon-remove"></i> Destroy'.html_safe,
-     project_path(@project), {method: :delete, class: "btn btn-danger"} %>
     <% end %>
   </div>
 </div>
@@ -25,4 +23,3 @@
 <% @tasks.each do |t| %>
   <%= render 'tasks/show', task: t, worktime: @worktime %>
 <% end %>
-<%= link_to 'Team', team_project_path(@project) %>

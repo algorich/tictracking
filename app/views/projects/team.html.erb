@@ -1,6 +1,7 @@
 <p class="alert hide"></p>
 
-<h1>Team</h1>
+<h2>Team</h2>
+</br>
 
 <% if current_user.admin?(@project) %>
   <form class="form-inline" id="user_to_add">
@@ -9,7 +10,8 @@
       { id: 'select_users_by_select2', data: { url: add_user_project_path(@project) } } %>
   </form>
 <% end %>
+</br>
 
 <div class="team">
-  <%= render 'team', project: @project %>
+  <%= render 'team' %>
 </div>

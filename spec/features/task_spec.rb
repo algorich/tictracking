@@ -37,10 +37,10 @@ feature 'Task' do
 
   context 'edit' do
     before do
-      Task.create(name: 'tarefa xx', project_id: @project.id)
-      visit project_path @project
+      @task = Task.create(name: 'tarefa xx', project_id: @project.id)
+      visit project_path(@project)
       expect(page).to have_content('tarefa xx')
-      link_edit = page.find(:xpath, ".//a[@href=\"/projects/#{@project.id}/edit\"]")
+      link_edit = page.find(:xpath, ".//a[@href=\"/tasks/#{@task.id}/edit\"]")
       link_edit.click
     end
 

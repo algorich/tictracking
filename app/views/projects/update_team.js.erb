@@ -1,5 +1,5 @@
 $('.team').html(
-  "<%= escape_javascript render 'projects/team', project: @project %>");
+  "<%= escape_javascript render 'projects/team' %>");
 
 <% if params[:message] %>
   var $flash = $('.alert-<%= params[:message][:type] %>');
