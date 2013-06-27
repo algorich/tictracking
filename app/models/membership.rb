@@ -11,8 +11,6 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  private
-
   def can_toggle_admin?
     !(project.memberships.where(admin: true).size == 1 && self.admin?)
   end
