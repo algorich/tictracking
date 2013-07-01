@@ -14,7 +14,7 @@ class Ability
     end
 
     #Task
-    can [:update, :destroy, :create, :read], Task do |t|
+    can [:manage], Task do |t|
       user.member? t.project
     end
 
