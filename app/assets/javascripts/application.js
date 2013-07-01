@@ -18,7 +18,38 @@
 //= require_self
 
 
-// $(function () {
-//   $('#btn-edit').on('mouseover', function() { $(this).addClass('btn-danger'); });
-//   $('#btn-edit').on('mouseleave', function() { $(this).removeClass('btn-danger'); });
-// });
+$(function () {
+    var $projectNameWrapper = $('#app-project-name-wrapper');
+    var $projectName = $projectNameWrapper.find('h1');
+
+    $projectNameWrapper.on('click', 'h1', function() {
+        $projectNameWrapper.html('<input type="text" value="'+ $projectName.text() +'" />');
+        $projectNameWrapper.find('input').focus();
+    });
+
+    function updateProjectWrapper () {
+        $projectNameWrapper.html($projectName.get(0))
+    }
+
+    $projectNameWrapper.on('keyup', 'input', function(event) {
+        if(event.keyCode === 27) { // esc key
+            updateProjectWrapper();
+        }
+        else if(event.keyCode === 13) { // return key
+            var newProjectName = $projectNameWrapper.find('input').val()
+
+            $.ajax({
+                url: $projectNameWrapper.data('url'),
+                type: 'PUT',
+                data: { project: { name: newProjectName } },
+                success: function () {
+                    $projectName.text(newProjectName);
+                    updateProjectWrapper();
+                },
+                error: function(response) {
+                    alert('name ' + response.responseJSON.name[0])
+                }
+            })
+        }
+    });
+});

@@ -1,11 +1,15 @@
 <%= content_for :page_id do 'project_page' end %>
 
 <div class="row-fluid">
-  <h1 class="pull-left"><%= @project.name %></h1>
+
+  <div id="app-project-name-wrapper" data-url="<%= project_path(@project, format: 'json') %>">
+    <h1 class="pull-left"><%= @project.name %></h1>
+  </div>
+
   <div class="app-header-actions btn-group pull-right">
     <% if current_user.admin? @project %>
     <%= link_to '<i class="icon-wrench"></i> Settings'.html_safe,
-     edit_project_path(@project), class: "btn"%>
+     edit_project_path(@project), class: "btn" %>
     <% end %>
   </div>
 </div>
