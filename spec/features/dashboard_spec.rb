@@ -5,6 +5,12 @@ feature 'Dashboard' do
     @user = create(:user_confirmed)
   end
 
+  scenario 'should a message if user dont have projects' do
+    login_as @user
+    visit root_path
+    expect(page).to have_content('You still do not have any project')
+  end
+
   scenario 'Page after login' do
     visit dashboard_path
     expect(current_path).to eq(new_user_session_path)

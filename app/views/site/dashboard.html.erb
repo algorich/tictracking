@@ -6,6 +6,13 @@
   <div class="span7">
     <div class="tasks">
       <h4 id="latest-task">Latest Tasks</h4></br>
+
+      <% if current_user.projects.empty? %>
+        <%= 'You must' %>
+        <%= link_to 'create', new_project_path %>
+        <%= 'a project' %>
+      <% end %>
+
       <% @tasks.each do |t| %>
         <%= render 'tasks/show', task: t, worktime: Worktime.new %>
       <% end %>
