@@ -89,14 +89,15 @@ feature 'Project team' do
     visit team_project_path(@project)
     expect(page).to have_content(@user.email)
 
-    click_link 'Remove', href: membership_path(@user_membership.id)
-    expect(page).to_not have_content(@user.email)
-    expect(page).to have_content('User was removed from this project')
-
     admin_membership = Membership.where(user_id: @admin.id, project_id: @project.id).first
     click_link 'Remove', href: membership_path(admin_membership)
     expect(page).to have_content(@admin.email)
     expect(page).to have_content('Project should have at least one admin!')
+
+    click_link 'Remove', href: membership_path(@user_membership.id)
+    expect(page).to_not have_content(@user.email)
+    expect(page).to have_content('User was removed from this project')
+    expect(page).to_not have_content('Project should have at least one admin!')
 
     user_membership = create(:membership, project: @project, user: @user, admin: true)
     visit team_project_path(@project)
