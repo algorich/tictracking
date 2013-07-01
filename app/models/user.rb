@@ -10,11 +10,11 @@ class User < ActiveRecord::Base
   has_many :projects, through: :memberships
 
   def admin?(project)
-    memberships.where(project_id: project.id, admin: true).any?
+    memberships.where(project_id: project, admin: true).any?
   end
 
   def member?(project)
-    memberships.where(project_id: project.id).any?
+    memberships.where(project_id: project).any?
   end
 
   def latest_tasks(n=1)

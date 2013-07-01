@@ -11,6 +11,11 @@
         <%= 'You must' %>
         <%= link_to 'create', new_project_path %>
         <%= 'a project' %>
+      <% else %>
+        <% if current_user.projects.first.tasks.empty? %>
+          <%= link_to 'Create', project_path(current_user.projects.first) %>
+          <%= 'a task' %>
+        <% end %>
       <% end %>
 
       <% @tasks.each do |t| %>

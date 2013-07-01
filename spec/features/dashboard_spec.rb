@@ -11,6 +11,14 @@ feature 'Dashboard' do
     expect(page).to have_content('You still do not have any project')
   end
 
+  scenario 'should a message if user dont have tasks' do
+    login_as @user
+    project = create :project
+    membership = create :membership, project: project, user: @user, admin: true
+    visit root_path
+    expect(page).to have_content('Create a task')
+  end
+
   scenario 'Page after login' do
     visit dashboard_path
     expect(current_path).to eq(new_user_session_path)
