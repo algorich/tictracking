@@ -17,7 +17,7 @@
 //= require_tree .
 //= require_self
 
-
+// update project name
 $(function () {
     var $projectNameWrapper = $('#app-project-name-wrapper');
     var $projectName = $projectNameWrapper.find('h1');

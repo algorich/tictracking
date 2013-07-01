@@ -3,7 +3,7 @@
 <b>Admins (If the check box was checked, user is an admin):</b><br>
 <% @project.users.each do |user| %>
   <input type='checkbox' id='user-<%= user.id %>' class='set_admin'
-    value='<%= user.id %>' data-project='<%= @project.id %>'
+    data-user-id='<%= user.id %>' data-url='<%= change_admin_project_path(@project) %>'
     <%= 'checked' if user.admin?(@project) %>
     <%= 'disabled' if !is_admin %>> <%= user.email %>
     <% if is_admin %>

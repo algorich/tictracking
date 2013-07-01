@@ -20,3 +20,4 @@ libpeerconnection.log
 .rake_tasks_cache
 coverage
 .sass-cache/*
+public/assets
