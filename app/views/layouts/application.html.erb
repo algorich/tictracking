@@ -21,10 +21,29 @@
       <div class="container">
         <%= link_to 'TicTraking', root_path, class: 'brand' %>
 
-        <% if user_signed_in? %>
-          <%= link_to 'All Projects', projects_path, class: 'brand' %>
-          <%= link_to 'New Project', new_project_path, class: 'brand' %>
-        <% end %>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+
+            <% if user_signed_in? %>
+              <li class="dropdown">
+                <%= link_to '#', { class: 'brand dropdown-toggle', 'data-toggle' => 'dropdown' } do %>
+                  Projects <b class="caret"></b>
+                <% end %>
+
+                 <ul class="dropdown-menu">
+                   <li><%= link_to 'New Project', new_project_path%></li>
+                   <li class="divider"></li>
+                   <li class="nav-header">Last projects</li>
+                      <% @latests_projects.each do |project| %>
+                        <li><%= link_to project.name, project_path(project) %></li>
+                      <% end %>
+                   <li class="divider"></li>
+                   <li><%= link_to 'All Projects', projects_path%></li>
+                 </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
 
         <ul class="nav pull-right">
           <% if user_signed_in? %>
@@ -39,8 +58,7 @@
             <li><%= link_to 'Sign in', new_user_session_path %></li>
           <% end %>
         </ul>
-      </div>
-
+    </div>
     </div>
   </header>
   <!-- HEADER END -->

@@ -39,18 +39,18 @@ feature 'manage project' do
   end
 
   context "edit" do
-  #   scenario 'successfully' do
-  #     project = create(:project, name: 'Project_1')
-  #     membership = create(:membership, admin: true, project: project)
-  #     login_as membership.user
-  #     visit edit_project_path(project)
-  #     expect(page).to have_content('Project_1')
+    # scenario 'successfully' do
+    #   project = create(:project, name: 'Project_1')
+    #   membership = create(:membership, admin: true, project: project)
+    #   login_as membership.user
+    #   visit project_path(project)
+    #   expect(page).to have_content('Project_1')
 
-  #     fill_in 'Name', with: 'Project_Foo'
-  #     click_button 'Update Project'
-  #     expect(page).to have_content('Project was successfully updated.')
-  #     expect(page).to have_content('Project_Foo')
-  #   end
+    #   fill_in 'Name', with: 'Project_Foo'
+    #   click_button 'Update Project'
+    #   expect(page).to have_content('Project was successfully updated.')
+    #   expect(page).to have_content('Project_Foo')
+    end
 
     context 'failure' do
       # scenario 'name  cant be blank' do
@@ -69,7 +69,6 @@ feature 'manage project' do
       #   expect(page).to have_content("Namecan't be blank")
       # end
     end
-  end
 
   scenario 'should be deletable' do
     project = create(:project, name: 'Project_1')
