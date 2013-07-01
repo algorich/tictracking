@@ -1,6 +1,5 @@
-$(document).ready(function()
-{
-    $('.set_admin').change(function() {
+jQuery(function() {
+    $('.team').on('change', '.set_admin', function() {
         var id = this.value;
         var that = $(this);
         var project_id = that.data('project');

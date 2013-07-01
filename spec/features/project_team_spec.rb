@@ -5,22 +5,32 @@ feature 'Project team' do
     scenario 'should have a check box to set the admins on project#team' do
       user_1 = create(:user_confirmed)
       user_2 = create(:user_confirmed)
+      user_3 = create(:user_confirmed)
       project = create(:project, users: [user_1])
-      membership = create(:membership, project: project, user: user_2, admin: false)
+      create(:membership, project: project, user: user_2, admin: false)
+      membership_3 = create(:membership, project: project, user: user_3, admin: false)
+
       login_as user_1
       visit team_project_path(project)
       user_1_box = find("#user-#{user_1.id}")
       user_2_box = find("#user-#{user_2.id}")
+      user_3_box = find("#user-#{user_3.id}")
       expect(user_1_box).to be_checked
       expect(user_2_box).not_to be_checked
+      expect(user_3_box).not_to be_checked
 
       check("user-#{user_2.id}")
+      visit team_project_path(project)
+      expect(user_1_box).to be_checked
+      expect(user_2_box).to be_checked
+      expect(user_3_box).not_to be_checked
+
+      click_link 'Remove', href: membership_path(membership_3)
+      uncheck("user-#{user_2.id}")
 
       visit team_project_path(project)
-      user_1_box = find("#user-#{user_1.id}")
-      user_2_box = find("#user-#{user_2.id}")
-      expect(user_2_box).to be_checked
       expect(user_1_box).to be_checked
+      expect(user_2_box).not_to be_checked
     end
 
     scenario 'project should have at least one admin' do
