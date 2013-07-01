@@ -10,7 +10,6 @@ describe Project do
     expect(subject.errors[:memberships]).to eq(["can't be blank"])
   end
 
-
   describe '#set_admin' do
     it 'if user already have a membership, set it as admin' do
       user = create(:user)
@@ -47,4 +46,20 @@ describe Project do
       expect(project.can_add?(user)).to be_false
     end
   end
+
+  describe 'if destroy project' do
+    it 'should destroy tasks, worktimes and membership' do
+      Task.destroy_all
+      user = create(:user)
+      project = create(:project)
+      task = create(:task, project: project)
+      worktime = create(:worktime, user: user, task: task )
+      membership = create(:membership, user: user, project: project, admin: true)
+      project.destroy
+      expect { Project.find(project.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { Task.find(task.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { Worktime.find(worktime.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
 end
