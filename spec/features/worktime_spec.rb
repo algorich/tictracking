@@ -3,13 +3,17 @@ require 'spec_helper'
 feature 'Worktime' do
   background do
     @user = create :user_confirmed
-    login_as @user
-    @project = create :project, users: [@user]
+    @yoda = create :user_confirmed, email: 'yoda@jedi.com'
+    @goten = create :user_confirmed, email: 'goten@dbz.com'
+
+    @project = create :project, users: [@user, @goten]
     @task = create :task, project: @project
     @begin_time = Time.local(2013, 6, 1, 11, 5, 0)
     @end_time = Time.local(2012, 6, 1, 11, 5, 0)
     @worktime = create :worktime, user: @user, task: @task, begin: @begin_time,
       end: @end_time
+
+    login_as @user
     visit project_path(@project.id)
   end
 
@@ -67,7 +71,18 @@ feature 'Worktime' do
       expect(@worktime.end.day).to eq(@begin_time.day)
       # @worktime.end.day
       # @worktime.end.day
+    end
 
+    scenario 'users that do not belong to project' do
+      login_as @yoda
+      visit edit_task_worktime_path(@task, @worktime)
+      expect(page).to have_content('You are not authorized to access this page.')
+    end
+
+    scenario 'another users that belong to project' do
+      login_as @goten
+      visit edit_task_worktime_path(@task, @worktime)
+      expect(page).to have_content('You are not authorized to access this page.')
     end
   end
 
@@ -79,6 +94,26 @@ feature 'Worktime' do
       link_destroy.click
 
       expect(page).to have_content 'Deleted'
+    end
+
+    scenario 'users that do not belong to project' do
+      login_as @yoda
+      visit project_path(@project.id)
+      expect(page).to have_content('You are not authorized to access this page.')
+    end
+
+    scenario 'another users that belong to project' do
+      login_as @goten
+      visit project_path(@project)
+      expect(current_path).to eq(project_path(@project))
+
+      link_destroy = page.find(:xpath,
+       ".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}\"
+        and @data-method=\"delete\"]")
+      link_destroy.click
+
+      expect(page).to_not have_content 'Deleted'
+      expect(page).to have_content('You are not authorized to access this page.')
     end
   end
 

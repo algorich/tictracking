@@ -19,8 +19,12 @@ class Ability
     end
 
     #Worktime
-    can [:manage], Worktime do |w|
+    can [:create, :read], Worktime do |w|
       user.member? w.task.project
+    end
+
+    can [:update, :destroy], Worktime do |w|
+      user.worktimes.include?(w) || user.admin?(w.task.project)
     end
   end
 end

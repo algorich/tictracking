@@ -5,7 +5,7 @@ TicTracking::Application.routes.draw do
   get 'dashboard' => 'site#dashboard'
 
   resources :tasks, except: [:show, :index] do
-    resources :worktimes
+    resources :worktimes, except: [:show, :index]
   end
 
   resources :projects do
