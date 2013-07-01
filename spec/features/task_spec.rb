@@ -3,6 +3,7 @@ require 'spec_helper'
 feature 'Task' do
   background do
     @user = create(:user_confirmed)
+    @goku = create(:user_confirmed, email: 'goku@dbz.com')
     login_as @user
     @project = create(:project, users: [@user])
   end
@@ -30,16 +31,24 @@ feature 'Task' do
   context 'show' do
     scenario 'should show a task in the view of the project' do
       Task.create(name: 'tarefa xx', project_id: @project.id)
-      visit project_path @project
+      visit project_path(@project)
       expect(page).to have_content('tarefa xx')
+    end
+
+    scenario 'should not show to users that dont belong to project' do
+      login_as @goku
+      visit project_path(@project)
+      expect(page).to have_content('goku@dbz.com')
+      expect(page).to have_content('You are not authorized to access this page.')
+      expect(page).not_to have_content('tarefa xx')
     end
   end
 
   context 'edit' do
     before do
-      @task = Task.create(name: 'tarefa xx', project_id: @project.id)
+      @task = Task.create(name: 'tarefa xy', project_id: @project.id)
       visit project_path(@project)
-      expect(page).to have_content('tarefa xx')
+      expect(page).to have_content(@task.name)
       link_edit = page.find(:xpath, ".//a[@href=\"/tasks/#{@task.id}/edit\"]")
       link_edit.click
     end
@@ -50,20 +59,38 @@ feature 'Task' do
       expect(page).to have_content('tarefa green')
     end
 
-    scenario 'failure' do
-      fill_in 'Name', with: ''
-      click_button 'Update'
-      expect(page).to have_content("can't be blank")
+    context 'failure' do
+      scenario 'normal' do
+        fill_in 'Name', with: ''
+        click_button 'Update'
+        expect(page).to have_content("can't be blank")
+      end
+
+      scenario 'users that do not belong to the project' do
+        login_as @goku
+        visit edit_task_path(@task)
+
+        expect(page).to have_content('goku@dbz.com')
+        expect(current_path).to_not eq(edit_task_path(@task))
+        expect(page).to have_content('You are not authorized to access this page.')
+      end
     end
   end
 
   context 'delete' do
-    scenario 'should allow delete a task' do
-      Task.create(name: 'tarefa xx', project_id: @project.id)
+    before{ Task.create(name: 'tarefa xx', project_id: @project.id) }
+
+    scenario 'successfully' do
       visit project_path @project
       expect(page).to have_content('tarefa xx')
       click_link 'Delete'
       expect(page).not_to have_content('tarefa xx')
+    end
+
+    scenario 'failure' do
+      login_as @goku
+      visit project_path @project
+      expect(page).to_not have_content('tarefa xx')
     end
   end
 
@@ -87,10 +114,3 @@ feature 'Task' do
     end
   end
 end
-
-
-
-
-
-
-
