@@ -27,9 +27,9 @@ feature 'User' do
     visit root_path
     click_link 'Sign in'
     click_link 'Sign up'
-    fill_in 'Email', with: 'alp@gmail.com'
-    fill_in 'Password', with: '123456'
-    fill_in 'Password confirmation', with: '123456'
+    fill_in 'Your Email', with: 'alp@gmail.com'
+    fill_in 'Choose a password with at least 6 characters', with: '123456'
+    fill_in 'Confirm your password', with: '123456'
     click_button 'Sign up'
     expect(page).to have_content("A message with a confirmation link has been \
       sent to your email address. Please open the link to activate your account.")
@@ -39,10 +39,10 @@ feature 'User' do
     login_as @user
     visit root_path
     click_link @user.email
-    fill_in 'Name', with: 'Rodrigo'
-    fill_in 'Password', with: '1234567'
-    fill_in 'Password confirmation', with: '1234567'
-    fill_in 'Current password', with: '123456'
+    fill_in 'Your Name', with: 'Rodrigo'
+    fill_in "Leave blank if you don't want to change it", with: '1234567'
+    fill_in 'Confirm your password', with: '1234567'
+    fill_in 'We need your current password to confirm your changes', with: '123456'
     click_button 'Update'
     expect(page).to have_content('You updated your account successfully.')
     user = User.last

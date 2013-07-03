@@ -17,11 +17,11 @@ feature 'Worktime' do
     visit project_path(@project.id)
   end
 
-  after do
+  around do
     Timecop.return
   end
 
-  context 'create' do
+  context 'create', js:true do
     scenario 'successfully create worktime' do
       time = Time.local(2008, 9, 1, 10, 5, 0)
       Timecop.freeze(time)
@@ -31,7 +31,7 @@ feature 'Worktime' do
     end
   end
 
-  context 'stop' do
+  context 'stop', js:true do
     scenario 'successfully stop worktime' do
       time = Time.local(2013, 6, 1, 10, 5, 0)
       Timecop.freeze(time)

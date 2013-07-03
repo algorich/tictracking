@@ -6,7 +6,7 @@ class TasksController < ApplicationController
     @task = Task.new(params[:task])
 
     if @task.save
-      @worktime = Worktime.create!(begin: Time.now, user_id: current_user.id, task_id: @task.id)
+      Worktime.create!(begin: Time.now, user_id: current_user.id, task_id: @task.id)
     end
   end
 
