@@ -1,18 +1,28 @@
-<h2>Sign up</h2>
+<%= simple_form_for(resource, as:  resource_name, url:  registration_path(resource_name),
+  defaults: { input_html: {class: "span12", required: true} }) do |f| %>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+  <h2>Sign up</h2><hr>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+  <%= f.input :name,
+    label:false,
+    placeholder: 'If you want, tell us your Name',
+    input_html: { required: false } %>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+  <%= f.input :email,
+    label:  false,
+    autofocus:  true,
+    placeholder: 'Your Email'%>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+  <%= f.input :password,
+    label:  false,
+    placeholder: 'Choose a password with at least 6 characters'%>
 
-  <div><%= f.submit "Sign up" %></div>
+  <%= f.input :password_confirmation,
+    label:  false,
+    placeholder: 'Confirm your password'%>
+
+  <div class="actions">
+    <%= f.button :submit, 'Sign up', class:  'btn btn-info btn-block' %>
+    <%= render partial:  "devise/shared/links" %>
+  </div>
 <% end %>
-
-<%= render "devise/shared/links" %>

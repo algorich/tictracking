@@ -22,19 +22,12 @@
   <!-- CONTENT BEGIN -->
   <section id="app-content" class="container <%= yield :page_id %>">
     <div class="row-fluid">
-
-      <div class="<%= yield(:sidebar).blank? ? 'span12'.html_safe : 'span8'.html_safe %>">
-        <%= flash_message %>
-
-        <%= yield %>
+      <div class="span12">
+        <section class="span5  offset3 well">
+          <%= flash_message %>
+          <%= yield %>
+        </section>
       </div>
-
-      <% unless (yield :sidebar).blank? %>
-        <aside class="span4">
-          <%= yield :sidebar %>
-        </aside>
-      <% end %>
-
     </div>
   </section>
   <!-- CONTENT END -->
