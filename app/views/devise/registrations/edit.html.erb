@@ -1,32 +1,50 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<section class="span5  offset3 well">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#edit" data-toggle="tab">Edit User</a></li>
+    <li><a href="#cancel" data-toggle="tab">Cancel account</a></li>
+  </ul>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
+  <div id="myTabContent" class="tab-content">
+    <div class="tab-pane active in" id="edit">
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name),
+        html: { method: :put }, defaults: { input_html: {class: "span12"} }) do |f| %>
 
-  <div><%= f.label :name %><br />
-    <%= f.text_field :name, :autofocus => true %></div>
+        <h2>Edit <%= resource_name.to_s.humanize %></h2><hr>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+        <%= f.input :name,
+          label:false,
+          placeholder: 'Your Name' %>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+        <%= f.input :email,
+          label:  false,
+          placeholder: 'Your Email',
+          input_html: { required: true } %>
 
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
+        <%= f.input :password,
+          label:  false,
+          placeholder: "Leave blank if you don't want to change it" %>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+        <%= f.input :password_confirmation,
+          label:  false,
+          placeholder: 'Confirm your password' %>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
+        <%= f.input :current_password,
+          label:  false,
+          placeholder: 'We need your current password to confirm your changes',
+          input_html: { required: true } %>
 
-  <div><%= f.submit "Update" %></div>
-<% end %>
+        <div class="actions">
+          <%= f.button :submit, 'Update', class:  'btn btn-info btn-block' %>
+        </div>
+      <% end %>
+    </div>
 
-<h3>Cancel my account</h3>
+    <div class="tab-pane fade" id="cancel">
+      <h3>Unhappy?</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
+      <%= button_to "Cancel my account!", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, class: 'btn btn-danger' %>
 
-<%= link_to "Back", :back %>
+      <%= link_to "Back", :back %>
+    </div>
+  </div>
+</section>
