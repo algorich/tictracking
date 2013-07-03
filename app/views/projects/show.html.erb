@@ -15,7 +15,7 @@
 </div>
 
 <div class="row-fluid">
-  <%= simple_form_for @task do |f| %>
+  <%= simple_form_for @task, remote: true do |f| %>
     <div class="input-append app-new-task">
       <%= f.input_field :name, autofocus: true, placeholder: 'New task' %>
       <%= f.submit 'Start', class: 'btn app-add', id: "button-task" %>
@@ -24,6 +24,9 @@
   <% end %>
 </div>
 
-<% @tasks.each do |t| %>
-  <%= render 'tasks/show', task: t, worktime: @worktime %>
-<% end %>
+
+<div id="app-tasks">
+  <% @tasks.each do |t| %>
+    <%= render 'tasks/show', task: t, worktime: @worktime %>
+  <% end %>
+</div>

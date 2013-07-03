@@ -8,8 +8,12 @@ feature 'Task' do
     @project = create(:project, users: [@user])
   end
 
-  context 'create' do
+  context 'create', js:true do
     background { visit project_path(@project) }
+
+    around do
+    Timecop.return
+    end
 
     scenario 'successfully create task and worktime' do
       time = Time.local(2008, 9, 1, 10, 5, 0)
