@@ -1,23 +1,21 @@
 <%= simple_form_for(resource, as:  resource_name, url:  registration_path(resource_name),
-  html:  { class:  'span5 offset3 well' }) do |f| %>
+  html:  { class:  'span5 offset3 well' },
+  defaults: { input_html: {class: "span12"} }) do |f| %>
 
   <h2>Sign up</h2><hr>
 
   <%= f.input :email,
     label:  false,
     autofocus:  true,
-    placeholder: 'Your Email',
-    input_html:  { class:  'span12' } %>
+    placeholder: 'Your Email'%>
 
   <%= f.input :password,
     label:  false,
-    placeholder: 'Choose a password with at least 6 characters',
-    input_html:  { class:  'span12' } %>
+    placeholder: 'Choose a password with at least 6 characters'%>
 
   <%= f.input :password_confirmation,
     label:  false,
-    placeholder: 'Confirm your password',
-    input_html:  { class:  'span12' } %>
+    placeholder: 'Confirm your password'%>
 
   <div class="actions">
     <%= f.button :submit, 'Sign up', class:  'btn btn-info btn-block' %>

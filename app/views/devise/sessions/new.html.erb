@@ -1,18 +1,17 @@
 <%= simple_form_for(resource, as:  resource_name, url:  session_path(resource_name),
-  html:  { class:  'span5 offset3 well' }) do |f| %>
+  html:  { class:  'span5 offset3 well' },
+  defaults: { input_html: {class: "span12"} }) do |f| %>
 
   <h2>Login</h2><hr>
 
   <%= f.input :email,
     label:  false,
     autofocus:  true,
-    placeholder: 'Email',
-    input_html:  { class:  'span12' } %>
+    placeholder: 'Email' %>
 
   <%= f.input :password,
     label:  false,
-    placeholder: 'Password',
-    input_html:  { class:  'span12' } %>
+    placeholder: 'Password' %>
 
   <label class="checkbox">
     <input name="user[remember_me]" type="checkbox" value="0">
