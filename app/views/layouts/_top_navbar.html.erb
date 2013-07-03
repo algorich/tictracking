@@ -4,9 +4,9 @@
     <div class="container">
       <%= link_to 'TicTraking', root_path, class: 'brand' %>
 
-      <div class="nav-collapse collapse">
-        <ul class="nav">
 
+      <!-- <div class="pull-right"> -->
+        <ul class="nav pull-right">
           <% if user_signed_in? %>
             <li class="dropdown">
               <%= link_to '#', { class: 'brand dropdown-toggle', 'data-toggle' => 'dropdown' } do %>
@@ -24,23 +24,30 @@
                  <li><%= link_to 'All Projects', projects_path%></li>
                </ul>
             </li>
-          <% end %>
-        </ul>
-      </div>
 
-      <ul class="nav pull-right">
-        <% if user_signed_in? %>
-          <li><%= link_to '<i class="icon-circle-arrow-left"></i> Sign out'.html_safe,
-            destroy_user_session_path, { method: :delete } %></li>
-          <li><%= link_to current_user.email,
-            edit_user_registration_path %></li>
-          <li class="app-profile-image">
-            <%= image_tag avatar_url(current_user), alt: current_user.name,
-            size: '40x40', class: 'img-circle' %></li>
-        <% else %>
-          <li><%= link_to 'Sign in', new_user_session_path %></li>
-        <% end %>
-      </ul>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="icon-cog icon-large"></i><b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li class="account-with-image">
+                    <a href="<%= edit_user_registration_path %>">
+                      <%= image_tag avatar_url(current_user), alt: current_user.name,
+                        size: '40x40', class: 'img-rounded pull-left' %>
+                      <span class="text-account">
+                        <strong><%= current_user.name || current_user.email %></strong><br />
+                        <small>Edit your account</small>
+                      </span>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li><%= link_to '<i class="icon-off"></i> Sign out'.html_safe,
+                  destroy_user_session_path, { method: :delete } %></li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to 'Sign in', new_user_session_path %></li>
+          <% end -%>
+        </ul>
+      <!-- </div> -->
   </div>
   </div>
 </header>
