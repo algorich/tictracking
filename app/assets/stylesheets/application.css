@@ -56,7 +56,7 @@ a.brand:nth-child(3) {
   margin-left: 0;
 }
 
-#background-tasks > ul:nth-child(1) {
+.background-tasks > ul:nth-child(1) {
   list-style: none;
 }
 
