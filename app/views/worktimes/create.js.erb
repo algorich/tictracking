@@ -1,10 +1,13 @@
 var $worktimes = $('div[data-id="<%= @task.id %>"] ul.app-worktimes');
 var $continue = $('div[data-id="<%= @task.id %>"] input[value="Continue"]');
+var $stop = $('div[data-id="<%= @task.id %>"] input[value="Stop"]');
 <% if params[:commit] == 'Continue' %>
   $continue.attr('disabled','disabled');
+  $stop.removeAttr('disabled');
   $worktimes.prepend("<%= escape_javascript(render 'worktimes/show', task: @task, worktime: @worktime ) %>");
 <% else %>
   $('li[data-id="<%= @worktime.id %>"]').remove();
   $continue.removeAttr('disabled');
+  $stop.attr('disabled','disabled');
   $worktimes.prepend("<%= escape_javascript(render 'worktimes/show', task: @task, worktime: @worktime ) %>")
 <% end %>
