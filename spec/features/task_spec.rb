@@ -29,10 +29,32 @@ feature 'Task' do
   end
 
   context 'show' do
+    before(:each) do
+      @task_1 = Task.create(name: 'Tarefa 1', project_id: @project.id)
+      @task_2 = Task.create(name: 'Tarefa 2', project_id: @project.id)
+    end
+
     scenario 'should show a task in the view of the project' do
-      Task.create(name: 'tarefa xx', project_id: @project.id)
       visit project_path(@project)
-      expect(page).to have_content('tarefa xx')
+
+      within '#tasks > #task:first-child' do
+        expect(page).to have_content(@task_2.name)
+      end
+
+      within '#tasks > #task:last-child' do
+        expect(page).to have_content(@task_1.name)
+      end
+
+      create(:worktime, user: @user, task: @task_1)
+      visit project_path(@project)
+
+      within '#tasks > #task:first-child' do
+        expect(page).to have_content(@task_1.name)
+      end
+
+      within '#tasks > #task:last-child' do
+        expect(page).to have_content(@task_2.name)
+      end
     end
 
     scenario 'should not show to users that dont belong to project' do
