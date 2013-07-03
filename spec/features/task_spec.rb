@@ -8,8 +8,12 @@ feature 'Task' do
     @project = create(:project, users: [@user])
   end
 
-  context 'create' do
+  context 'create', js:true do
     background { visit project_path(@project) }
+
+    around do
+    Timecop.return
+    end
 
     scenario 'successfully create task and worktime' do
       time = Time.local(2008, 9, 1, 10, 5, 0)
@@ -37,22 +41,22 @@ feature 'Task' do
     scenario 'should show a task in the view of the project' do
       visit project_path(@project)
 
-      within '#tasks > #task:first-child' do
+      within "#app-tasks > div[data-id=\"#{@task_2.id}\"]" do
         expect(page).to have_content(@task_2.name)
       end
 
-      within '#tasks > #task:last-child' do
+      within "#app-tasks > div[data-id=\"#{@task_1.id}\"]" do
         expect(page).to have_content(@task_1.name)
       end
 
       create(:worktime, user: @user, task: @task_1)
       visit project_path(@project)
 
-      within '#tasks > #task:first-child' do
+      within "#app-tasks > div[data-id=\"#{@task_1.id}\"]" do
         expect(page).to have_content(@task_1.name)
       end
 
-      within '#tasks > #task:last-child' do
+      within "#app-tasks > div[data-id=\"#{@task_2.id}\"]" do
         expect(page).to have_content(@task_2.name)
       end
     end

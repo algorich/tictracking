@@ -1,36 +1,32 @@
-<div class="background-tasks" id="task">
-  <ul data-id="<%= task.id %>">
-    <li>
-      <div class="row-fluid">
-        <span class="lead pull-left"><%= task.name %></span>
-          <%= simple_form_for [task, worktime] do |w| %>
-            <%= w.input :task_id, as: :hidden, input_html: { value: task.id} %>
-          <div class="btn-group pull-right">
-            <%= w.submit 'Continue',  class: 'btn'%>
-            <%= w.submit 'Stop',  class: 'btn' %>
-          <% end %>
-          </div>
+<div data-id="<%= task.id %>">
+  <div class="row-fluid">
+    <span class="lead pull-left"><%= task.name %></span>
+    <%= simple_form_for [task, worktime] do |w| %>
+      <%= w.input :task_id, as: :hidden, input_html: { value: task.id} %>
+      <div class="btn-group pull-right">
+        <%= w.submit 'Continue',  class: 'btn'%>
+        <%= w.submit 'Stop',  class: 'btn' %>
       </div>
-    </li>
+    <% end %>
+  </div>
 
-
-      <% task.worktimes.each do |worktime|  %>
-        <ul class="inline">
-          <li><%= worktime.begin %></li>
-          <% if worktime.end.present? %>
-            <li><%= worktime.end %></li>
-          <% end %>
-          <li><%= link_to 'Edit', edit_task_worktime_path(task, worktime) %></li>
-          <li><%= link_to 'Destroy', task_worktime_path(task, worktime),
-           {method: :delete} %></li>
-        </ul>
+  <% task.worktimes.each do |worktime|  %>
+    <ul class="inline">
+      <li><%= worktime.begin %></li>
+      <% if worktime.end.present? %>
+        <li><%= worktime.end %></li>
       <% end %>
+      <li><%= link_to 'Edit', edit_task_worktime_path(task, worktime) %></li>
+      <li><%= link_to 'Destroy', task_worktime_path(task, worktime),
+       {method: :delete} %></li>
+    </ul>
+  <% end %>
 
-    <% if can? :update, task %>
-      <li><%= link_to 'Edit', edit_task_path(task) %></li>
-    <% end %>
-    <% if can? :destroy, task %>
-      <li><%= link_to 'Delete', task_path(task), {method: :delete} %></li>
-    <% end %>
-  </ul>
-</div></br>
+  <% if can? :update, task %>
+    <%= link_to 'Edit', edit_task_path(task) %>
+  <% end %>
+  <% if can? :destroy, task %>
+    <%= link_to 'Delete', task_path(task), {method: :delete} %>
+  <% end %>
+</div>
+<br>

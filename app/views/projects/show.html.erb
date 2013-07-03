@@ -1,26 +1,32 @@
 <%= content_for :page_id do 'project_page' end %>
 
-<div id="app-project-name-wrapper" data-url="<%= project_path(@project, format: 'json') %>">
-  <h1 class="pull-left"><%= @project.name %></h1>
+<div class="row-fluid">
+
+  <div id="app-project-name-wrapper" data-url="<%= project_path(@project, format: 'json') %>">
+    <h1 class="pull-left" title="Edit <%= @project.name %>"><%= @project.name %></h1>
+  </div>
+
+  <div class="app-header-actions btn-group pull-right">
+    <% if current_user.admin? @project %>
+    <%= link_to '<i class="icon-wrench"></i> Settings'.html_safe,
+     edit_project_path(@project), class: "btn" %>
+    <% end %>
+  </div>
 </div>
 
-<div class="app-header-actions btn-group pull-right">
-  <% if current_user.admin? @project %>
-    <%= link_to '<i class="icon-wrench"></i> Settings'.html_safe,
-      edit_project_path(@project), class: "btn" %>
+<div class="row-fluid">
+  <%= simple_form_for @task, remote: true do |f| %>
+    <div class="input-append app-new-task">
+      <%= f.input_field :name, autofocus: true, placeholder: 'New task' %>
+      <%= f.submit 'Start', class: 'btn app-add', id: "button-task" %>
+    </div>
+    <%= f.input :project_id, as: :hidden, input_html: { value: @project.id } %>
   <% end %>
 </div>
 
-<%= simple_form_for @task do |f| %>
-  <div class="input-append app-new-task">
-    <%= f.input_field :name, autofocus: true, placeholder: 'New task' %>
-    <%= f.submit 'Start', class: 'btn app-add', id: "button-task" %>
-  </div>
-  <%= f.input :project_id, as: :hidden, input_html: { value: @project.id } %>
-<% end %>
 
-<section id="tasks">
+<div id="app-tasks">
   <% @tasks.each do |t| %>
     <%= render 'tasks/show', task: t, worktime: @worktime %>
   <% end %>
-</section>
+</div>
