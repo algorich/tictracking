@@ -1,8 +1,13 @@
 <%= simple_form_for(resource, as:  resource_name, url:  registration_path(resource_name),
   html:  { class:  'span5 offset3 well' },
-  defaults: { input_html: {class: "span12"} }) do |f| %>
+  defaults: { input_html: {class: "span12", required: true} }) do |f| %>
 
   <h2>Sign up</h2><hr>
+
+  <%= f.input :name,
+    label:false,
+    placeholder: 'If you want, tell us your Name',
+    input_html: { required: false } %>
 
   <%= f.input :email,
     label:  false,
