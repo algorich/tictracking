@@ -1,12 +1,12 @@
 <div class="well sidebar-nav">
   <ul class="nav nav-list">
-    <li class="nav-header"><h4>Latest Projects</h4></li>
-      <% if current_user.projects.empty? %>
-        <%= 'You still do not have any project,' %>
-        <%= link_to 'create', new_project_path %>
+    <% if current_user.projects.empty? %>
+      <%= 'You still do not have any project,' %>
+      <%= link_to 'create', new_project_path %>
+    <% else %>
+      <% projects.each do |project| %>
+        <li><%= link_to project.name, project %></a></li>
       <% end %>
-        <% @latests_projects.each do |project| %>
-          <li><%= link_to project.name, project %></a></li>
-        <% end %>
+    <% end %>
   </ul>
 </div>
