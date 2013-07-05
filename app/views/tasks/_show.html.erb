@@ -1,4 +1,4 @@
-<div data-id="<%= task.id %>">
+<div id="app-task" data-id="<%= task.id %>">
   <div class="row-fluid">
     <span class="lead pull-left"><%= task.name %></span>
     <%= simple_form_for [task, Worktime.new], remote:true do |w| %>
@@ -10,11 +10,24 @@
     <% end %>
   </div>
 
-  <ul class="app-worktimes">
-    <% task.worktimes.each do |worktime|  %>
-      <%= render 'worktimes/show', task: task, worktime: worktime %>
-    <% end %>
-  </ul>
+  <section class="app-worktimes">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Begin at</th>
+          <th>End at</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% task.worktimes.each do |worktime|  %>
+          <tr>
+            <%= render 'worktimes/show', task: task, worktime: worktime %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
 
   <% if can? :update, task %>
     <%= link_to 'Edit', edit_task_path(task) %>

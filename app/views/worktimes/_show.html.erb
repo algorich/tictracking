@@ -1,9 +1,16 @@
-<li class="inline" data-id="<%= worktime.id %>">
+<!-- <li class="inline" data-id="<%= worktime.id %>">
   <%= worktime.begin %>
   <% if worktime.end.present? %>
     <%= worktime.end %>
   <% end %>
   <%= link_to 'Edit', edit_task_worktime_path(task, worktime) %>
-  <%= link_to 'Destroy', task_worktime_path(task, worktime),
-   {method: :delete} %>
+  <%= link_to 'Destroy', task_worktime_path(task, worktime), {method: :delete} %>
 </li>
+ -->
+
+<td><%= worktime.begin %></td>
+<td><%= worktime.end if worktime.end.present? %></td>
+<td>
+  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_task_worktime_path(task, worktime) %>
+  <%= link_to '<i class="icon-remove"></i>'.html_safe, task_worktime_path(task, worktime), {method: :delete} %>
+</td>
