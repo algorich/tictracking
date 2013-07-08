@@ -8,39 +8,28 @@ feature 'Worktime' do
 
     @project = create :project, users: [@user, @goten]
     @task = create :task, project: @project
-    @begin_time = Time.local(2013, 6, 1, 11, 5, 0)
-    @end_time = Time.local(2012, 6, 1, 11, 5, 0)
-    @worktime = create :worktime, user: @user, task: @task, begin: @begin_time,
-      end: @end_time
+    @begin_time = Time.local(2013, 6, 1, 11, 5)
+    @end_time = Time.local(2012, 6, 1, 11, 5)
+    @worktime = create :worktime, user: @user, task: @task, begin: @begin_time, end: @end_time
 
     login_as @user
-    visit project_path(@project.id)
-  end
-
-  around do
-    Timecop.return
+    visit project_path(@project)
   end
 
   context 'create', js:true do
-    scenario 'successfully create worktime' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.freeze(time)
+    scenario 'successfully play worktime' do
       click_button 'Continue'
-      expect(page).to have_content '2008-09-01 13:05:00 UTC'
-      Timecop.return
+      expect(page).to have_content Time.now.utc.to_s
     end
   end
 
   context 'stop', js:true do
     scenario 'successfully stop worktime' do
-      time = Time.local(2013, 6, 1, 10, 5, 0)
-      Timecop.freeze(time)
       click_button 'Continue'
-      expect(page).to have_content 'Successfully'
-      time = Time.local(2013, 6, 1, 11, 5, 0)
-      Timecop.freeze(time)
+      expect(page).to have_content Time.now.utc
+      sleep(1)
       click_button 'Stop'
-      expect(page).to have_content '2013-06-01 14:05:00 UTC'
+      expect(page).to have_content Time.now.utc.to_s
     end
   end
 
