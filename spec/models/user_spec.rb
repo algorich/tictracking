@@ -29,8 +29,8 @@ describe User do
     end
   end
 
-  describe '#latest_tasks' do
-    it 'should return the lastet tasks' do
+  describe '#latest' do
+    it 'should return the lastet tasks updated' do
       user = create(:user_confirmed)
       project_1 = create(:project, users: [user])
       task_1 = create(:task, project: project_1, name: 'Task 1')
@@ -41,10 +41,22 @@ describe User do
       create(:worktime, user: user, task: task_3)
       create(:worktime, user: user, task: task_2)
 
-      expect(user.latest_tasks(2)).to include(task_3, task_2)
+      expect(user.latest(2, :tasks)).to include(task_3, task_2)
 
       create(:worktime, user: user, task: task_1)
-      expect(user.latest_tasks(2)).to include(task_1, task_2)
+      expect(user.latest(2, :tasks)).to include(task_1, task_2)
+    end
+
+    it 'should return the lastet projects updated' do
+      user = create(:user_confirmed)
+      project_1 = create(:project, users: [user])
+      project_2 = create(:project, users: [user])
+      project_3 = create(:project, users: [user])
+
+      expect(user.latest(2, :projects)).to include(project_3, project_2)
+
+      create(:task, project: project_1)
+      expect(user.latest(2, :projects)).to include(project_1, project_3)
     end
   end
 end

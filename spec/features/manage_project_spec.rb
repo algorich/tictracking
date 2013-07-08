@@ -128,10 +128,18 @@ feature 'manage project' do
   context 'show' do
     scenario 'users should show only your projects' do
       project = create(:project, name: 'Project GG')
-      project = create(:project, users: [@user])
-      membership = create(:membership, project: project, user: @user, admin: true)
+      project_1 = create(:project, users: [@user])
+      project_2 = create(:project, users: [@user])
+      project_3 = create(:project, users: [@user])
+      project_4 = create(:project, users: [@user])
+
       visit projects_path
-      expect(page).not_to have_content 'Project GG'
+
+      expect(page).not_to have_content project.name
+      expect(page).to have_content project_1.name
+      expect(page).to have_content project_2.name
+      expect(page).to have_content project_3.name
+      expect(page).to have_content project_4.name
     end
   end
 end

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :project do
-    name "project_name"
+    sequence(:name) { |n| "project_#{n}"}
 
     before(:create) do |project, evaluator|
       user = evaluator.users.first || create(:user_confirmed)

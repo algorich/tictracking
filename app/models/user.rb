@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
     memberships.where(project_id: project).any?
   end
 
-  def latest_tasks(n=1)
-    tasks.order('updated_at DESC').first(n)
+  def latest(n=1, stuffs)
+    self.send(stuffs).order('updated_at DESC').first(n)
   end
 end

@@ -3,28 +3,30 @@
 <h1>Dashboard</h1>
 </br>
 <div class="row-fluid">
-  <div class="span7">
-    <div class="tasks">
-      <h4 id="latest-task">Latest Tasks</h4></br>
+  <div class="span8">
+    <div class="app-tasks">
+      <h2>Latest Tasks</h2></br>
 
-      <% if current_user.projects.empty? %>
+      <% if @projects.empty? %>
         <%= 'You must' %>
         <%= link_to 'create', new_project_path %>
         <%= 'a project' %>
+      <% elsif @tasks.empty? %>
+        <%= link_to 'Create', project_path(current_user.projects.first) %>
+        <%= 'a task' %>
       <% else %>
-        <% if current_user.projects.first.tasks.empty? %>
-          <%= link_to 'Create', project_path(current_user.projects.first) %>
-          <%= 'a task' %>
+        <% @tasks.each do |t| %>
+          <%= render 'tasks/show', task: t, worktime: Worktime.new %>
         <% end %>
       <% end %>
 
-      <% @tasks.each do |t| %>
-        <%= render 'tasks/show', task: t, worktime: Worktime.new %>
-      <% end %>
     </div>
   </div>
 
-  <div class="projects span4 offset1">
-    <%= render 'projects/list' %>
+  <div id="app-projects" class="span4">
+    <div class="well sidebar-nav">
+      <span class="nav-header">Latest Projects</span>
+      <%= render 'projects/list', projects: @projects %>
+    </div>
   </div>
 </div>

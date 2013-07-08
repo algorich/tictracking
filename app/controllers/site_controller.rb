@@ -5,6 +5,7 @@ class SiteController < ApplicationController
   end
 
   def dashboard
-    @tasks = current_user.latest_tasks(3)
+    @tasks = current_user.latest(3, :tasks)
+    @projects = current_user.latest(3, :projects)
   end
 end
