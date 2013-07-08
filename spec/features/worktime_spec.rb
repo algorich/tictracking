@@ -16,19 +16,22 @@ feature 'Worktime' do
     visit project_path(@project)
   end
 
-  context 'create', js:true do
+  context 'Start', js:true do
     scenario 'successfully play worktime' do
-      click_button 'Continue'
+      start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
+      start.click
       expect(page).to have_content Time.now.utc.to_s
     end
   end
 
-  context 'stop', js:true do
+  context 'Stop', js:true do
     scenario 'successfully stop worktime' do
-      click_button 'Continue'
-      expect(page).to have_content Time.now.utc
+      start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
+      stop = find("#app-tasks a[data-method=\"put\"]")
+      start.click
       sleep(1)
-      click_button 'Stop'
+      stop.click
+      expect(page).to have_content Time.now.utc.to_s
       expect(page).to have_content Time.now.utc.to_s
     end
   end
@@ -81,7 +84,6 @@ feature 'Worktime' do
        ".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}\"
         and @data-method=\"delete\"]")
       link_destroy.click
-
       expect(page).to have_content 'Deleted'
     end
 
@@ -95,10 +97,7 @@ feature 'Worktime' do
       login_as @goten
       visit project_path(@project)
       expect(current_path).to eq(project_path(@project))
-
-      link_destroy = page.find(:xpath,
-       ".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}\"
-        and @data-method=\"delete\"]")
+      link_destroy = page.find(:xpath,".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}\" and @data-method=\"delete\"]")
       link_destroy.click
 
       expect(page).to_not have_content 'Deleted'

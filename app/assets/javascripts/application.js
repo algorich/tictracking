@@ -23,7 +23,7 @@ $(function () {
     var $projectName = $projectNameWrapper.find('h1');
 
     $projectNameWrapper.on('click', 'h1', function() {
-        $projectNameWrapper.html('<input type="text" value="'+ $projectName.text() +'" />');
+        $projectNameWrapper.html('<input type="text" placeholder="project-name" value="'+ $projectName.text() +'" />');
         $projectNameWrapper.find('input').focus();
     });
 

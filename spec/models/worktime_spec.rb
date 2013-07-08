@@ -1,6 +1,19 @@
 require 'spec_helper'
 
 describe Worktime do
+  context '#finished?' do
+    it 'should return true if worktime finished' do
+      worktime = create(:worktime)
+      expect(worktime.finished?).to eq(true)
+    end
+
+    it 'failure' do
+      worktime = Worktime.create(:begin => Time.now,
+       user: User.new, task: Task.new)
+      expect(worktime.finished?).to be_false
+    end
+  end
+
   context 'should have a begin date' do
     it { should_not have_valid(:begin).when(nil, '') }
     it { should have_valid(:begin).when(Time.now) }

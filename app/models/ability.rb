@@ -23,7 +23,7 @@ class Ability
       user.member? w.task.project
     end
 
-    can [:update, :destroy], Worktime do |w|
+    can [:update, :destroy, :edit], Worktime do |w|
       user.worktimes.include?(w) || user.admin?(w.task.project)
     end
   end
