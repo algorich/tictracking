@@ -1,4 +1,4 @@
-<%= w_id = worktime.id %>
+<% w_id = worktime.id %>
 
 <td id="begin_<%= w_id %>">
   <%= best_in_place worktime, :begin, path: task_worktime_path(task, worktime),
