@@ -1,13 +1,3 @@
-<!-- <li class="inline" data-id="<%= worktime.id %>">
-  <%= worktime.begin %>
-  <% if worktime.end.present? %>
-    <%= worktime.end %>
-  <% end %>
-  <%= link_to 'Edit', edit_task_worktime_path(task, worktime) %>
-  <%= link_to 'Destroy', task_worktime_path(task, worktime), {method: :delete} %>
-</li>
- -->
-
 <td><%= worktime.begin %></td>
 <td><%= worktime.end if worktime.end.present? %></td>
 <td>
