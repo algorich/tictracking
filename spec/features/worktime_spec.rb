@@ -8,39 +8,31 @@ feature 'Worktime' do
 
     @project = create :project, users: [@user, @goten]
     @task = create :task, project: @project
-    @begin_time = Time.local(2013, 6, 1, 11, 5, 0)
-    @end_time = Time.local(2012, 6, 1, 11, 5, 0)
-    @worktime = create :worktime, user: @user, task: @task, begin: @begin_time,
-      end: @end_time
+    @begin_time = Time.local(2013, 6, 1, 11, 5)
+    @end_time = Time.local(2012, 6, 1, 11, 5)
+    @worktime = create :worktime, user: @user, task: @task, begin: @begin_time, end: @end_time
 
     login_as @user
-    visit project_path(@project.id)
+    visit project_path(@project)
   end
 
-  around do
-    Timecop.return
-  end
-
-  context 'create', js:true do
-    scenario 'successfully create worktime' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.freeze(time)
-      click_button 'Continue'
-      expect(page).to have_content '2008-09-01 13:05:00 UTC'
-      Timecop.return
+  context 'Start', js:true do
+    scenario 'successfully play worktime' do
+      start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
+      start.click
+      expect(page).to have_content Time.now.utc.to_s
     end
   end
 
-  context 'stop', js:true do
+  context 'Stop', js:true do
     scenario 'successfully stop worktime' do
-      time = Time.local(2013, 6, 1, 10, 5, 0)
-      Timecop.freeze(time)
-      click_button 'Continue'
-      expect(page).to have_content 'Successfully'
-      time = Time.local(2013, 6, 1, 11, 5, 0)
-      Timecop.freeze(time)
-      click_button 'Stop'
-      expect(page).to have_content '2013-06-01 14:05:00 UTC'
+      start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
+      stop = find("#app-tasks a[data-method=\"put\"]")
+      start.click
+      sleep(1)
+      stop.click
+      expect(page).to have_content Time.now.utc.to_s
+      expect(page).to have_content Time.now.utc.to_s
     end
   end
 
@@ -92,7 +84,6 @@ feature 'Worktime' do
        ".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}\"
         and @data-method=\"delete\"]")
       link_destroy.click
-
       expect(page).to have_content 'Deleted'
     end
 
@@ -106,10 +97,7 @@ feature 'Worktime' do
       login_as @goten
       visit project_path(@project)
       expect(current_path).to eq(project_path(@project))
-
-      link_destroy = page.find(:xpath,
-       ".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}\"
-        and @data-method=\"delete\"]")
+      link_destroy = page.find(:xpath,".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}\" and @data-method=\"delete\"]")
       link_destroy.click
 
       expect(page).to_not have_content 'Deleted'

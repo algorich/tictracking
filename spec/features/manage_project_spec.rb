@@ -12,7 +12,6 @@ feature 'manage project' do
       visit new_project_path
 
       fill_in 'Name', with: 'Project_1'
-
       click_button 'Create Project'
       expect(@user).to be_admin(Project.last)
       expect(page).to have_content('Project was successfully created.')
@@ -38,19 +37,31 @@ feature 'manage project' do
     end
   end
 
-  context "edit" do
-    # scenario 'successfully' do
-    #   project = create(:project, name: 'Project_1')
-    #   membership = create(:membership, admin: true, project: project)
-    #   login_as membership.user
-    #   visit project_path(project)
-    #   expect(page).to have_content('Project_1')
-
-    #   fill_in 'Name', with: 'Project_Foo'
-    #   click_button 'Update Project'
-    #   expect(page).to have_content('Project was successfully updated.')
-    #   expect(page).to have_content('Project_Foo')
-    end
+  # context "edit" do
+  #   scenario 'successfully', js:true do
+  #     project = create(:project, name: 'Project_1')
+  #     membership = create(:membership, admin: true, project: project)
+  #     login_as membership.user
+  #     visit project_path(project)
+  #     expect(page).to have_content('Project_1')
+  #     name_project = find("div[id=\"app-project-name-wrapper\"] h1")
+  #     name_project.click
+  #     fill_in 'project-name', with: 'Project_Foo'
+  #     page.execute_script("
+  #       var input = $('#app-project-name-wrapper > input');
+  #       if input.val() === 'Project_Foo' {
+  #         return true;
+  #       }
+  #       var e = jQuery.Event('keydown');
+  #       e.which = 13;
+  #       e.keyCode = 13;
+  #       input.focus();
+  #       $('input').trigger(e);
+  #     ")
+  #     # expect(page).to have_content('Project was successfully updated.')
+  #     expect(page).to have_content('Project_Foo')
+  #   end
+  # end
 
     context 'failure' do
       # scenario 'name  cant be blank' do
@@ -99,8 +110,7 @@ feature 'manage project' do
 
       login_as @user
       visit projects_path
-      expect(page).not_to have_content 'Edit'
-      expect(page).not_to have_content 'Destroy'
+      expect(page).not_to have_content 'Settings'
     end
 
     scenario 'only members can show projects' do
