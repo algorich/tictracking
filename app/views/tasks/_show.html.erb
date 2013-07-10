@@ -4,7 +4,7 @@
       <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn"} %>
       <% unless current_user.worktimes.where(task_id: task).empty? %>
         <%= link_to '<i class="icon-stop"> </i>'.html_safe,
-         task_worktime_path(task, current_user.worktimes.last),
+         stop_task_worktime_path(task, current_user.worktimes.last),
            {method: :put, remote: true, class: "btn"} %>
        <% end %>
     </div>

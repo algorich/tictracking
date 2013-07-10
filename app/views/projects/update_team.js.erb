@@ -2,13 +2,6 @@ $('.team').html(
   "<%= escape_javascript render 'projects/team' %>");
 
 <% if params[:message] %>
-  clean_up();
-  var $flash = $('.alert-<%= params[:message][:type] %>');
-  $flash.children('span').text('<%= params[:message][:text] %>');
-  $flash.removeClass('hide');
+  app_show_flash_message("<%= params[:message][:type] %>",
+    "<%= params[:message][:text] %>");
 <% end %>
-
-function clean_up () {
-  $('.alert').addClass('hide');
-  $('.alert span').text('');
-};

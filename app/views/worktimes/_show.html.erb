@@ -1,6 +1,17 @@
-<td><%= worktime.begin %></td>
-<td><%= worktime.end if worktime.end.present? %></td>
+<%= w_id = worktime.id %>
+
+<td id="begin_<%= w_id %>">
+  <%= best_in_place worktime, :begin, path: task_worktime_path(task, worktime),
+    activator: "#edit_begin_#{worktime.id}" %>
+  <a href="#" id="edit_begin_<%= worktime.id %>"><i class="icon-pencil"></i></a>
+</td>
+
+<td id="end_<%= w_id %>">
+  <%= best_in_place worktime, :end, path: task_worktime_path(task, worktime),
+    activator: "#edit_end_#{worktime.id}" %>
+  <a href="#" id="edit_end_<%= worktime.id %>"><i class="icon-pencil"></i></a>
+</td>
+
 <td>
-  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_task_worktime_path(task, worktime) %>
   <%= link_to '<i class="icon-remove"></i>'.html_safe, task_worktime_path(task, worktime), {method: :delete} %>
 </td>
