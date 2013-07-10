@@ -27,7 +27,7 @@
 
 <div id="app-tasks">
   <% @tasks.each do |t| %>
-    <div id="app-task" data-id="<%= t.id %>">
+    <div class="app-task" data-id="<%= t.id %>">
       <%= render 'tasks/show', task: t %>
     </div>
     </br>
