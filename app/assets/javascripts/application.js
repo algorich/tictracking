@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require select2
+//= require bootstrap-datetimepicker
+//= require best_in_place
 //= require_tree .
 //= require_self
 
