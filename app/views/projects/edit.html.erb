@@ -3,12 +3,23 @@
 </br>
 
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#team" data-toggle="tab">Team</a></li>
+  <li class="active"><a href="#edit" data-toggle="tab">Edit Project</a></li>
+  <li><a href="#team" data-toggle="tab">Team</a></li>
   <li><a href="#destroy" data-toggle="tab">Destroy</a></li>
 </ul>
 
+
 <div class="tab-content">
-  <div class="tab-pane active" id="team">
+  <div class="tab-pane active" id="edit">
+    <div>
+      <%= simple_form_for @project do |project| %>
+        <%= project.input :name, label:'<h3>Name</h3>'.html_safe, required: false %>
+        <%= project.submit 'Update', class: 'btn' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="team">
     <%= render template: 'projects/team' %>
   </div>
 
