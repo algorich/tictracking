@@ -12,20 +12,22 @@
 
 <section class="app-worktimes">
   <table class="table">
-    <thead>
-      <tr>
-        <th>Begin at</th>
-        <th>End at</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% task.worktimes.each do |worktime|  %>
+    <% unless task.worktimes.empty? %>
+      <thead>
         <tr>
-          <%= render 'worktimes/show', task: task, worktime: worktime %>
+          <th>Begin at</th>
+          <th>End at</th>
+          <th></th>
         </tr>
+      </thead>
+      <tbody>
+        <% task.worktimes.each do |worktime|  %>
+          <tr>
+            <%= render 'worktimes/show', task: task, worktime: worktime %>
+          </tr>
       <% end %>
     </tbody>
+    <% end %>
   </table>
 </section>
 
