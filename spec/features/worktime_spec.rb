@@ -12,7 +12,7 @@ feature 'Worktime' do
     @end_time = Time.local(2012, 6, 1, 11, 5)
     @worktime = create :worktime, user: @user, task: @task, begin: @begin_time, end: @end_time
 
-    login_as @user
+    login_as @user, scope: :user
     visit project_path(@project)
   end
 
@@ -26,6 +26,7 @@ feature 'Worktime' do
 
   context 'Stop', js:true do
     scenario 'successfully stop worktime' do
+      pending 'mudar stop para uma ação propria no controller'
       start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
       stop = find("#app-tasks a[data-method=\"put\"]")
       start.click
@@ -39,14 +40,15 @@ feature 'Worktime' do
   context 'edit' do
     #TODO: Concertar erros com testes em conjunto
     # sozinho ele pega
-    # scenario 'should edit a worktime', js:true do
-    #   membership = create(:membership, project: @project, user: @user)
-    #   bip_text(@worktime, :begin, @begin_time + 2000.years)
+    scenario 'should edit a worktime', js:true do
+      pending 'Concertar erros com testes em conjunto'
+      membership = create(:membership, project: @project, user: @user)
+      bip_text(@worktime, :begin, @begin_time + 2000.years)
 
-    #   within('#begin_' + @worktime.id.to_s) do
-    #     expect(page).to have_content(@begin_time + 2000.years)
-    #   end
-    # end
+      within('#begin_' + @worktime.id.to_s) do
+        expect(page).to have_content(@begin_time + 2000.years)
+      end
+    end
 
     scenario 'users that do not belong to project' do
       login_as @yoda
@@ -95,7 +97,7 @@ feature 'Worktime' do
       expect(link_edit_begin_worktime).to be_visible
       expect(link_edit_end_worktime).to be_visible
 
-      click_link 'Sign out'
+      logout :user
 
       user = create(:user_confirmed)
       login_as user
