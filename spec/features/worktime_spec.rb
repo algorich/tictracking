@@ -38,15 +38,15 @@ feature 'Worktime' do
   end
 
   context 'edit' do
-    #TODO: Concertar erros com testes em conjunto
-    # sozinho ele pega
-    scenario 'should edit a worktime', js:true do
-      pending 'Concertar erros com testes em conjunto'
+    scenario 'should edit a worktime' do
+      pending 'Descobrir pq o find não pega'
       membership = create(:membership, project: @project, user: @user)
-      bip_text(@worktime, :begin, @begin_time + 2000.years)
+      visit edit_task_worktime_path(@task, @worktime)
+
+      fill_in '#worktime_begin', with: (@begin_time - 2000.years)
 
       within('#begin_' + @worktime.id.to_s) do
-        expect(page).to have_content(@begin_time + 2000.years)
+        expect(page).to have_content(@begin_time - 2000.years)
       end
     end
 

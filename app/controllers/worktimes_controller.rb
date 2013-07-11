@@ -2,8 +2,6 @@ class WorktimesController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => :create
 
-  respond_to :html, :json
-
   def create
     @task = Task.find(params[:task_id])
     @worktime = Worktime.new(task: @task, begin: Time.now, user_id: current_user.id)
@@ -17,9 +15,14 @@ class WorktimesController < ApplicationController
   end
 
   def update
+    task = Task.find(params[:task_id])
     @worktime = Worktime.find(params[:id])
-    @worktime.update_attributes(params[:worktime])
-    respond_with @worktime
+
+    if @worktime.update_attributes(params[:worktime])
+      redirect_to project_path(task.project_id), notice: "Worktime updated with success."
+     else
+      render edit_task_worktime_path(task, @worktime)
+    end
   end
 
   def destroy
