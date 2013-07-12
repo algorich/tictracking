@@ -99,3 +99,12 @@ a.brand:nth-child(3) {
 .well {
   margin-top: 8px;
 }
+
+#myTabContent p {
+  padding-top: 15px;
+  margin-left: 20px;
+}
+
+#myTabContent img {
+  margin-bottom: 15px;
+}

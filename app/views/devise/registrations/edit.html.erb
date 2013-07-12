@@ -5,10 +5,17 @@
 
 <div id="myTabContent" class="tab-content">
   <div class="tab-pane active in" id="edit">
+
+      <%= image_tag avatar_url(current_user), alt: current_user.name,
+        size: '50x50', class: 'img-rounded pull-left' %>
+
+      <p class="pull-left">
+        <%= link_to 'Click link to change avatar at Gravatar.com',
+          'https://gravatar.com' %>
+      </p>
+
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name),
       html: { method: :put }, defaults: { input_html: {class: "span12"} }) do |f| %>
-
-      <h2>Edit <%= resource_name.to_s.humanize %></h2><hr>
 
       <%= f.input :name,
         label:false,
