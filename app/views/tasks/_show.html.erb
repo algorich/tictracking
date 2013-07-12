@@ -1,7 +1,7 @@
 <div class="row-fluid">
   <span class="lead pull-left">
     <% if [root_path, dashboard_path].include? request.fullpath %>
-      <%= task.project.name + '/'  + task.name %>
+      <%= link_to(task.project.name, project_path(task.project)) + '/'  + task.name %>
     <% else %>
       <%= task.name %>
     <% end -%>
