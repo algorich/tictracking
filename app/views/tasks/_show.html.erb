@@ -1,45 +1,47 @@
-<div class="row-fluid">
-  <span class="lead pull-left">
-    <% if [root_path, dashboard_path].include? request.fullpath %>
-      <%= link_to(task.project.name, project_path(task.project)) + '/'  + task.name %>
-    <% else %>
-      <%= task.name %>
-    <% end -%>
-  </span>
-    <div class="btn-group pull-right">
-      <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn"} %>
-      <% unless current_user.worktimes.where(task_id: task).empty? %>
-        <%= link_to '<i class="icon-stop"> </i>'.html_safe,
-         stop_task_worktime_path(task, current_user.worktimes.last),
-           {method: :put, remote: true, class: "btn"} %>
-       <% end %>
-    </div>
-</div>
+<div class="app-task" data-id="<%= task.id %>">
+  <div class="row-fluid">
+    <span class="lead pull-left">
+      <% if [root_path, dashboard_path].include? request.fullpath %>
+        <%= link_to(task.project.name, project_path(task.project)) + '/'  + task.name %>
+      <% else %>
+        <%= task.name %>
+      <% end -%>
+    </span>
+      <div class="btn-group pull-right">
+        <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn"} %>
+        <% unless current_user.worktimes.where(task_id: task).empty? %>
+          <%= link_to '<i class="icon-stop"> </i>'.html_safe,
+           stop_task_worktime_path(task, current_user.worktimes.last),
+             {method: :put, remote: true, class: "btn"} %>
+         <% end %>
+      </div>
+  </div>
 
-<section class="app-worktimes">
-  <table class="table">
-    <% unless task.worktimes.empty? %>
-      <thead>
-        <tr>
-          <th>Begin at</th>
-          <th>End at</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% task.worktimes.each do |worktime|  %>
+  <section class="app-worktimes">
+    <table class="table">
+      <% unless task.worktimes.empty? %>
+        <thead>
           <tr>
-            <%= render 'worktimes/show', task: task, worktime: worktime %>
+            <th>Begin at</th>
+            <th>End at</th>
+            <th></th>
           </tr>
+        </thead>
+        <tbody>
+          <% task.worktimes.each do |worktime|  %>
+            <tr>
+              <%= render 'worktimes/show', task: task, worktime: worktime %>
+            </tr>
+        <% end %>
+        </tbody>
       <% end %>
-      </tbody>
-    <% end %>
-  </table>
-</section>
+    </table>
+  </section>
 
-<% if can? :update, task %>
-  <%= link_to 'Edit', edit_task_path(task) %>
-<% end %>
-<% if can? :destroy, task %>
-  <%= link_to 'Delete', task_path(task), {method: :delete} %>
-<% end %>
+  <% if can? :update, task %>
+    <%= link_to 'Edit', edit_task_path(task) %>
+  <% end %>
+  <% if can? :destroy, task %>
+    <%= link_to 'Delete', task_path(task), {method: :delete} %>
+  <% end %>
+</div>

@@ -1,5 +1,5 @@
 <% if @task.errors.empty? %>
-  $('#app-tasks').prepend("<div class=\"app-task\" data-id=\"<%= @task.id %>\"> <%= escape_javascript(render 'show', task: @task ) %> </div></br>");
+  $('#app-tasks').prepend("<%= escape_javascript(render 'show', task: @task ) %>");
   $('#task_name').val('');
 <% else %>
   $('.alert-error').removeClass('hide').find('span').html("Task can't be created");
