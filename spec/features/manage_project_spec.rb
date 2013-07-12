@@ -61,7 +61,6 @@ feature 'manage project' do
         login_as user
 
         visit edit_project_path(project)
-        expect(page).to have_content('Edit project name')
 
         fill_in 'project_name', with: ''
         click_button 'Update Project'
