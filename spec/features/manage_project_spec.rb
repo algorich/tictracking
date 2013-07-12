@@ -37,48 +37,37 @@ feature 'manage project' do
     end
   end
 
-  # context "edit" do
-  #   scenario 'successfully', js:true do
-  #     project = create(:project, name: 'Project_1')
-  #     membership = create(:membership, admin: true, project: project)
-  #     login_as membership.user
-  #     visit project_path(project)
-  #     expect(page).to have_content('Project_1')
-  #     name_project = find("div[id=\"app-project-name-wrapper\"] h1")
-  #     name_project.click
-  #     fill_in 'project-name', with: 'Project_Foo'
-  #     page.execute_script("
-  #       var input = $('#app-project-name-wrapper > input');
-  #       if input.val() === 'Project_Foo' {
-  #         return true;
-  #       }
-  #       var e = jQuery.Event('keydown');
-  #       e.which = 13;
-  #       e.keyCode = 13;
-  #       input.focus();
-  #       $('input').trigger(e);
-  #     ")
-  #     # expect(page).to have_content('Project was successfully updated.')
-  #     expect(page).to have_content('Project_Foo')
-  #   end
-  # end
+  context "edit" do
+    scenario 'successfully', js:true do
+      project = create(:project, name: 'Project_1')
+      membership = create(:membership, admin: true, project: project)
+      login_as membership.user
+      visit project_path(project)
+      expect(page).to have_content('Project_1')
+      click_link 'Settings'
+      fill_in 'project_name', with: 'Project_Foo'
+      click_button 'Update Project'
+      expect(page).to have_content('Project was successfully update.')
+      expect(page).to have_content('Project_Foo')
+    end
+  end
 
     context 'failure' do
-      # scenario 'name  cant be blank' do
-      #   project = create(:project, name: 'Project_1')
-      #   membership = project.memberships.first
-      #   membership.toggle_admin!
-      #   user = membership.user
-      #   login_as user
+      scenario 'name  cant be blank' do
+        project = create(:project, name: 'Project_1')
+        membership = project.memberships.first
+        membership.toggle_admin!
+        user = membership.user
+        login_as user
 
-      #   visit edit_project_path(project)
-      #   expect(page).to have_content('Edit Project_1')
+        visit edit_project_path(project)
+        expect(page).to have_content('Edit project name')
 
-      #   fill_in 'Name', with: ''
-      #   click_button 'Update Project'
-      #   expect(page).not_to have_content('Project_Foo')
-      #   expect(page).to have_content("Namecan't be blank")
-      # end
+        fill_in 'project_name', with: ''
+        click_button 'Update Project'
+        expect(page).not_to have_content('Project_Foo')
+        expect(page).to have_content("can't be blank")
+      end
     end
 
   scenario 'should be deletable' do
