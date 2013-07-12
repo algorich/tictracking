@@ -91,17 +91,16 @@ feature 'Worktime' do
 
   context 'listning' do
     scenario 'only members should edit, destroy and read worktime' do
-      link_edit_begin_worktime = page.find('#edit_begin_' + @worktime.id.to_s)
-      link_edit_end_worktime = page.find('#edit_end_' + @worktime.id.to_s)
-      expect(link_edit_begin_worktime).to be_visible
-      expect(link_edit_end_worktime).to be_visible
+      expect(page).to have_link('', href: edit_task_worktime_path(@task,@worktime))
+      expect(page).to have_link('', href: task_worktime_path(@task,@worktime)) #destroy link
 
       logout :user
 
-      user = create(:user_confirmed)
-      login_as user
-      visit "/tasks/#{@task.id}/worktimes/#{@worktime.id}/edit"
-      expect(page).to have_content 'You are not authorized to access this page.'
+      login_as @goten
+      visit project_path(@project)
+
+      expect(page).to_not have_link('', href: edit_task_worktime_path(@task,@worktime))
+      expect(page).to_not have_link('', href: task_worktime_path(@task,@worktime)) #destroy link
     end
   end
 end
