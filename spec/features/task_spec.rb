@@ -11,18 +11,14 @@ feature 'Task' do
   context 'create', js:true do
     background { visit project_path(@project) }
 
-    around do
-    Timecop.return
-    end
-
     scenario 'successfully create task and worktime' do
-      time = Time.local(2008, 9, 1, 10, 5, 0)
-      Timecop.freeze(time)
-      fill_in 'New task', with: 'tarefa x'
-      click_button 'Start'
+      Timecop.freeze(Time.local(2008, 9, 1, 10, 5, 0)) do
+        fill_in 'New task', with: 'tarefa x'
+        click_button 'Start'
+        sleep(1)
+      end
       expect(page).to have_content('tarefa x')
       expect(page).to have_content('2008-09-01 13:05:00 UTC')
-      Timecop.return
     end
 
     scenario 'failure' do
