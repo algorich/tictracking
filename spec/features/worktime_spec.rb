@@ -76,17 +76,6 @@ feature 'Worktime' do
       visit project_path(@project.id)
       expect(page).to have_content('You are not authorized to access this page.')
     end
-
-    scenario 'another users that belong to project' do
-      login_as @goten
-      visit project_path(@project)
-      expect(current_path).to eq(project_path(@project))
-      link_destroy = page.find(:xpath,".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}\" and @data-method=\"delete\"]")
-      link_destroy.click
-
-      expect(page).to_not have_content 'Deleted'
-      expect(page).to have_content('You are not authorized to access this page.')
-    end
   end
 
   context 'listning' do
