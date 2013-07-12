@@ -64,6 +64,16 @@ feature 'Task' do
       expect(page).to have_content('You are not authorized to access this page.')
       expect(page).not_to have_content('tarefa xx')
     end
+
+    scenario 'should show the projects name only on dashboard_path' do
+      create(:worktime, user: @user, task: @task_1)
+
+      visit dashboard_path
+      expect(page).to have_content(@project.name + '/' + @task_1.name)
+
+      visit project_path(@project)
+      expect(page).to_not have_content(@project.name + '/' + @task_1.name)
+    end
   end
 
   context 'edit' do
