@@ -37,8 +37,9 @@ feature 'manage project' do
     end
   end
 
-  # context "edit" do
-  #   scenario 'successfully', js:true do
+  context "edit" do
+    scenario 'successfully', js:true do
+      pending 'concertar isso'
   #     project = create(:project, name: 'Project_1')
   #     membership = create(:membership, admin: true, project: project)
   #     login_as membership.user
@@ -60,11 +61,12 @@ feature 'manage project' do
   #     ")
   #     # expect(page).to have_content('Project was successfully updated.')
   #     expect(page).to have_content('Project_Foo')
-  #   end
-  # end
+    end
+  end
 
-    context 'failure' do
-      # scenario 'name  cant be blank' do
+  context 'failure' do
+    scenario 'name  cant be blank' do
+      pending 'Concertar isso'
       #   project = create(:project, name: 'Project_1')
       #   membership = project.memberships.first
       #   membership.toggle_admin!
@@ -78,8 +80,8 @@ feature 'manage project' do
       #   click_button 'Update Project'
       #   expect(page).not_to have_content('Project_Foo')
       #   expect(page).to have_content("Namecan't be blank")
-      # end
     end
+  end
 
   scenario 'should be deletable' do
     project = create(:project, name: 'Project_1')
