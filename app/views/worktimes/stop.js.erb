@@ -1,6 +1,5 @@
 var $worktimes = $('div[data-id="<%= @task.id %>"]');
-//TODO: hide and show
-var $start = $('div[data-id="<%= @task.id %>"] a[data-method="post"]');
-var $stop = $('div[data-id="<%= @task.id %>"] a[data-method="put"]');
 
 $worktimes.replaceWith("<%= escape_javascript(render 'tasks/show', task: @task, worktime: @worktime ) %>");
+$('div[data-id="<%= @task.id.to_s %>"] a[data-method="post"]').show();
+$('div[data-id="<%= @task.id %>"] a[data-method="put"]').hide();
