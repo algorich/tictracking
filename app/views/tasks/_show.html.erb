@@ -1,18 +1,18 @@
-<div id="app-task" data-id="<%= task.id %>">
-  <div class="row-fluid">
-    <span class="lead pull-left"><%= task.name %></span>
-      <div class="btn-group pull-right">
-        <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn"} %>
-        <% unless current_user.worktimes.where(task_id: task).empty? %>
-          <%= link_to '<i class="icon-stop"> </i>'.html_safe,
-           task_worktime_path(task, current_user.worktimes.last),
-             {method: :put, remote: true, class: "btn"} %>
-         <% end %>
-      </div>
-  </div>
+<div class="row-fluid">
+  <span class="lead pull-left"><%= task.name %></span>
+    <div class="btn-group pull-right">
+      <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn"} %>
+      <% unless current_user.worktimes.where(task_id: task).empty? %>
+        <%= link_to '<i class="icon-stop"> </i>'.html_safe,
+         stop_task_worktime_path(task, current_user.worktimes.last),
+           {method: :put, remote: true, class: "btn"} %>
+       <% end %>
+    </div>
+</div>
 
-  <section class="app-worktimes">
-    <table class="table">
+<section class="app-worktimes">
+  <table class="table">
+    <% unless task.worktimes.empty? %>
       <thead>
         <tr>
           <th>Begin at</th>
@@ -25,16 +25,15 @@
           <tr>
             <%= render 'worktimes/show', task: task, worktime: worktime %>
           </tr>
-        <% end %>
+      <% end %>
       </tbody>
-    </table>
-  </section>
+    <% end %>
+  </table>
+</section>
 
-  <% if can? :update, task %>
-    <%= link_to 'Edit', edit_task_path(task) %>
-  <% end %>
-  <% if can? :destroy, task %>
-    <%= link_to 'Delete', task_path(task), {method: :delete} %>
-  <% end %>
-</div>
-</br>
+<% if can? :update, task %>
+  <%= link_to 'Edit', edit_task_path(task) %>
+<% end %>
+<% if can? :destroy, task %>
+  <%= link_to 'Delete', task_path(task), {method: :delete} %>
+<% end %>

@@ -26,7 +26,6 @@ feature 'Worktime' do
 
   context 'Stop', js:true do
     scenario 'successfully stop worktime' do
-      pending 'mudar stop para uma ação propria no controller'
       start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
       stop = find("#app-tasks a[data-method=\"put\"]")
       start.click

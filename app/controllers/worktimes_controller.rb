@@ -14,6 +14,13 @@ class WorktimesController < ApplicationController
     @worktime = Worktime.find(params[:id])
   end
 
+  def stop
+    @task = Task.find(params[:task_id])
+    @worktime = Worktime.find(params[:id])
+    @worktime.end = Time.now
+    @worktime.save
+  end
+
   def update
     task = Task.find(params[:task_id])
     @worktime = Worktime.find(params[:id])
