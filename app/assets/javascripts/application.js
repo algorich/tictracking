@@ -14,10 +14,11 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require select2
-//= require best_in_place
+//= require bootstrap-datetimepicker
 //= require_tree .
 //= require_self
 
+//TODO: Ripar isso daq
 // update project name
 $(function () {
     var $projectNameWrapper = $('#app-project-name-wrapper');

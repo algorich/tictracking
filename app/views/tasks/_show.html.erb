@@ -1,5 +1,11 @@
 <div class="row-fluid">
-  <span class="lead pull-left"><%= task.name %></span>
+  <span class="lead pull-left">
+    <% if [root_path, dashboard_path].include? request.fullpath %>
+      <%= link_to(task.project.name, project_path(task.project)) + '/'  + task.name %>
+    <% else %>
+      <%= task.name %>
+    <% end -%>
+  </span>
     <div class="btn-group pull-right">
       <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn"} %>
       <% unless current_user.worktimes.where(task_id: task).empty? %>

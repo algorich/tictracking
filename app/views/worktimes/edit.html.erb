@@ -1,0 +1,24 @@
+<h1>Edit worktime</h1>
+<%= simple_form_for [@task, @worktime] do |w| %>
+
+  <div class="datetimepicker input-append">
+    <label>Begin at:</label>
+    <%= w.input_field :begin, as: :string,
+      data: { format: "MM/dd/yyyy HH:mm:ss PP" } %>
+     <span class="add-on">
+       <i data-time-icon="icon-time" data-date-icon="icon-calendar" ></i>
+     </span>
+  </div><br>
+
+  <div class="datetimepicker input-append">
+    <label>End at:</label>
+    <%= w.input_field :end, as: :string,
+      data: { format: "MM/dd/yyyy HH:mm:ss PP" } %>
+     <span class="add-on">
+       <i data-time-icon="icon-time" data-date-icon="icon-calendar" ></i>
+     </span>
+  </div>
+  <div class="form-actions">
+    <%= w.button :submit, class: 'btn-primary' %>
+  </div>
+<% end %>

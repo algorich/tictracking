@@ -37,15 +37,15 @@ feature 'Worktime' do
   end
 
   context 'edit' do
-    #TODO: Concertar erros com testes em conjunto
-    # sozinho ele pega
-    scenario 'should edit a worktime', js:true do
-      pending 'Concertar erros com testes em conjunto'
+    scenario 'should edit a worktime' do
       membership = create(:membership, project: @project, user: @user)
-      bip_text(@worktime, :begin, @begin_time + 2000.years)
+      visit edit_task_worktime_path(@task, @worktime)
+
+      fill_in 'worktime_begin', with: "2012-10-01 10:05:00"
+      click_button 'Update Worktime'
 
       within('#begin_' + @worktime.id.to_s) do
-        expect(page).to have_content(@begin_time + 2000.years)
+        expect(page).to have_content("2012-10-01 10:05:00")
       end
     end
 
@@ -76,32 +76,20 @@ feature 'Worktime' do
       visit project_path(@project.id)
       expect(page).to have_content('You are not authorized to access this page.')
     end
-
-    scenario 'another users that belong to project' do
-      login_as @goten
-      visit project_path(@project)
-      expect(current_path).to eq(project_path(@project))
-      link_destroy = page.find(:xpath,".//a[@href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}\" and @data-method=\"delete\"]")
-      link_destroy.click
-
-      expect(page).to_not have_content 'Deleted'
-      expect(page).to have_content('You are not authorized to access this page.')
-    end
   end
 
   context 'listning' do
     scenario 'only members should edit, destroy and read worktime' do
-      link_edit_begin_worktime = page.find('#edit_begin_' + @worktime.id.to_s)
-      link_edit_end_worktime = page.find('#edit_end_' + @worktime.id.to_s)
-      expect(link_edit_begin_worktime).to be_visible
-      expect(link_edit_end_worktime).to be_visible
+      expect(page).to have_link('', href: edit_task_worktime_path(@task,@worktime))
+      expect(page).to have_link('', href: task_worktime_path(@task,@worktime)) #destroy link
 
       logout :user
 
-      user = create(:user_confirmed)
-      login_as user
-      visit "/tasks/#{@task.id}/worktimes/#{@worktime.id}/edit"
-      expect(page).to have_content 'You are not authorized to access this page.'
+      login_as @goten
+      visit project_path(@project)
+
+      expect(page).to_not have_link('', href: edit_task_worktime_path(@task,@worktime))
+      expect(page).to_not have_link('', href: task_worktime_path(@task,@worktime)) #destroy link
     end
   end
 end
