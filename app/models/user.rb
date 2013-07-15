@@ -20,4 +20,8 @@ class User < ActiveRecord::Base
   def latest(n=1, stuffs)
     self.send(stuffs).order('updated_at DESC').first(n)
   end
+
+  def exists_pending_worktimes?(task)
+    Worktime.where(user_id: self, task_id: task, end: nil).any?
+  end
 end

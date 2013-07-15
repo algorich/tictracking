@@ -59,4 +59,18 @@ describe User do
       expect(user.latest(2, :projects)).to include(project_1, project_3)
     end
   end
+
+  describe '#exists_pending_worktimes?' do
+    it 'should return true or false' do
+      goku = create(:user_confirmed)
+      task = create(:task, name: 'Ressurect Kuririn')
+      expect(goku.exists_pending_worktimes?(task)).to be_false
+
+      worktime = create(:worktime, user: goku, task: task)
+      expect(goku.exists_pending_worktimes?(task)).to be_false
+
+      worktime = create(:worktime, user: goku, end: nil, task: task)
+      expect(goku.exists_pending_worktimes?(task)).to be_true
+    end
+  end
 end

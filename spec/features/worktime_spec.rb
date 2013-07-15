@@ -22,14 +22,28 @@ feature 'Worktime' do
       start.click
       expect(page).to have_content Time.now.utc.to_s
     end
+
+    scenario 'should show only if not exist any open worktime' do
+      start = find("#actions a[data-method=\"post\"]")
+      expect(start).to be_visible
+      expect(page).to_not have_css("#actions a[data-method=\"put\"]")
+
+      start.click
+      sleep(1)
+      expect(page).to have_css("#actions a[data-method=\"put\"]")
+
+      visit project_path(@project)
+      expect(page).to_not have_css("#actions a[data-method=\"post\"]") #start
+      expect(page).to have_css("#actions a[data-method=\"put\"]") #stop
+    end
   end
 
   context 'Stop', js:true do
     scenario 'successfully stop worktime' do
       start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
-      stop = find("#app-tasks a[data-method=\"put\"]")
       start.click
       sleep(1)
+      stop = find("#app-tasks a[data-method=\"put\"]")
       stop.click
       expect(page).to have_content Time.now.utc.to_s
       expect(page).to have_content Time.now.utc.to_s
