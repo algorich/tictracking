@@ -28,8 +28,8 @@
           </tr>
         </thead>
         <tbody>
-          <% task.worktimes.each do |worktime|  %>
-            <tr>
+          <% task.worktimes.order('updated_at DESC').each_with_index do |worktime, index|  %>
+            <tr id="worktime_<%= index %>">
               <%= render 'worktimes/show', task: task, worktime: worktime %>
             </tr>
         <% end %>
