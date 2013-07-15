@@ -52,22 +52,22 @@ feature 'manage project' do
     end
   end
 
-    context 'failure' do
-      scenario 'name  cant be blank' do
-        project = create(:project, name: 'Project_1')
-        membership = project.memberships.first
-        membership.toggle_admin!
-        user = membership.user
-        login_as user
+  context 'failure' do
+    scenario 'name  cant be blank' do
+      project = create(:project, name: 'Project_1')
+      membership = project.memberships.first
+      membership.toggle_admin!
+      user = membership.user
+      login_as user
 
-        visit edit_project_path(project)
+      visit edit_project_path(project)
 
-        fill_in 'project_name', with: ''
-        click_button 'Update Project'
-        expect(page).not_to have_content('Project_Foo')
-        expect(page).to have_content("can't be blank")
-      end
+      fill_in 'project_name', with: ''
+      click_button 'Update Project'
+      expect(page).not_to have_content('Project_Foo')
+      expect(page).to have_content("can't be blank")
     end
+  end
 
   scenario 'should be deletable' do
     project = create(:project, name: 'Project_1')
