@@ -18,9 +18,19 @@ feature 'Worktime' do
 
   context 'Start', js:true do
     scenario 'successfully play worktime' do
-      start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
-      start.click
+      @start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
+      @start.click
       expect(page).to have_content Time.now.utc.to_s
+    end
+
+    scenario 'failure' do
+      @start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
+      @start.click
+      sleep(1)
+      @start.click
+      sleep(1)
+      expect(page).not_to have_content Time.now.utc.to_s
+      expect(page).to have_content 'Worktime must be stopped'
     end
   end
 
@@ -32,7 +42,13 @@ feature 'Worktime' do
       sleep(1)
       stop.click
       expect(page).to have_content Time.now.utc.to_s
-      expect(page).to have_content Time.now.utc.to_s
+    end
+
+    scenario 'failure' do
+      stop = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}/stop\"]")
+      stop.click
+      sleep(1)
+      expect(page).to have_content 'Worktime already stopped'
     end
   end
 
@@ -40,7 +56,6 @@ feature 'Worktime' do
     scenario 'should edit a worktime' do
       membership = create(:membership, project: @project, user: @user)
       visit edit_task_worktime_path(@task, @worktime)
-
       fill_in 'worktime_begin', with: "2012-10-01 10:05:00"
       click_button 'Update Worktime'
 

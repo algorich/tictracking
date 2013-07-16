@@ -1,6 +1,19 @@
 require 'spec_helper'
 
 describe Worktime do
+  context '#stopped_worktime' do
+    it 'should return true if worktime stopped' do
+      worktime = create :worktime
+      expect(worktime.send(:stopped_worktime)).to be_true
+    end
+
+    it 'failure' do
+      worktime = Worktime.create(:begin => Time.now,
+       user: User.new, task: Task.new)
+      expect(worktime.send(:stopped_worktime)).to be_false
+    end
+  end
+
   context '#finished?' do
     it 'should return true if worktime finished' do
       worktime = create(:worktime)
@@ -18,12 +31,12 @@ describe Worktime do
     it 'should return true if worktime is pending' do
       worktime = Worktime.create(:begin => Time.now,
        user: User.new, task: Task.new)
-      expect(worktime.pending_worktime).to be_true
+      expect(worktime.send(:pending_worktime)).to be_true
     end
 
     it 'failure' do
       worktime = create :worktime
-      expect(worktime.pending_worktime).to be_false
+      expect(worktime.send(:pending_worktime)).to be_false
     end
   end
 

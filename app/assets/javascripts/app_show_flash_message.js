@@ -9,3 +9,7 @@ function clean_up () {
   $('.alert').addClass('hide');
   $('.alert span').text('');
 };
+
+function appShowFlashMessage (notice) {
+  $('#app-content .span12').prepend(notice);
+}
