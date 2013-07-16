@@ -7,12 +7,20 @@
         <%= task.name %>
       <% end -%>
     </span>
-      <div class="btn-group pull-right">
-        <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn"} %>
+      <div class="pull-right" id="actions">
+        <% if current_user.exists_pending_worktimes?(task)%>
+          <% hide_stop = '' %>
+          <% hide_play = 'hide' %>
+        <% else %>
+          <% hide_stop = 'hide' %>
+          <% hide_play = '' %>
+        <% end %>
+
+        <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn btn-large #{hide_play}"} %>
         <% unless current_user.worktimes.where(task_id: task).empty? %>
           <%= link_to '<i class="icon-stop"> </i>'.html_safe,
-           stop_task_worktime_path(task, current_user.worktimes.last),
-             {method: :put, remote: true, class: "btn"} %>
+            stop_task_worktime_path(task, current_user.worktimes.last),
+            {method: :put, remote: true, class: "btn btn-large #{hide_stop}"} %>
          <% end %>
       </div>
   </div>
@@ -28,8 +36,8 @@
           </tr>
         </thead>
         <tbody>
-          <% task.worktimes.each do |worktime|  %>
-            <tr>
+          <% task.worktimes.order('updated_at DESC').each_with_index do |worktime, index|  %>
+            <tr id="worktime_<%= index %>">
               <%= render 'worktimes/show', task: task, worktime: worktime %>
             </tr>
         <% end %>

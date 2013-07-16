@@ -23,32 +23,29 @@ feature 'Worktime' do
       expect(page).to have_content Time.now.utc.to_s
     end
 
-    scenario 'failure' do
-      @start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
-      @start.click
+    scenario 'should show only if not exist any open worktime' do
+      start = find("#actions a[data-method=\"post\"]")
+      expect(start).to be_visible
+      expect(page).to_not have_css("#actions a[data-method=\"put\"]")
+
+      start.click
       sleep(1)
-      @start.click
-      sleep(1)
-      expect(page).not_to have_content Time.now.utc.to_s
-      expect(page).to have_content 'Worktime must be stopped'
+      expect(page).to have_css("#actions a[data-method=\"put\"]")
+
+      visit project_path(@project)
+      expect(page).to_not have_css("#actions a[data-method=\"post\"]") #start
+      expect(page).to have_css("#actions a[data-method=\"put\"]") #stop
     end
   end
 
   context 'Stop', js:true do
     scenario 'successfully stop worktime' do
       start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
-      stop = find("#app-tasks a[data-method=\"put\"]")
       start.click
       sleep(1)
+      stop = find("#app-tasks a[data-method=\"put\"]")
       stop.click
       expect(page).to have_content Time.now.utc.to_s
-    end
-
-    scenario 'failure' do
-      stop = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes/#{@worktime.id}/stop\"]")
-      stop.click
-      sleep(1)
-      expect(page).to have_content 'Worktime already stopped'
     end
   end
 
@@ -105,6 +102,28 @@ feature 'Worktime' do
 
       expect(page).to_not have_link('', href: edit_task_worktime_path(@task,@worktime))
       expect(page).to_not have_link('', href: task_worktime_path(@task,@worktime)) #destroy link
+    end
+  end
+'.app-worktimes #app-worktime:nth-child(1)'
+  context 'show' do
+    scenario 'should show worktimes in order by update_at' do
+      within('#worktime_0') do
+        expect(page).to have_content @worktime.begin
+      end
+
+      worktime_2 = create :worktime, user: @user, task: @task, begin: Time.now + 1.day
+      worktime_3 = create :worktime, user: @user, task: @task, begin: Time.now + 2.day
+
+      visit project_path(@project)
+      within('#worktime_0') do
+        expect(page).to have_content worktime_3.begin
+      end
+      within('#worktime_1') do
+        expect(page).to have_content worktime_2.begin
+      end
+      within('#worktime_2') do
+        expect(page).to have_content @worktime.begin
+      end
     end
   end
 end
