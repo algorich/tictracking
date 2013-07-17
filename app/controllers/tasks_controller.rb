@@ -8,6 +8,7 @@ class TasksController < ApplicationController
     if @task.save
       Worktime.create!(begin: Time.now, user_id: current_user.id, task_id: @task.id)
     end
+      flash[:error] = @task.errors[:name].try(:first)
   end
 
   def edit

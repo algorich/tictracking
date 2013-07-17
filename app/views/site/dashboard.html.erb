@@ -1,32 +1,27 @@
 <%= content_for :page_title do 'Dashboard' end %>
 
 <h1>Dashboard</h1>
-</br>
-<div class="row-fluid">
-  <div class="span8">
-    <div class="app-tasks">
-      <h2>Latest Tasks</h2></br>
+<div class="app-tasks">
+  <h2>Latest Tasks</h2>
 
-      <% if @projects.empty? %>
-        <%= 'You must' %>
-        <%= link_to 'create', new_project_path %>
-        <%= 'a project' %>
-      <% elsif @tasks.empty? %>
-        <%= link_to 'Create', project_path(current_user.projects.first) %>
-        <%= 'a task' %>
-      <% else %>
-          <% @tasks.each do |t| %>
-            <%= render 'tasks/show', task: t, worktime: Worktime.new %>
-          </br>
-          <% end %>
+  <% if @projects.empty? %>
+    <%= 'You must' %>
+    <%= link_to 'create', new_project_path %>
+    <%= 'a project' %>
+  <% elsif @tasks.empty? %>
+    <%= link_to 'Create', project_path(current_user.projects.first) %>
+    <%= 'a task' %>
+  <% else %>
+      <% @tasks.each do |t| %>
+        <%= render 'tasks/show', task: t, worktime: Worktime.new %>
+      <br />
       <% end %>
-    </div>
-  </div>
-
-  <div id="app-projects" class="span4">
-    <div class="well sidebar-nav">
-      <span class="nav-header">Latest Projects</span>
-      <%= render 'projects/list', projects: @projects %>
-    </div>
-  </div>
+  <% end %>
 </div>
+
+<%= content_for :sidebar do %>
+  <div id="app-projects">
+    <span class="nav-header">Latest Projects</span>
+    <%= render 'projects/list', projects: @projects %>
+  </div>
+<% end %>

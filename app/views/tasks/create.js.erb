@@ -2,6 +2,7 @@
   $('#app-tasks').prepend("<%= escape_javascript(render 'show', task: @task ) %>");
   $('#task_name').val('');
 <% else %>
-  $('.alert-error').removeClass('hide').find('span').html("Task can't be created");
+  $('#task_name').val('');
+  appShowFlashMessage('<%= escape_javascript(flash_message) %>');
 <% end %>
 
