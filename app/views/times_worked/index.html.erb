@@ -1,2 +1,27 @@
-<h1>TimesWorked#index</h1>
-<p>Find me in app/views/times_worked/index.html.erb</p>
+<h1>Time Worked</h1>
+<section id="times_worked">
+  <table class="table table-hover">
+    <thead>
+        <tr>
+          <th>Name</th>
+          <th>Time Worked</th>
+        </tr>
+      </thead>
+      <tbody id="projects">
+        <% @projects.each do |project| %>
+          <tr>
+            <td><%= project.name %></td>
+            <td><%= to_minutes project.time_worked(current_user) %></td>
+          </tr>
+          <div class="app-project-tasks" id="tasks-of-project-<%= project.id %>">
+            <% project.tasks_times_array.each do |name, time| %>
+              <tr>
+                <td><%= name %></td>
+                <td><%= to_minutes time %></td>
+              </tr>
+            <% end %>
+          </div>
+        <% end %>
+      </tbody>
+  </table>
+</section>

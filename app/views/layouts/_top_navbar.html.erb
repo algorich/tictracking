@@ -8,6 +8,8 @@
       <!-- <div class="pull-right"> -->
         <ul class="nav pull-right">
           <% if user_signed_in? %>
+            <li><%= link_to 'Time worked', times_worked_index_path , { class: 'brand' } %></li>
+
             <li class="dropdown">
               <%= link_to '#', { class: 'brand dropdown-toggle', 'data-toggle' => 'dropdown' } do %>
                 Projects <b class="caret"></b>

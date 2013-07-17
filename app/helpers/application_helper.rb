@@ -18,4 +18,8 @@ module ApplicationHelper
       bootstrap_flash
     end
   end
+
+  def to_minutes(seconds)
+    (seconds/1.minute).round.to_s + ' minutes'
+  end
 end

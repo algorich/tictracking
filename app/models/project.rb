@@ -4,6 +4,7 @@ class Project < ActiveRecord::Base
   has_many :users, through: :memberships
 
   attr_accessible :name, :user_ids
+  attr_reader :tasks_times_array
 
   validates :name, :memberships, presence: true
 
@@ -18,5 +19,18 @@ class Project < ActiveRecord::Base
 
   def can_add?(user)
     !users.include? user
+  end
+
+  def time_worked(user)
+    tasks_times(user).reduce(0) { |total, array| total += array[1] }
+  end
+
+  def tasks_times(user)
+    hash = {}
+    self.tasks.each do |task|
+      worktimes = task.worktimes.where(user_id: user.id)
+      hash[task.name] = worktimes.reduce(0) { |total,worktime| total += worktime.time_worked}
+    end
+    @tasks_times_array = hash
   end
 end
