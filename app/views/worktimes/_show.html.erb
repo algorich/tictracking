@@ -8,6 +8,10 @@
   <%= worktime.end %>
 </td>
 
+<td id="time_worked_<%= w_id %>">
+  <%= worktime.time_worked_formatted %>
+</td>
+
 <% if can? :update, worktime %>
   <td>
     <%= link_to '<i class="icon-pencil"></i>'.html_safe,

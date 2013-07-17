@@ -1,6 +1,7 @@
 $(function() {
   $('.datetimepicker').datetimepicker({
-    language: 'en'
+    language: 'en',
+    format: 'yyyy-MM-dd hh:mm:ss'
   });
 });
 

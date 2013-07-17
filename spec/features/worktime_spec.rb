@@ -104,19 +104,22 @@ feature 'Worktime' do
       expect(page).to_not have_link('', href: task_worktime_path(@task,@worktime)) #destroy link
     end
   end
-'.app-worktimes #app-worktime:nth-child(1)'
+
   context 'show' do
     scenario 'should show worktimes in order by update_at' do
       within('#worktime_0') do
         expect(page).to have_content @worktime.begin
       end
 
-      worktime_2 = create :worktime, user: @user, task: @task, begin: Time.now + 1.day
-      worktime_3 = create :worktime, user: @user, task: @task, begin: Time.now + 2.day
+      worktime_2 = create :worktime, user: @user, task: @task, begin: Time.now + 1.hours
+      worktime_3 = create :worktime, user: @user, task: @task,
+        begin: Time.now,
+        end: Time.now + 5.minutes
 
       visit project_path(@project)
       within('#worktime_0') do
         expect(page).to have_content worktime_3.begin
+        expect(page).to have_content '5 minutes'
       end
       within('#worktime_1') do
         expect(page).to have_content worktime_2.begin

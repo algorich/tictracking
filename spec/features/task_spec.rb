@@ -24,7 +24,7 @@ feature 'Task' do
     scenario 'failure' do
       fill_in 'New task', with: ''
       click_button 'Start'
-      expect(page).to have_content("Task can't be created")
+      expect(page).to have_content("can't be blank")
     end
   end
 
