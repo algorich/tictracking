@@ -1,5 +1,7 @@
 TicTracking::Application.routes.draw do
 
+  get "times_worked/index"
+
   resources :memberships, only: :destroy
 
   get 'dashboard' => 'site#dashboard'
