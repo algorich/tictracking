@@ -109,3 +109,9 @@ a.brand:nth-child(3) {
 #myTabContent img {
   margin-bottom: 15px;
 }
+
+#times_worked > div > ul:first-child {
+  margin-top: 10px;
+  font-weight: bold;
+  padding: 0 15px;
+}

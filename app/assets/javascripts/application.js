@@ -11,12 +11,10 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery.ui.all
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require select2
 //= require bootstrap-datetimepicker
 //= require_tree .
 //= require_self
-
-//TODO: Ripar isso daq
-// update project name

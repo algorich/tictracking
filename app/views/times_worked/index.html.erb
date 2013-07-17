@@ -1,27 +1,17 @@
-<h1>Time Worked</h1>
 <section id="times_worked">
-  <table class="table table-hover">
-    <thead>
-        <tr>
-          <th>Name</th>
-          <th>Time Worked</th>
-        </tr>
-      </thead>
-      <tbody id="projects">
-        <% @projects.each do |project| %>
-          <tr>
-            <td><%= project.name %></td>
-            <td><%= to_minutes project.time_worked(current_user) %></td>
-          </tr>
-          <div class="app-project-tasks" id="tasks-of-project-<%= project.id %>">
-            <% project.tasks_times_array.each do |name, time| %>
-              <tr>
-                <td><%= name %></td>
-                <td><%= to_minutes time %></td>
-              </tr>
-            <% end %>
-          </div>
+  <h1>Time Worked</h1>
+  <div class="accordion" id="projects">
+    <% @projects.each do |project| %>
+      <h3 class="row-fluid">
+        <span class="span6"><%= project.name %></span>
+        <span class="span6"><%= to_minutes project.time_worked(current_user) %></span>
+      </h3>
+      <div id="tasks-of-project-<%= project.id %>">
+        <% project.tasks_times_array.each do |name, time| %>
+            <span class="span6"><%= name %></span>
+            <span class="span6"><%= to_minutes time %></span>
         <% end %>
-      </tbody>
-  </table>
+      </div>
+    <% end %>
+  </div>
 </section>
