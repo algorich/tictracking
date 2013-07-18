@@ -86,6 +86,11 @@ describe Project do
 
     describe '#tasks_times' do
       it 'should return an hash with tasks name and time_worked' do
+        kuririn = create(:user_confirmed, name: 'kuririn')
+        create(:membership, project: @world_salvation, user: kuririn)
+        die = create(:task, project: @world_salvation, name: 'die')
+        worktime = create(:worktime, task: die, user: kuririn )
+
         hash = @world_salvation.tasks_times(@goku)
         expect(hash).to eq({
           @task.name => 5.minutes,

@@ -29,7 +29,9 @@ class Project < ActiveRecord::Base
     hash = {}
     self.tasks.each do |task|
       worktimes = task.worktimes.where(user_id: user.id)
-      hash[task.name] = worktimes.reduce(0) { |total,worktime| total += worktime.time_worked}
+      if worktimes.present?
+        hash[task.name] = worktimes.reduce(0) { |total,worktime| total += worktime.time_worked}
+      end
     end
     @tasks_times_array = hash
   end
