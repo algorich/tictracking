@@ -8,10 +8,11 @@
       <!-- <div class="pull-right"> -->
         <ul class="nav pull-right">
           <% if user_signed_in? %>
-            <li><%= link_to 'Time worked', times_worked_index_path , { class: 'brand' } %></li>
-
+            <li class="divider-vertical"></li>
+            <li><%= link_to 'Time worked', times_worked_index_path %></li>
+            <li class="divider-vertical"></li>
             <li class="dropdown">
-              <%= link_to '#', { class: 'brand dropdown-toggle', 'data-toggle' => 'dropdown' } do %>
+              <%= link_to '#', { class: 'dropdown-toggle', 'data-toggle' => 'dropdown' } do %>
                 Projects <b class="caret"></b>
               <% end %>
 
@@ -26,7 +27,7 @@
                  <li><%= link_to 'All Projects', projects_path%></li>
                </ul>
             </li>
-
+            <li class="divider-vertical"></li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="icon-cog icon-large"></i><b class="caret"></b></a>
               <ul class="dropdown-menu">

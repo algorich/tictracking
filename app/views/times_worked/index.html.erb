@@ -2,14 +2,18 @@
   <h1>Time Worked</h1>
   <div class="accordion" id="projects">
     <% @projects.each do |project| %>
-      <h3 class="row-fluid">
+      <a href="#">
+        <h3 class="row-fluid accordion-group">
         <span class="span6"><%= project.name %></span>
         <span class="span6"><%= to_minutes project.time_worked(current_user) %></span>
-      </h3>
-      <div id="tasks-of-project-<%= project.id %>">
+        </h3>
+      </a>
+      <div id="tasks-of-project-<%= project.id %>" class="app-inner-acccordion">
         <% project.tasks_times_array.each do |name, time| %>
-            <span class="span6"><%= name %></span>
-            <span class="span6"><%= to_minutes time %></span>
+            <div>
+              <span class="span6"><%= name %></span>
+              <span class="span6"><%= to_minutes time %></span>
+            </div>
         <% end %>
       </div>
     <% end %>

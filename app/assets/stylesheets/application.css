@@ -110,8 +110,10 @@ a.brand:nth-child(3) {
   margin-bottom: 15px;
 }
 
-#times_worked > div > ul:first-child {
-  margin-top: 10px;
-  font-weight: bold;
-  padding: 0 15px;
+#times_worked h3 {
+  border-left: 4px solid #98b3fa;
+}
+
+#times_worked .app-inner-acccordion {
+  margin-left: 20px;
 }
