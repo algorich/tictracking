@@ -20,10 +20,8 @@ class WorktimesController < ApplicationController
   def stop
     @task = Task.find(params[:task_id])
     @worktime = Worktime.find(params[:id])
-
     @worktime.update_attributes(end: Time.now)
     flash[:error] = @worktime.errors[:base].try(:first)
-
   end
 
   def update

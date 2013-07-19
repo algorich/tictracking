@@ -19,7 +19,7 @@
         <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn btn-large #{hide_play}"} %>
         <% unless current_user.worktimes.where(task_id: task).empty? %>
           <%= link_to '<i class="icon-stop"> </i>'.html_safe,
-            stop_task_worktime_path(task, current_user.worktimes.last),
+            stop_task_worktime_path(task, task.worktimes.where(user_id: current_user).last),
             {method: :put, remote: true, class: "btn btn-large #{hide_stop}"} %>
          <% end %>
       </div>
