@@ -7,9 +7,11 @@
   </div>
 
   <div class="app-header-actions btn-group pull-right">
+    <%= link_to '<i class="icon-time"></i> Time Worked'.html_safe,
+      report_project_path(@project), class: 'btn'  %>
     <% if current_user.admin? @project %>
     <%= link_to '<i class="icon-wrench"></i> Settings'.html_safe,
-     edit_project_path(@project), class: "btn" %>
+     edit_project_path(@project), class: 'btn' %>
     <% end %>
   </div>
 </div>

@@ -1,13 +1,17 @@
 <div id="user-<%= user.id %>">
-  <%= user.name if current_user.admin? @project %>
-  <%= to_minutes @project.time_worked(user) %>
+  <tr class="info">
+    <% if current_user.admin? @project  %>
+      <td><h5><%= user.name || user.email %></h5></td>
+      <td><h5><%= to_minutes @project.time_worked(user) %></h5></td>
+    <% end %>
+  </tr>
 
   <div id="tasks">
     <% @project.tasks_times_array.each do |task| %>
-      <div id="task-<%= task[:id] %>">
-        <%= task[:name] %>
-        <%= to_minutes task[:time] %>
-      </div>
+      <tr id="task-<%= task[:id] %>">
+        <td><%= task[:name] %></td>
+        <td><%= to_minutes task[:time] %></td>
+      </tr>
     <% end %>
   </div>
 </div>

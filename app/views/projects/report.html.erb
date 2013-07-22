@@ -1,11 +1,20 @@
-<div id="project">
-  <%= @project.name %>
+<table id="project" class="table table-striped ">
+  <thead>
+    <tr>
+      <th><h4><%= @project.name %></h4></th>
+      <th><h4>
+        <%= to_minutes @project.time_worked(current_user) unless current_user.admin? @project %>
+      </h4></th>
+    </tr>
+  </thead>
 
-  <% if current_user.admin? @project %>
-    <% @project.users.each do |user| %>
-      <%= render 'time_worked', user: user %>
+  <tbody>
+    <% if current_user.admin? @project %>
+      <% @project.users.each do |user| %>
+        <%= render 'time_worked', user: user %>
+      <% end %>
+    <% else %>
+      <%= render 'time_worked', user: current_user %>
     <% end %>
-  <% else %>
-    <%= render 'time_worked', user: current_user %>
-  <% end %>
-</div>
+  </tbody>
+</table>
