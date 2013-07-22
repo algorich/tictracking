@@ -22,17 +22,21 @@ class Project < ActiveRecord::Base
   end
 
   def time_worked(user)
-    tasks_times(user).reduce(0) { |total, array| total += array[1] }
+    tasks_times(user).reduce(0) { |total, hash| total += hash[:time] }
   end
 
   def tasks_times(user)
-    hash = {}
+    array_tasks = []
     self.tasks.each do |task|
       worktimes = task.worktimes.where(user_id: user.id)
       if worktimes.present?
-        hash[task.name] = worktimes.reduce(0) { |total,worktime| total += worktime.time_worked}
+        array_tasks << {
+          id: task.id,
+          name: task.name,
+          time: worktimes.reduce(0) { |total,worktime| total += worktime.time_worked}
+        }
       end
     end
-    @tasks_times_array = hash
+    @tasks_times_array = array_tasks
   end
 end

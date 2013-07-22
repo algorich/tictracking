@@ -95,4 +95,8 @@ class ProjectsController < ApplicationController
     end
     render 'update_team'
   end
+
+  def report
+    @project = Project.find(params[:id])
+  end
 end

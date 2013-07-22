@@ -92,9 +92,19 @@ describe Project do
         worktime = create(:worktime, task: die, user: kuririn )
 
         hash = @world_salvation.tasks_times(@goku)
-        expect(hash).to eq({
-          @task.name => 5.minutes,
-          @task_2.name => 10.minutes})
+        expect(hash).to eq(
+          [
+            {
+              id: @task.id,
+              name: @task.name,
+              time:  5.minutes
+            },
+            {
+              id: @task_2.id,
+              name: @task_2.name,
+              time: 10.minutes
+            }
+          ])
       end
     end
   end

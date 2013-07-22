@@ -2,24 +2,21 @@ require 'spec_helper'
 
 feature 'Times worked' do
   scenario 'authenticate_user' do
-    visit times_worked_index_path
+    project = create :project
+    visit report_project_path(project)
     expect(page).to have_content('You need to sign in or sign up before continuing.')
 
-    visit times_worked_admin_path
-    expect(page).to have_content('You need to sign in or sign up before continuing.')
-
-    login_as create(:user_confirmed)
-
-    visit times_worked_index_path
-    expect(current_path).to eq(times_worked_index_path)
-
-    visit times_worked_admin_path
-    expect(current_path).to eq(times_worked_admin_path)
+    user = create(:user_confirmed)
+    create(:membership, user: user, project: project)
+    login_as user
+    visit report_project_path(project)
+    expect(current_path).to eq(report_project_path(project))
   end
 
   before(:each) do
     @goku = create(:user_confirmed)
     @world_salvation = create(:project, name: 'World Salvation', users: [@goku])
+
     @task = create(:task, project: @world_salvation, name: 'Task 1')
     @now = Time.now
     worktime = create(:worktime, task: @task, begin: @now, end: @now + 2.minutes,
@@ -31,35 +28,30 @@ feature 'Times worked' do
     worktime = create(:worktime, task: @task_2, begin: @now, end: @now + 10.minutes,
       user: @goku )
 
-    @resurrect_kuririn = create(:project, name: 'World Salvation', users: [@goku])
+    @resurrect_kuririn = create(:project, name: 'Resurrect kuririn', users: [@goku])
     @find_dragon_balls = create(:task, project: @resurrect_kuririn, name: 'find dragon balls')
-    worktime = create(:worktime, task: @find_dragon_balls, begin: @now, end: @now + 10.days,
+    worktime = create(:worktime, task: @find_dragon_balls, begin: @now, end: @now + 200.minutes,
+      user: @goku )
+    @invoke_shenlong  = create(:task, project: @resurrect_kuririn, name: 'invoke shenlong')
+    worktime = create(:worktime, task: @invoke_shenlong, begin: @now, end: @now + 5.minutes,
       user: @goku )
   end
 
-  scenario 'index' do
+  scenario 'report show' do
     login_as @goku
 
-    visit times_worked_index_path
-    within('#projects') do
+    visit report_project_path(@world_salvation)
+    within('#project') do
       expect(page).to have_content @world_salvation.name
-      expect(page).to have_content '5 minutes'
-
-      expect(page).to have_content @resurrect_kuririn.name
-      expect(page).to have_content  "#{10.days/1.minutes} minutes"
+      expect(page).to have_content '15 minutes'
     end
 
-    within("#tasks-of-project-#{@world_salvation.id}") do
+    within("#tasks") do
       expect(page).to have_content @task.name
       expect(page).to have_content '5 minutes'
 
       expect(page).to have_content @task_2.name
       expect(page).to have_content '10 minutes'
-    end
-
-    within("#tasks-of-project-#{@resurrect_kuririn.id}") do
-      expect(page).to have_content @find_dragon_balls.name
-      expect(page).to have_content "#{10.days/1.minutes} minutes"
     end
   end
 
@@ -71,43 +63,36 @@ feature 'Times worked' do
       user: kuririn )
     login_as kuririn
 
-    visit times_worked_admin_path
-    expect(page).to have_content "Sorry. You do not have projects under your vigilance."
-
     login_as @goku
-    visit times_worked_admin_path
-    expect(page).to_not have_content "Sorry. You do not have projects under your vigilance."
+    visit report_project_path(@resurrect_kuririn)
 
-    within('#projects') do
-      expect(page).to have_content @world_salvation.name
+    within('#project') do
       expect(page).to have_content @resurrect_kuririn.name
     end
 
-    within("#project-#{@resurrect_kuririn.id}") do
-      expect(page).to have_content kuririn.name
-      expect(page).to have_content @goku.email
-    end
-
     within("#user-#{kuririn.id}") do
-      expect(page).to have_content die.name
-      expect(page).to have_content "2 minutes"
-      expect(page).to_not have_content @find_dragon_balls.name
-      expect(page).to_not have_content "#{10.days/1.minutes} minutes"
+      expect(page).to have_content kuririn.name
+      expect(page).to have_content '2 minutes' #time worked at project
+
+      within('#tasks') do
+        expect(page).to have_content die.name
+        expect(page).to have_content '2 minutes' #time worked at task
+      end
     end
 
-    within("#project-#{@resurrect_kuririn.id} #user-#{@goku.id}") do
-      expect(page).to_not have_content die.name
-      expect(page).to_not have_content "2 minutes"
-      expect(page).to have_content @find_dragon_balls.name
-      expect(page).to have_content "#{10.days/1.minutes} minutes"
-    end
+    within("#user-#{@goku.id}") do
+      expect(page).to have_content @goku.name
+      expect(page).to have_content '205 minutes' #time worked at project
 
-    within("#project-#{@world_salvation.id} #user-#{@goku.id}") do
-      expect(page).to have_content @task.name
-      expect(page).to have_content '5 minutes'
+      within("#tasks #task-#{@find_dragon_balls.id}") do
+        expect(page).to have_content @find_dragon_balls.name
+        expect(page).to have_content '200 minutes'
+      end
 
-      expect(page).to have_content @task_2.name
-      expect(page).to have_content '10 minutes'
+      within("#tasks #task-#{@invoke_shenlong.id}") do
+        expect(page).to have_content @invoke_shenlong.name
+        expect(page).to have_content '5 minutes'
+      end
     end
   end
 end

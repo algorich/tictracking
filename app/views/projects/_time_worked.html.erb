@@ -1,0 +1,13 @@
+<div id="user-<%= user.id %>">
+  <%= user.name if current_user.admin? @project %>
+  <%= to_minutes @project.time_worked(user) %>
+
+  <div id="tasks">
+    <% @project.tasks_times_array.each do |task| %>
+      <div id="task-<%= task[:id] %>">
+        <%= task[:name] %>
+        <%= to_minutes task[:time] %>
+      </div>
+    <% end %>
+  </div>
+</div>

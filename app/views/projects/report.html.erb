@@ -1,0 +1,11 @@
+<div id="project">
+  <%= @project.name %>
+
+  <% if current_user.admin? @project %>
+    <% @project.users.each do |user| %>
+      <%= render 'time_worked', user: user %>
+    <% end %>
+  <% else %>
+    <%= render 'time_worked', user: current_user %>
+  <% end %>
+</div>

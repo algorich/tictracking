@@ -9,7 +9,7 @@ class Ability
 
     can :create, Project
 
-    can [:read, :team], Project do |p|
+    can [:read, :team, :report], Project do |p|
       user.member? p
     end
 

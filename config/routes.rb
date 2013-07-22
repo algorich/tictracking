@@ -20,6 +20,7 @@ TicTracking::Application.routes.draw do
       post :change_admin
       get :team
       post :add_user
+      get :report
     end
   end
 
