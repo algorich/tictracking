@@ -21,14 +21,14 @@ class Project < ActiveRecord::Base
     !users.include? user
   end
 
-  def time_worked(user)
-    tasks_times(user).reduce(0) { |total, hash| total += hash[:time] }
+  def time_worked(user: user, begin_at: begin_at, end_at: end_at)
+    tasks_times(user, begin_at, end_at).reduce(0) { |total, hash| total += hash[:time] }
   end
 
-  def tasks_times(user)
+  def tasks_times(user, begin_at, end_at)
     array_tasks = []
     self.tasks.each do |task|
-      worktimes = task.worktimes.where(user_id: user.id)
+      worktimes = Worktime.find_by_time(user: user, begin_at: begin_at, end_at: end_at, task: task)
       if worktimes.present?
         array_tasks << {
           id: task.id,

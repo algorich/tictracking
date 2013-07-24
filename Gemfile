@@ -13,6 +13,7 @@ gem 'simple_form', '~> 2.1.0'
 gem 'twitter-bootstrap-rails', '~> 2.2.7'
 gem 'select2-rails', '~> 3.4.2'
 gem 'bootstrap-datetimepicker-rails', '~> 0.0.11'
+gem 'squeel', '~> 1.1.0'
 
 group :assets do
   gem 'therubyracer', :platforms => :ruby

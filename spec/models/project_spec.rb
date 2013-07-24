@@ -64,23 +64,28 @@ describe Project do
 
   context 'calculation time worked' do
     before(:each) do
-      @goku = create(:user_confirmed)
-      @world_salvation = create(:project, name: 'World Salvation', users: [@goku])
-      @task = create(:task, project: @world_salvation, name: 'Task 1')
-      now = Time.now
-      worktime = create(:worktime, task: @task, begin: now, end: now + 2.minutes,
-        user: @goku )
-      worktime = create(:worktime, task: @task, begin: now, end: now + 3.minutes,
-        user: @goku )
+      Timecop.freeze(Time.now - 1.day) do
+        @goku = create(:user_confirmed)
+        @world_salvation = create(:project, name: 'World Salvation', users: [@goku])
+        @task = create(:task, project: @world_salvation, name: 'Task 1')
+        now = Time.now
+        worktime = create(:worktime, task: @task, begin: now, end: now + 2.minutes,
+          user: @goku )
+        worktime = create(:worktime, task: @task, begin: now, end: now + 3.minutes,
+          user: @goku )
 
-      @task_2 = create(:task, project: @world_salvation, name: 'Task 2')
-      worktime = create(:worktime, task: @task_2, begin: now, end: now + 10.minutes,
-        user: @goku )
+        @task_2 = create(:task, project: @world_salvation, name: 'Task 2')
+        worktime = create(:worktime, task: @task_2, begin: now, end: now + 10.minutes,
+          user: @goku )
+      end
     end
 
     describe '#time_worked' do
       it 'should return the all time worked by user in all tasks' do
-        expect(@world_salvation.time_worked(@goku)).to eq(15.minutes)
+        time_worked = @world_salvation.time_worked(user: @goku,
+          begin_at: @world_salvation.created_at,
+          end_at: Time.now)
+        expect(time_worked).to eq(15.minutes)
       end
     end
 
@@ -91,7 +96,7 @@ describe Project do
         die = create(:task, project: @world_salvation, name: 'die')
         worktime = create(:worktime, task: die, user: kuririn )
 
-        hash = @world_salvation.tasks_times(@goku)
+        hash = @world_salvation.tasks_times(@goku, @world_salvation.created_at, Time.now)
         expect(hash).to eq(
           [
             {

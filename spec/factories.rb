@@ -17,7 +17,7 @@ FactoryGirl.define do
 
   factory :worktime do
     self.begin Time.now
-    self.end Time.now + 1.day
+    self.end Time.now + 1.minute
     user { create(:user) }
     task { create(:task) }
   end

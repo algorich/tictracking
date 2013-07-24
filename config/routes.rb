@@ -18,6 +18,7 @@ TicTracking::Application.routes.draw do
       get :team
       post :add_user
       get :report
+      get :filter
     end
   end
 

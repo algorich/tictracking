@@ -98,5 +98,14 @@ class ProjectsController < ApplicationController
 
   def report
     @project = Project.find(params[:id])
+    @begin_at = @project.created_at
+    @end_at = Time.now
+  end
+
+  def filter
+    @project = Project.find(params[:id])
+    @begin_at = params[:filter][:begin_at].to_time || @project.created_at
+    @end_at = params[:filter][:end_at].to_time || Time.now
+    render 'report'
   end
 end

@@ -11,6 +11,15 @@ class Worktime < ActiveRecord::Base
   validate :stopped_worktime, on: :update
   after_validation :set_time_worked
 
+  def self.find_by_time(user: user, begin_at: begin_at, end_at: end_at, task: task)
+    self.where{
+      (user_id.eq my{user.id}) &
+      (task_id.eq my{task.id}) &
+      (self.begin.gteq my{begin_at}) &
+      (self.end.lteq my{end_at})
+    }
+  end
+
   def pending_worktime
     errors.add(:base, 'a pending worktime already exists') if exists_pending_worktimes?
   end

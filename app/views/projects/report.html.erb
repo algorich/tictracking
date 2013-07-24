@@ -1,10 +1,19 @@
+<%= simple_form_for :filter, url: 'filter', method: 'get' do |f| %>
+  <%= f.input :begin_at %>
+  <%= f.input :end_at %>
+  <%= f.submit 'Filter', class: 'btn' %>
+<% end %>
+
 <table id="project" class="table table-striped ">
   <thead>
     <tr>
       <th><h4><%= @project.name %></h4></th>
-      <th><h4>
-        <%= to_minutes @project.time_worked(current_user) unless current_user.admin? @project %>
-      </h4></th>
+      <% unless current_user.admin? @project %>
+        <th><h4>
+          <%= to_minutes @project.
+            time_worked(user: current_user, begin_at: @begin_at, end_at: @end_at )  %>
+        </h4></th>
+      <% end %>
     </tr>
   </thead>
 

@@ -82,4 +82,29 @@ describe Worktime do
       expect(worktime.time_worked_formatted).to eq('30 minutes')
     end
   end
+
+  context '.find_by_time' do
+    it 'filter worktimes by time' do
+      today = Time.now
+      yesterday = today - 1.day
+      task = create(:task)
+      user = create(:user_confirmed)
+      worktime_1 = create :worktime, begin: yesterday, end: yesterday + 1.minute,
+        task: task, user: user
+      worktime_2 = create :worktime, begin: today, end: today + 1.minute,
+        task: task, user: user
+
+      worktimes = Worktime.find_by_time(user: user, task: task,
+        begin_at: yesterday, end_at: today + 1.day)
+      expect(worktimes).to include(worktime_1, worktime_2)
+
+      worktimes = Worktime.find_by_time(user: user, task: task,
+        begin_at: today, end_at: today + 1.day)
+      expect(worktimes).to eq([worktime_2])
+
+      worktimes = Worktime.find_by_time(user: user, task: task,
+        begin_at: yesterday, end_at: today - 20.minutes)
+      expect(worktimes).to eq([worktime_1])
+    end
+  end
 end
