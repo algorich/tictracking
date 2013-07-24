@@ -9,6 +9,7 @@ class Worktime < ActiveRecord::Base
   validates :user, :task, presence: true
   validate :pending_worktime, on: :create
   validate :stopped_worktime, on: :update
+  validate :positive_time, on: :update
   after_validation :set_time_worked
 
   def self.find_by_time(user: user, begin_at: begin_at, end_at: end_at, task: task)
@@ -38,6 +39,12 @@ class Worktime < ActiveRecord::Base
   end
 
   private
+
+  def positive_time
+    if self.begin > self.end
+      errors.add(:base, "End time can't be less than begin time")
+    end
+  end
 
   def stopped_worktime
     if self.was_finished? and !self.skip_stopped_validation

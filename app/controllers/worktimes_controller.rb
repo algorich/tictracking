@@ -33,6 +33,7 @@ class WorktimesController < ApplicationController
       redirect_to project_path(@task.project_id), notice: "Worktime updated with success."
      else
       redirect_to edit_task_worktime_path(@task, @worktime)
+      flash[:error] = @worktime.errors[:base].try(:first)
     end
   end
 
