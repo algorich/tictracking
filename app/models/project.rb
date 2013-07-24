@@ -22,21 +22,23 @@ class Project < ActiveRecord::Base
   end
 
   def time_worked(user: user, begin_at: begin_at, end_at: end_at)
-    tasks_times(user, begin_at, end_at).reduce(0) { |total, hash| total += hash[:time] }
+    set_tasks_times(user, begin_at, end_at).reduce(0) { |total, hash| total += hash[:time] }
   end
 
-  def tasks_times(user, begin_at, end_at)
-    array_tasks = []
+  private
+
+  def set_tasks_times(user, begin_at, end_at)
+    @tasks_times_array = []
     self.tasks.each do |task|
       worktimes = Worktime.find_by_time(user: user, begin_at: begin_at, end_at: end_at, task: task)
       if worktimes.present?
-        array_tasks << {
+        @tasks_times_array << {
           id: task.id,
           name: task.name,
           time: worktimes.reduce(0) { |total,worktime| total += worktime.time_worked}
         }
       end
     end
-    @tasks_times_array = array_tasks
+    @tasks_times_array
   end
 end

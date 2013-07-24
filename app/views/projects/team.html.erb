@@ -7,7 +7,9 @@
   <form class="form-inline" id="user_to_add">
     <label>Add Users:</label>
     <%= collection_select 'post', 'user', User.all, :id, :email, { include_blank: true },
-      { id: 'select_users_by_select2', data: { url: add_user_project_path(@project) } } %>
+      { class: 'select_users_by_select2',
+        id: 'add_user_to_project',
+        data: { url: add_user_project_path(@project) } } %>
   </form>
 <% end %>
 </br>
