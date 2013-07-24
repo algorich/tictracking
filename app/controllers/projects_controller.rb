@@ -100,12 +100,18 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @begin_at = @project.created_at
     @end_at = Time.now
+    @users = @project.users
   end
 
   def filter
+    #TODO: test de controller
     @project = Project.find(params[:id])
     @begin_at = params[:filter][:begin_at].to_time || @project.created_at
     @end_at = params[:filter][:end_at].to_time || Time.now
+    @users = @project.users
+    @user_filtered = @users.find_by_id(params[:filter][:user_id])
+
+    @users = [@user_filtered] if !@user_filtered.nil?
     render 'report'
   end
 end
