@@ -1,9 +1,5 @@
 $(document).ready(function() {
-    var $selector = $("#select_users_by_select2");
-
-    $selector.select2({
-        placeholder: "Make your choise"
-    });
+    var $selector = $("#add_user_to_project");
 
     $selector.change(function() {
         var id = this.value
