@@ -89,14 +89,14 @@ describe Project do
       end
     end
 
-    describe '#tasks_times' do
+    describe '#set_tasks_times' do
       it 'should return an hash with tasks name and time_worked' do
         kuririn = create(:user_confirmed, name: 'kuririn')
         create(:membership, project: @world_salvation, user: kuririn)
         die = create(:task, project: @world_salvation, name: 'die')
         worktime = create(:worktime, task: die, user: kuririn )
 
-        hash = @world_salvation.tasks_times(@goku, @world_salvation.created_at, Time.now)
+        hash = @world_salvation.send(:set_tasks_times, @goku, @world_salvation.created_at, Time.now)
         expect(hash).to eq(
           [
             {

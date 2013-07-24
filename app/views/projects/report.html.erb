@@ -1,4 +1,4 @@
-<h1>Time Worked</h1>
+<h1>Time Worked at <%= link_to @project.name, project_path(@project) %></h1>
 <%= simple_form_for :filter, url: 'filter', method: 'get', html: {class: 'form-inline' } do |f| %>
   <label for="filter_begin_at">Begin at:</label>
   <div class="datetimepicker input-append">
