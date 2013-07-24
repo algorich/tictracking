@@ -5,8 +5,9 @@ feature 'Worktime' do
     @user = create :user_confirmed
     @yoda = create :user_confirmed, email: 'yoda@jedi.com'
     @goten = create :user_confirmed, email: 'goten@dbz.com'
+    @timeproject = Time.local(2013, 5, 1, 11, 5)
 
-    @project = create :project, users: [@user, @goten]
+    @project = create :project, users: [@user, @goten], created_at: @timeproject
     @task = create :task, project: @project
     @begin_time = Time.local(2013, 6, 1, 11, 5)
     @end_time = Time.local(2014, 6, 1, 11, 5)
@@ -53,11 +54,10 @@ feature 'Worktime' do
     scenario 'should edit a worktime' do
       membership = create(:membership, project: @project, user: @user)
       visit edit_task_worktime_path(@task, @worktime)
-      fill_in 'worktime_begin', with: "2012-10-01 10:05:00"
+      fill_in 'worktime_begin', with: "2013-10-01 10:05:00"
       click_button 'Update Worktime'
-
       within('#begin_' + @worktime.id.to_s) do
-        expect(page).to have_content("2012-10-01 10:05:00")
+        expect(page).to have_content("2013-10-01 10:05:00")
       end
     end
 

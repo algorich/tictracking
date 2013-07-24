@@ -10,6 +10,7 @@ class Worktime < ActiveRecord::Base
   validate :pending_worktime, on: :create
   validate :stopped_worktime, on: :update
   validate :positive_time, on: :update
+  validate :timer_create_project, on: :update
   after_validation :set_time_worked
 
   def self.find_by_time(user: user, begin_at: begin_at, end_at: end_at, task: task)
@@ -39,6 +40,12 @@ class Worktime < ActiveRecord::Base
   end
 
   private
+
+  def timer_create_project
+    if self.begin <= self.task.project.created_at or self.end <= task.project.created_at
+      errors.add(:base, 'End time or last time cant be less than time of the create project')
+    end
+  end
 
   def positive_time
     if self.begin > self.end

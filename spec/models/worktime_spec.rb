@@ -24,6 +24,16 @@ describe Worktime do
         :begin => Time.now, user: User.new, task: Task.new)
       expect(worktime.send(:positive_time)).to be_true
     end
+
+    it "begin and end can't have bigger timer than project" do
+      user = create :user_confirmed
+      task = create :task
+      project = create :project
+      membership = create :membership, user: user, project: project
+      worktime = Worktime.create(:end => Time.now + 2.minutes, :begin => Time.now,
+       user: user, task: task)
+      expect(worktime.send(:timer_create_project)).to be_false
+    end
   end
 
   context '#finished?' do
@@ -76,15 +86,16 @@ describe Worktime do
 
     it 'should set the time worked after the worktime finish' do
       now = Time.now
+      project = create :project, created_at: now - 1.day
+      task = create :task, project: project
       worktime = create(:worktime, begin: now, end: now + 3.hours)
       expect(worktime.reload.time_worked).to eq(3.hours)
 
-      worktime = create(:worktime, begin: now, end: nil)
+      worktime = create(:worktime, begin: now, end: nil, task: task)
       expect(worktime.reload.time_worked).to eq(0)
-
-      worktime.end = now + 3.hours
+      worktime.end = now + 4.hours
       worktime.save
-      expect(worktime.reload.time_worked).to eq(3.hours)
+      expect(worktime.reload.time_worked).to eq(4.hours)
     end
   end
 
