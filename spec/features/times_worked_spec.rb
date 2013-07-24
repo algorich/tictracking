@@ -179,7 +179,6 @@ feature 'Times worked' do
         expect(page).to_not have_content @task.name
         expect(page).to_not have_content '10 minutes'
       end
-
     end
   end
 end

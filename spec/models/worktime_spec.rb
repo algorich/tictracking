@@ -12,6 +12,18 @@ describe Worktime do
        user: User.new, task: Task.new)
       expect(worktime.send(:stopped_worktime)).to be_false
     end
+
+    it 'should time end bigger time begin' do
+      user = create :user_confirmed
+      task = create :task
+      worktime = Worktime.create(:begin => Time.now, user: user, task: task)
+      worktime.update_attributes(end: Time.now + 2.minutes)
+      expect(worktime.send(:positive_time)).to be_false
+
+      worktime = Worktime.create(:end => Time.now - 20.minutes,
+        :begin => Time.now, user: User.new, task: Task.new)
+      expect(worktime.send(:positive_time)).to be_true
+    end
   end
 
   context '#finished?' do

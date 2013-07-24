@@ -9,7 +9,7 @@ feature 'Worktime' do
     @project = create :project, users: [@user, @goten]
     @task = create :task, project: @project
     @begin_time = Time.local(2013, 6, 1, 11, 5)
-    @end_time = Time.local(2012, 6, 1, 11, 5)
+    @end_time = Time.local(2014, 6, 1, 11, 5)
     @worktime = create :worktime, user: @user, task: @task, begin: @begin_time, end: @end_time
 
     login_as @user, scope: :user
