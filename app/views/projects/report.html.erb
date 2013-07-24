@@ -1,8 +1,27 @@
-<%= simple_form_for :filter, url: 'filter', method: 'get' do |f| %>
-  <%= f.input :begin_at %>
-  <%= f.input :end_at %>
-  <%= f.submit 'Filter', class: 'btn' %>
+<h1>Time Worked</h1>
+<%= simple_form_for :filter, url: 'filter', method: 'get', html: {class: 'form-inline' } do |f| %>
+  <label for="filter_begin_at">Begin at:</label>
+  <div class="datetimepicker input-append">
+      <%= f.input_field :begin_at, as: :string %>
+     <span class="add-on">
+       <i data-time-icon="icon-time" data-date-icon="icon-calendar" ></i>
+     </span>
+  </div>
+
+  <label for="filter_end_at">End at:</label>
+  <div class="datetimepicker input-append">
+      <%= f.input_field :end_at, as: :string %>
+
+     <span class="add-on">
+       <i data-time-icon="icon-time" data-date-icon="icon-calendar" ></i>
+     </span>
+  </div>
+
+  <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
+    <i class="icon-search icon-white"></i> Filter
+  <% end %>
 <% end %>
+
 
 <table id="project" class="table table-striped ">
   <thead>
