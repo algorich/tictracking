@@ -4,7 +4,7 @@
     <%= link_to 'create', new_project_path %>
   <% else %>
     <% projects.each do |project| %>
-      <li><%= link_to project.name, project %></a></li>
+      <li><%= link_to project.name, project %></li>
     <% end %>
   <% end %>
 </ul>

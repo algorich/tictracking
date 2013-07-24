@@ -26,13 +26,8 @@
 <table id="project" class="table table-striped ">
   <thead>
     <tr>
-      <th><h4><%= @project.name %></h4></th>
-      <% unless current_user.admin? @project %>
-        <th><h4>
-          <%= to_minutes @project.
-            time_worked(user: current_user, begin_at: @begin_at, end_at: @end_at )  %>
-        </h4></th>
-      <% end %>
+      <th><h4>Name</h4></th>
+      <th><h4>Time</h4></th>
     </tr>
   </thead>
 

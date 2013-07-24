@@ -1,5 +1,28 @@
 <h1>Projects</h1>
 
-<div class="well">
-  <%= render 'list', projects: @projects %>
-</div>
+
+<table id="projects" class="table table-striped ">
+  <thead>
+    <tr>
+      <th><h4>Name</h4></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td><%= project.name %></td>
+        <td>
+          <%= link_to '<i class="icon-time"></i>'.html_safe, report_project_path(project) %>
+          <% if current_user.admin? project %>
+            <%= link_to '<i class="icon-pencil"></i>'.html_safe,
+              edit_project_path(project)  %>
+            <%= link_to '<i class="icon-remove"></i>'.html_safe,
+              project_path(project), {method: :delete , confirm: 'Are you sure?'} %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
