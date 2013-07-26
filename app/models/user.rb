@@ -22,6 +22,6 @@ class User < ActiveRecord::Base
   end
 
   def exists_pending_worktimes?(task)
-    Worktime.where(user_id: self, task_id: task, end: nil).any?
+    Worktime.where(user_id: self, task_id: task, finish: nil).any?
   end
 end

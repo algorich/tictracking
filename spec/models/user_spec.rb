@@ -69,7 +69,7 @@ describe User do
       worktime = create(:worktime, user: goku, task: task)
       expect(goku.exists_pending_worktimes?(task)).to be_false
 
-      worktime = create(:worktime, user: goku, end: nil, task: task)
+      worktime = create(:worktime, user: goku, finish: nil, task: task)
       expect(goku.exists_pending_worktimes?(task)).to be_true
     end
   end

@@ -2,10 +2,10 @@ class Worktime < ActiveRecord::Base
   belongs_to :user
   belongs_to :task, touch: true
 
-  attr_accessible :begin, :end, :user, :user_id, :task, :task_id
+  attr_accessible :beginning, :finish, :user, :user_id, :task, :task_id
   attr_accessor :skip_stopped_validation
 
-  validates :begin, presence: true
+  validates :beginning, presence: true
   validates :user, :task, presence: true
   validate :pending_worktime, on: :create
   validate :stopped_worktime, on: :update
@@ -17,8 +17,8 @@ class Worktime < ActiveRecord::Base
     self.where{
       (user_id.eq my{user.id}) &
       (task_id.eq my{task.id}) &
-      (self.begin.gteq my{begin_at}) &
-      (self.end.lteq my{end_at})
+      (self.beginning.gteq my{begin_at}) &
+      (self.finish.lteq my{end_at})
     }
   end
 
@@ -27,11 +27,11 @@ class Worktime < ActiveRecord::Base
   end
 
   def finished?
-    self.end.present?
+    self.finish.present?
   end
 
   def was_finished?
-    self.end_was.present?
+    self.finish_was.present?
   end
 
   def time_worked_formatted
@@ -42,14 +42,14 @@ class Worktime < ActiveRecord::Base
   private
 
   def timer_create_project
-    if self.begin <= self.task.project.created_at or self.end <= task.project.created_at
+    if self.beginning <= self.task.project.created_at or self.finish <= task.project.created_at
       errors.add(:base, 'End time or last time cant be less than time of the create project')
     end
   end
 
   def positive_time
-    if self.begin > self.end
-      errors.add(:base, "End time can't be less than begin time")
+    if self.beginning > self.finish
+      errors.add(:base, "End time can't be less than beginning time")
     end
   end
 
@@ -64,10 +64,10 @@ class Worktime < ActiveRecord::Base
   end
 
   def exists_pending_worktimes?
-    Worktime.where(user_id: self.user, task_id: self.task, end: nil).any?
+    Worktime.where(user_id: self.user, task_id: self.task, finish: nil).any?
   end
 
   def set_time_worked
-    self.time_worked = (self.end - self.begin).round unless self.end.nil?
+    self.time_worked = (self.finish - self.beginning).round unless self.finish.nil?
   end
 end

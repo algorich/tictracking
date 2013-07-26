@@ -69,13 +69,13 @@ describe Project do
         @world_salvation = create(:project, name: 'World Salvation', users: [@goku])
         @task = create(:task, project: @world_salvation, name: 'Task 1')
         now = Time.now
-        worktime = create(:worktime, task: @task, begin: now, end: now + 2.minutes,
+        worktime = create(:worktime, task: @task, beginning: now, finish: now + 2.minutes,
           user: @goku )
-        worktime = create(:worktime, task: @task, begin: now, end: now + 3.minutes,
+        worktime = create(:worktime, task: @task, beginning: now, finish: now + 3.minutes,
           user: @goku )
 
         @task_2 = create(:task, project: @world_salvation, name: 'Task 2')
-        worktime = create(:worktime, task: @task_2, begin: now, end: now + 10.minutes,
+        worktime = create(:worktime, task: @task_2, beginning: now, finish: now + 10.minutes,
           user: @goku )
       end
     end

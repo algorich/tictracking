@@ -6,7 +6,7 @@ class WorktimesController < ApplicationController
 
   def create
     @task = Task.find(params[:task_id])
-    @worktime = Worktime.new(task: @task, begin: Time.now, user_id: current_user.id)
+    @worktime = Worktime.new(task: @task, beginning: Time.now, user_id: current_user.id)
     authorize! :create, @worktime
     @worktime.save
     flash[:error] = @worktime.errors[:base].try(:first)
@@ -20,7 +20,7 @@ class WorktimesController < ApplicationController
   def stop
     @task = Task.find(params[:task_id])
     @worktime = Worktime.find(params[:id])
-    @worktime.update_attributes(end: Time.now)
+    @worktime.update_attributes(finish: Time.now)
     flash[:error] = @worktime.errors[:base].try(:first)
   end
 

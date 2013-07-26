@@ -11,7 +11,7 @@ feature 'Worktime' do
     @task = create :task, project: @project
     @begin_time = Time.local(2013, 6, 1, 11, 5)
     @end_time = Time.local(2014, 6, 1, 11, 5)
-    @worktime = create :worktime, user: @user, task: @task, begin: @begin_time, end: @end_time
+    @worktime = create :worktime, user: @user, task: @task, beginning: @begin_time, finish: @end_time
 
     login_as @user, scope: :user
     visit project_path(@project)
@@ -54,7 +54,7 @@ feature 'Worktime' do
     scenario 'should edit a worktime' do
       membership = create(:membership, project: @project, user: @user)
       visit edit_task_worktime_path(@task, @worktime)
-      fill_in 'worktime_begin', with: "2013-10-01 10:05:00"
+      fill_in 'worktime_beginning', with: "2013-10-01 10:05:00"
       click_button 'Update Worktime'
       within('#begin_' + @worktime.id.to_s) do
         expect(page).to have_content("2013-10-01 10:05:00")
@@ -108,24 +108,24 @@ feature 'Worktime' do
   context 'show' do
     scenario 'should show worktimes in order by update_at' do
       within('#worktime_0') do
-        expect(page).to have_content @worktime.begin
+        expect(page).to have_content @worktime.beginning
       end
 
-      worktime_2 = create :worktime, user: @user, task: @task, begin: Time.now + 1.hours
+      worktime_2 = create :worktime, user: @user, task: @task, beginning: Time.now + 1.hours
       worktime_3 = create :worktime, user: @user, task: @task,
-        begin: Time.now,
-        end: Time.now + 5.minutes
+        beginning: Time.now,
+        finish: Time.now + 5.minutes
 
       visit project_path(@project)
       within('#worktime_0') do
-        expect(page).to have_content worktime_3.begin
+        expect(page).to have_content worktime_3.beginning
         expect(page).to have_content '5 minutes'
       end
       within('#worktime_1') do
-        expect(page).to have_content worktime_2.begin
+        expect(page).to have_content worktime_2.beginning
       end
       within('#worktime_2') do
-        expect(page).to have_content @worktime.begin
+        expect(page).to have_content @worktime.beginning
       end
     end
   end

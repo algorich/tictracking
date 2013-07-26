@@ -23,21 +23,21 @@ feature 'Times worked' do
 
       @task = create(:task, project: @world_salvation, name: 'Task 1')
       now = Time.now
-      worktime = create(:worktime, task: @task, begin: now, end: now + 2.minutes,
+      worktime = create(:worktime, task: @task, beginning: now, finish: now + 2.minutes,
         user: @goku )
-      worktime = create(:worktime, task: @task, begin: now, end: now + 3.minutes,
+      worktime = create(:worktime, task: @task, beginning: now, finish: now + 3.minutes,
         user: @goku )
 
       @task_2 = create(:task, project: @world_salvation, name: 'Task 2')
-      worktime = create(:worktime, task: @task_2, begin: now, end: now + 10.minutes,
+      worktime = create(:worktime, task: @task_2, beginning: now, finish: now + 10.minutes,
         user: @goku )
 
       @resurrect_kuririn = create(:project, name: 'Resurrect kuririn', users: [@goku])
       @find_dragon_balls = create(:task, project: @resurrect_kuririn, name: 'find dragon balls')
-      worktime = create(:worktime, task: @find_dragon_balls, begin: now, end: now + 200.minutes,
+      worktime = create(:worktime, task: @find_dragon_balls, beginning: now, finish: now + 200.minutes,
         user: @goku )
       @invoke_shenlong  = create(:task, project: @resurrect_kuririn, name: 'invoke shenlong')
-      worktime = create(:worktime, task: @invoke_shenlong, begin: now, end: now + 5.minutes,
+      worktime = create(:worktime, task: @invoke_shenlong, beginning: now, finish: now + 5.minutes,
         user: @goku )
 
       @day_before_yesterday = now
@@ -68,7 +68,7 @@ feature 'Times worked' do
       @kuririn = create(:user_confirmed, name: 'kuririn')
       create(:membership, project: @resurrect_kuririn, user: @kuririn)
       @die = create(:task, project: @resurrect_kuririn, name: 'die')
-      worktime = create(:worktime, task: @die, begin: now, end: now + 2.minutes,
+      worktime = create(:worktime, task: @die, beginning: now, finish: now + 2.minutes,
         user: @kuririn )
     end
     login_as @kuririn
@@ -112,8 +112,8 @@ feature 'Times worked' do
       Timecop.freeze(yesterday) do
         now = Time.now
         @task = create(:task, project: @resurrect_kuririn, name: 'Foo')
-        worktime = create(:worktime, task: @task, begin: now,
-         end: now + 10.minutes, user: @goku )
+        worktime = create(:worktime, task: @task, beginning: now,
+         finish: now + 10.minutes, user: @goku )
       end
 
       login_as @goku
