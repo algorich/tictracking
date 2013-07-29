@@ -20,7 +20,7 @@ feature 'Worktime' do
     scenario 'successfully play worktime' do
       @start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
       @start.click
-      expect(page).to have_content Time.now.utc.to_s
+      expect(page).to have_content I18n.l(Time.now, format: :short)
     end
 
     scenario 'should show only if not exist any open worktime' do
@@ -43,9 +43,12 @@ feature 'Worktime' do
       start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
       start.click
       sleep(1)
+
       stop = find("#app-tasks a[data-method=\"put\"]")
       stop.click
-      expect(page).to have_content Time.now.utc.to_s
+      sleep(1)
+
+      expect(page).to have_content I18n.l(Time.now, format: :short)
     end
   end
 
@@ -53,11 +56,12 @@ feature 'Worktime' do
     scenario 'should edit a worktime' do
       membership = create(:membership, project: @project, user: @user)
       visit edit_task_worktime_path(@task, @worktime)
-      fill_in 'worktime_begin', with: "2012-10-01 10:05:00"
+      yesterday = Time.now - 1.day
+      fill_in 'worktime_begin', with: yesterday
       click_button 'Update Worktime'
 
       within('#begin_' + @worktime.id.to_s) do
-        expect(page).to have_content("2012-10-01 10:05:00")
+        expect(page).to have_content I18n.l(yesterday, format: :short)
       end
     end
 
@@ -108,7 +112,7 @@ feature 'Worktime' do
   context 'show' do
     scenario 'should show worktimes in order by update_at' do
       within('#worktime_0') do
-        expect(page).to have_content @worktime.begin
+        expect(page).to have_content I18n.l(@worktime.begin, format: :short)
       end
 
       worktime_2 = create :worktime, user: @user, task: @task, begin: Time.now + 1.hours
@@ -118,14 +122,14 @@ feature 'Worktime' do
 
       visit project_path(@project)
       within('#worktime_0') do
-        expect(page).to have_content worktime_3.begin
         expect(page).to have_content '5 minutes'
+        expect(page).to have_content I18n.l(worktime_3.begin, format: :short)
       end
       within('#worktime_1') do
-        expect(page).to have_content worktime_2.begin
+        expect(page).to have_content I18n.l(worktime_2.begin, format: :short)
       end
       within('#worktime_2') do
-        expect(page).to have_content @worktime.begin
+        expect(page).to have_content I18n.l(@worktime.begin, format: :short)
       end
     end
   end
