@@ -108,79 +108,29 @@ feature 'Times worked' do
   end
 
   context 'search like an admin' do
-    scenario 'search between times' do
-      yesterday = @day_before_yesterday + 1.day
-      Timecop.freeze(yesterday) do
-        now = Time.now
-        @task = create(:task, project: @resurrect_kuririn, name: 'Foo')
-        worktime = create(:worktime, task: @task, begin: now,
-         end: now + 10.minutes, user: @goku )
-      end
-
+    scenario 'search by user', js: true do
       login_as @goku
       visit report_project_path(@resurrect_kuririn)
 
-      expect(page).to have_content @goku.email
-      expect(page).to have_content @kuririn.name
+      within('#time_worked') do
+        expect(page).to have_content @goku.email
+        expect(page).to have_content @kuririn.name
+      end
 
-      fill_in 'Begin at', with: @day_before_yesterday
-      fill_in 'End at', with: ''
+      select(@kuririn.email, from: 'filter_user_id')
       click_button 'Filter'
 
-      within("#user-#{@goku.id} #tasks") do
-          expect(page).to have_content @find_dragon_balls.name
-          expect(page).to have_content '200 minutes'
-
-          expect(page).to have_content @invoke_shenlong.name
-          expect(page).to have_content '5 minutes'
-
-          expect(page).to have_content @task.name
-          expect(page).to have_content '10 minutes'
+      within('#time_worked') do
+        expect(page).to_not have_content @goku.email
+        expect(page).to have_content @kuririn.name
       end
 
-      within("#user-#{@kuririn.id} #tasks") do
-        expect(page).to have_content @die.name
-        expect(page).to have_content '2 minutes'
-      end
-
-      fill_in 'Begin at', with: yesterday
-      fill_in 'End at', with: ''
+      select(@goku.email, from: 'filter_user_id')
       click_button 'Filter'
 
-      within("#user-#{@kuririn.id} #tasks") do
-        expect(page).to_not have_content @die.name
-        expect(page).to_not have_content '2 minutes'
-      end
-
-      within("#user-#{@goku.id} #tasks") do
-          expect(page).to_not have_content @find_dragon_balls.name
-          expect(page).to_not have_content '200 minutes'
-
-          expect(page).to_not have_content @invoke_shenlong.name
-          expect(page).to_not have_content '5 minutes'
-
-          expect(page).to have_content @task.name
-          expect(page).to have_content '10 minutes'
-      end
-
-      fill_in 'Begin at', with: @day_before_yesterday
-      fill_in 'End at', with: yesterday - 20.minutes
-      click_button 'Filter'
-
-      within("#user-#{@kuririn.id} #tasks") do
-        expect(page).to have_content @die.name
-        expect(page).to have_content '2 minutes'
-      end
-
-      within("#user-#{@goku.id} #tasks") do
-          expect(page).to have_content @find_dragon_balls.name
-          expect(page).to have_content '200 minutes'
-
-          expect(page).to have_content @invoke_shenlong.name
-          expect(page).to have_content '5 minutes'
-
-          expect(page).to_not have_content @task.name
-          expect(page).to_not have_content '10 minutes'
+      within('#time_worked') do
+        expect(page).to have_content @goku.email
+        expect(page).to_not have_content @kuririn.name
       end
     end
   end
