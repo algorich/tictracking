@@ -1,11 +1,11 @@
 <% w_id = worktime.id %>
 
 <td id="begin_<%= w_id %>">
-  <%= worktime.begin %>
+  <%= l worktime.begin, format: :short %>
 </td>
 
 <td id="end_<%= w_id %>">
-  <%= worktime.end %>
+  <%= l worktime.end, format: :short %>
 </td>
 
 <td id="time_worked_<%= w_id %>">
