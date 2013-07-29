@@ -8,21 +8,31 @@ describe Worktime do
     end
 
     it 'failure' do
-      worktime = Worktime.create(:begin => Time.now,
+      worktime = Worktime.create(:beginning => Time.now,
        user: User.new, task: Task.new)
       expect(worktime.send(:stopped_worktime)).to be_false
     end
 
-    it 'should time end bigger time begin' do
+    it 'should time end bigger time beginning' do
       user = create :user_confirmed
       task = create :task
-      worktime = Worktime.create(:begin => Time.now, user: user, task: task)
-      worktime.update_attributes(end: Time.now + 2.minutes)
+      worktime = Worktime.create(:beginning => Time.now, user: user, task: task)
+      worktime.update_attributes(finish: Time.now + 2.minutes)
       expect(worktime.send(:positive_time)).to be_false
 
-      worktime = Worktime.create(:end => Time.now - 20.minutes,
-        :begin => Time.now, user: User.new, task: Task.new)
+      worktime = Worktime.create(:finish => Time.now - 20.minutes,
+        :beginning => Time.now, user: User.new, task: Task.new)
       expect(worktime.send(:positive_time)).to be_true
+    end
+
+    it "beginning and end can't have bigger timer than project" do
+      user = create :user_confirmed
+      task = create :task
+      project = create :project
+      membership = create :membership, user: user, project: project
+      worktime = Worktime.create(:finish => Time.now + 2.minutes, :beginning => Time.now,
+       user: user, task: task)
+      expect(worktime.send(:timer_create_project)).to be_false
     end
   end
 
@@ -33,7 +43,7 @@ describe Worktime do
     end
 
     it 'failure' do
-      worktime = Worktime.create(:begin => Time.now,
+      worktime = Worktime.create(:beginning => Time.now,
        user: User.new, task: Task.new)
       expect(worktime.finished?).to be_false
     end
@@ -41,7 +51,7 @@ describe Worktime do
 
   context '#pending_worktime' do
     it 'should return true if worktime is pending' do
-      worktime = Worktime.create(:begin => Time.now,
+      worktime = Worktime.create(:beginning => Time.now,
        user: User.new, task: Task.new)
       expect(worktime.send(:pending_worktime)).to be_true
     end
@@ -52,9 +62,9 @@ describe Worktime do
     end
   end
 
-  context 'should have a begin date' do
-    it { should_not have_valid(:begin).when(nil, '') }
-    it { should have_valid(:begin).when(Time.now) }
+  context 'should have a beginning date' do
+    it { should_not have_valid(:beginning).when(nil, '') }
+    it { should have_valid(:beginning).when(Time.now) }
   end
 
   context 'should have a user' do
@@ -68,29 +78,30 @@ describe Worktime do
   end
 
   context '#set_time_worked' do
-    it 'should return the difference between the begin and end time' do
-      subject.begin = Time.now
-      subject.end = Time.now + 3.hours
+    it 'should return the difference between the beginning and end time' do
+      subject.beginning = Time.now
+      subject.finish = Time.now + 3.hours
       expect(subject.send(:set_time_worked)).to eq(3.hours)
     end
 
     it 'should set the time worked after the worktime finish' do
       now = Time.now
-      worktime = create(:worktime, begin: now, end: now + 3.hours)
+      project = create :project, created_at: now - 1.day
+      task = create :task, project: project
+      worktime = create(:worktime, beginning: now, finish: now + 3.hours)
       expect(worktime.reload.time_worked).to eq(3.hours)
 
-      worktime = create(:worktime, begin: now, end: nil)
+      worktime = create(:worktime, beginning: now, finish: nil, task: task)
       expect(worktime.reload.time_worked).to eq(0)
-
-      worktime.end = now + 3.hours
+      worktime.finish = now + 4.hours
       worktime.save
-      expect(worktime.reload.time_worked).to eq(3.hours)
+      expect(worktime.reload.time_worked).to eq(4.hours)
     end
   end
 
   context '#time_worked_formatted' do
     it 'should show the time in minutes' do
-      worktime = create :worktime, begin: Time.now, end: Time.now + 30.minutes
+      worktime = create :worktime, beginning: Time.now, finish: Time.now + 30.minutes
       expect(worktime.time_worked_formatted).to eq('30 minutes')
     end
   end
@@ -101,9 +112,9 @@ describe Worktime do
       yesterday = today - 1.day
       task = create(:task)
       user = create(:user_confirmed)
-      worktime_1 = create :worktime, begin: yesterday, end: yesterday + 1.minute,
+      worktime_1 = create :worktime, beginning: yesterday, finish: yesterday + 1.minute,
         task: task, user: user
-      worktime_2 = create :worktime, begin: today, end: today + 1.minute,
+      worktime_2 = create :worktime, beginning: today, finish: today + 1.minute,
         task: task, user: user
 
       worktimes = Worktime.find_by_time(user: user, task: task,

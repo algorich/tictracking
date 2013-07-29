@@ -5,12 +5,13 @@ feature 'Worktime' do
     @user = create :user_confirmed
     @yoda = create :user_confirmed, email: 'yoda@jedi.com'
     @goten = create :user_confirmed, email: 'goten@dbz.com'
+    @timeproject = Time.local(2013, 5, 1, 11, 5)
 
-    @project = create :project, users: [@user, @goten]
+    @project = create :project, users: [@user, @goten], created_at: @timeproject
     @task = create :task, project: @project
     @begin_time = Time.local(2013, 6, 1, 11, 5)
     @end_time = Time.local(2014, 6, 1, 11, 5)
-    @worktime = create :worktime, user: @user, task: @task, begin: @begin_time, end: @end_time
+    @worktime = create :worktime, user: @user, task: @task, beginning: @begin_time, finish: @end_time
 
     login_as @user, scope: :user
     visit project_path(@project)
@@ -56,10 +57,10 @@ feature 'Worktime' do
     scenario 'should edit a worktime' do
       membership = create(:membership, project: @project, user: @user)
       visit edit_task_worktime_path(@task, @worktime)
-      yesterday = Time.now - 1.day
-      fill_in 'worktime_begin', with: yesterday
-      click_button 'Update Worktime'
 
+      yesterday = Time.now - 1.day
+      fill_in 'worktime_beginning', with: yesterday
+      click_button 'Update Worktime'
       within('#begin_' + @worktime.id.to_s) do
         expect(page).to have_content I18n.l(yesterday, format: :short)
       end
@@ -112,24 +113,26 @@ feature 'Worktime' do
   context 'show' do
     scenario 'should show worktimes in order by update_at' do
       within('#worktime_0') do
-        expect(page).to have_content I18n.l(@worktime.begin, format: :short)
+        expect(page).to have_content I18n.l(@worktime.beginning, format: :short)
       end
 
-      worktime_2 = create :worktime, user: @user, task: @task, begin: Time.now + 1.hours
+      worktime_2 = create :worktime, user: @user, task: @task, beginning: Time.now + 1.hours
       worktime_3 = create :worktime, user: @user, task: @task,
-        begin: Time.now,
-        end: Time.now + 5.minutes
+        beginning: Time.now,
+        finish: Time.now + 5.minutes
 
       visit project_path(@project)
       within('#worktime_0') do
         expect(page).to have_content '5 minutes'
-        expect(page).to have_content I18n.l(worktime_3.begin, format: :short)
+        expect(page).to have_content I18n.l(worktime_3.beginning, format: :short)
       end
+
       within('#worktime_1') do
-        expect(page).to have_content I18n.l(worktime_2.begin, format: :short)
+        expect(page).to have_content I18n.l(worktime_2.beginning, format: :short)
       end
+
       within('#worktime_2') do
-        expect(page).to have_content I18n.l(@worktime.begin, format: :short)
+        expect(page).to have_content I18n.l(@worktime.beginning, format: :short)
       end
     end
   end

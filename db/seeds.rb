@@ -36,11 +36,11 @@ p 'worktime created'
 
 Task.all.each do |t|
   5.times do |i|
-    worktime = t.worktimes.create(begin: Time.now + "#{i}".to_i.day,
-     end: Time.now + "#{i+1}".to_i.day, user: users[rand(USER_NUMBER)])
+    worktime = t.worktimes.create(beginning: Time.now + "#{i}".to_i.day,
+     finish: Time.now + "#{i+1}".to_i.day, user: users[rand(USER_NUMBER)])
   end
 end
 
 
-# Worktime.create!(begin: Time.now, end: Time.now + 1.day, user: user, task: task)
+# Worktime.create!(beginning: Time.now, finish: Time.now + 1.day, user: user, task: task)
 

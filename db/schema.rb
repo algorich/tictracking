@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130715182710) do
+ActiveRecord::Schema.define(:version => 20130729175528) do
 
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(:version => 20130715182710) do
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "worktimes", :force => true do |t|
-    t.datetime "begin"
-    t.datetime "end"
+    t.datetime "beginning"
+    t.datetime "finish"
     t.integer  "user_id"
     t.integer  "task_id"
     t.datetime "created_at",                 :null => false

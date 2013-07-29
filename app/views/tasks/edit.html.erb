@@ -1,5 +1,6 @@
 <h1>Edit <%= @task.name %> </h1>
 <%= simple_form_for @task do |f| %>
   <%= f.input :name %>
-  <%= f.button :submit%>
+  <%= f.button :submit %>
+  <%= link_to 'Cancel', project_path(@task.project), class: 'btn' %>
 <% end %>
