@@ -12,13 +12,14 @@ feature 'Task' do
     background { visit project_path(@project) }
 
     scenario 'successfully create task and worktime' do
-      Timecop.freeze(Time.local(2008, 9, 1, 10, 5, 0)) do
+      time = Time.now
+      Timecop.freeze(time) do
         fill_in 'New task', with: 'tarefa x'
         click_button 'Start'
-        sleep(1)
       end
+
       expect(page).to have_content('tarefa x')
-      expect(page).to have_content('2008-09-01 13:05:00 UTC')
+      expect(page).to have_content I18n.l(time, format: :short)
     end
 
     scenario 'failure' do
