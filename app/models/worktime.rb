@@ -78,7 +78,7 @@ class Worktime < ActiveRecord::Base
 
   def any_not_finished?
     worktimes = Worktime.where {
-      (user_id.eq my{self.user.id}) &
+      (user_id.eq my{self.user}) &
       (finish.eq nil)
     }.any?
   end

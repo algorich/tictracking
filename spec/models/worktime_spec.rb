@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Worktime do
-  context '#stopped_worktime' do
+  describe '#stopped_worktime' do
     it 'should return true if worktime stopped' do
       worktime = create :worktime
       expect(worktime.send(:stopped_worktime)).to be_true
@@ -36,7 +36,7 @@ describe Worktime do
     end
   end
 
-  context '#finished?' do
+  describe '#finished?' do
     it 'should return true if worktime finished' do
       worktime = create(:worktime)
       expect(worktime.finished?).to eq(true)
@@ -49,7 +49,7 @@ describe Worktime do
     end
   end
 
-  context '#pending_worktime' do
+  describe '#pending_worktime' do
     it 'should return true if worktime is pending' do
       worktime = Worktime.create(:beginning => Time.now,
        user: User.new, task: Task.new)
@@ -62,22 +62,13 @@ describe Worktime do
     end
   end
 
-  context 'should have a beginning date' do
+  context 'validations' do
     it { should_not have_valid(:beginning).when(nil, '') }
-    it { should have_valid(:beginning).when(Time.now) }
-  end
-
-  context 'should have a user' do
-    it { should have_valid(:user).when(User.new) }
     it { should_not have_valid(:user).when(nil) }
-  end
-
-  context 'should have a task' do
-    it { should have_valid(:task).when(Task.new) }
     it { should_not have_valid(:task).when(nil) }
   end
 
-  context '#set_time_worked' do
+  describe '#set_time_worked' do
     it 'should return the difference between the beginning and end time' do
       subject.beginning = Time.now
       subject.finish = Time.now + 3.hours
@@ -99,14 +90,14 @@ describe Worktime do
     end
   end
 
-  context '#time_worked_formatted' do
+  describe '#time_worked_formatted' do
     it 'should show the time in minutes' do
       worktime = create :worktime, beginning: Time.now, finish: Time.now + 30.minutes
       expect(worktime.time_worked_formatted).to eq('30 minutes')
     end
   end
 
-  context '.find_by_time' do
+  describe '.find_by_time' do
     it 'filter worktimes by time' do
       today = Time.now
       yesterday = today - 1.day
@@ -131,7 +122,7 @@ describe Worktime do
     end
   end
 
-  context 'create worktime' do
+  context 'create worktime without ends another worktime' do
     before(:each) do
       @user = create :user_confirmed
       @task_1 = create :task
