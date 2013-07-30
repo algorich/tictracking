@@ -11,6 +11,7 @@ class Worktime < ActiveRecord::Base
   validate :stopped_worktime, on: :update
   validate :positive_time, on: :update
   validate :timer_create_project, on: :update
+  validate :all_finished?, on: :create
   after_validation :set_time_worked
 
   def self.find_by_time(user: user, begin_at: begin_at, end_at: end_at, task: task)
@@ -69,5 +70,16 @@ class Worktime < ActiveRecord::Base
 
   def set_time_worked
     self.time_worked = (self.finish - self.beginning).round unless self.finish.nil?
+  end
+
+  def all_finished?
+    errors.add(:base, 'You have an ongoing worktime') if any_not_finished?
+  end
+
+  def any_not_finished?
+    worktimes = Worktime.where {
+      (user_id.eq my{self.user.id}) &
+      (finish.eq nil)
+    }.any?
   end
 end

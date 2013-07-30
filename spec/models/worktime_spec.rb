@@ -130,4 +130,35 @@ describe Worktime do
       expect(worktimes).to eq([worktime_1])
     end
   end
+
+  context 'create worktime' do
+    before(:each) do
+      @user = create :user_confirmed
+      @task_1 = create :task
+      @task_2 = create :task
+      create :membership, user: @user, project: @task_1.project
+      create :membership, user: @user, project: @task_2.project
+    end
+
+    it 'should not possible if someone is not finished in the same or another task' do
+      worktime_of_user_1 = create :worktime, task: @task_1, user: @user, finish: nil
+
+      expect(worktime_of_user_1.finished?).to be_false
+      expect { create(:worktime, task: @task_1, user: @user, finish: nil) }
+        .to raise_error(ActiveRecord::RecordInvalid)
+      expect { create(:worktime, task: @task_2, user: @user, finish: nil) }
+        .to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    describe '#any_not_finished?' do
+      it 'should return true if exist some worktimenot finished with the same user' do
+        worktime = create :worktime, task: @task_1, user: @user
+        expect(worktime.send(:any_not_finished?)).to be_false
+
+        create :worktime, task: @task_1, user: @user, finish: nil
+        expect(worktime.send(:any_not_finished?)).to be_true
+      end
+    end
+  end
+
 end
