@@ -1,13 +1,14 @@
 <div class="app-task" data-id="<%= task.id %>">
   <div class="row-fluid">
-    <span class="lead pull-left">
-      <% if [root_path, dashboard_path].include? request.fullpath %>
-        <%= link_to(task.project.name, project_path(task.project)) + '/' + task.name %>
-      <% else %>
+    <h3>
+      <span>
         <%= task.name %>
-      <% end -%>
-    </span>
-    <div class="pull-right" id="actions"><%= play_or_stop_task(task) %></div>
+        <% unless current_page?(project_path(task.project)) %>
+          <small>(<%= link_to(task.project.name, project_path(task.project)) %>)</small>
+        <% end %>
+      </span>
+      <span class="pull-right" id="actions"><%= play_or_stop_task(task) %></span>
+    </h3>
   </div>
 
   <section class="app-worktimes">

@@ -68,12 +68,13 @@ feature 'Task' do
 
     scenario 'should show the projects name only on dashboard_path' do
       create(:worktime, user: @user, task: @task_1)
+      text = "#{@task_1.name} (#{@project.name})"
 
       visit dashboard_path
-      expect(page).to have_content(@project.name + '/' + @task_1.name)
+      expect(page).to have_content(text)
 
       visit project_path(@project)
-      expect(page).to_not have_content(@project.name + '/' + @task_1.name)
+      expect(page).to_not have_content(text)
     end
   end
 

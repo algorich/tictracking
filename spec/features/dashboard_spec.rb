@@ -69,10 +69,10 @@ feature 'Dashboard' do
 
       visit dashboard_path
 
-      expect(page).to have_content('Buy Coffee/Task 4')
-      expect(page).to have_content('Buy Coffee/Task 3')
-      expect(page).to have_content('World Domination/Task 2')
-      expect(page).not_to have_content('World Domination/Task 1')
+      expect(page).to have_content('Task 4 (Buy Coffee)')
+      expect(page).to have_content('Task 3 (Buy Coffee)')
+      expect(page).to have_content('Task 2 (World Domination)')
+      expect(page).not_to have_content('Task 1 (World Domination)')
     end
   end
 end
