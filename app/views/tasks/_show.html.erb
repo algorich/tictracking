@@ -2,27 +2,12 @@
   <div class="row-fluid">
     <span class="lead pull-left">
       <% if [root_path, dashboard_path].include? request.fullpath %>
-        <%= link_to(task.project.name, project_path(task.project)) + '/'  + task.name %>
+        <%= link_to(task.project.name, project_path(task.project)) + '/' + task.name %>
       <% else %>
         <%= task.name %>
       <% end -%>
     </span>
-      <div class="pull-right" id="actions">
-        <% if current_user.exists_pending_worktimes?(task)%>
-          <% hide_stop = '' %>
-          <% hide_play = 'hide' %>
-        <% else %>
-          <% hide_stop = 'hide' %>
-          <% hide_play = '' %>
-        <% end %>
-
-        <%= link_to '<i class="icon-play"> </i>'.html_safe, task_worktimes_path(task) , {method: :post, remote: true, class: "btn btn-large #{hide_play}"} %>
-        <% unless current_user.worktimes.where(task_id: task).empty? %>
-          <%= link_to '<i class="icon-stop"> </i>'.html_safe,
-            stop_task_worktime_path(task, task.worktimes.where(user_id: current_user).last),
-            {method: :put, remote: true, class: "btn btn-large #{hide_stop}"} %>
-         <% end %>
-      </div>
+    <div class="pull-right" id="actions"><%= play_or_stop_task(task) %></div>
   </div>
 
   <section class="app-worktimes">
@@ -47,10 +32,20 @@
     </table>
   </section>
 
-  <% if can? :update, task %>
-    <%= link_to 'Edit', edit_task_path(task) %>
-  <% end %>
-  <% if can? :destroy, task %>
-    <%= link_to 'Delete', task_path(task), {method: :delete, confirm: 'Are you sure?'} %>
-  <% end %>
+
+  <div class="btn-group">
+    <% if can? :update, task %>
+      <%= link_to edit_task_path(task), class: :btn do %>
+        <i class="icon-edit"></i> Edit
+      <% end %>
+    <% end %>
+
+    <% if can? :destroy, task %>
+      <%= link_to task_path(task),
+        { method: :delete, confirm: 'Are you sure?',
+        class: [:btn, 'btn-danger'] } do %>
+          <i class="icon-remove"></i> Delete
+      <% end %>
+    <% end %>
+  </div>
 </div>

@@ -13,10 +13,15 @@
 </td>
 
 <% if can? :update, worktime %>
-  <td>
-    <%= link_to '<i class="icon-pencil"></i>'.html_safe,
-      edit_task_worktime_path(task, worktime)  %>
-    <%= link_to '<i class="icon-remove"></i>'.html_safe,
-      task_worktime_path(task, worktime), {method: :delete , confirm: 'Are you sure?'} %>
+  <td class="btn-group">
+    <%= link_to edit_task_worktime_path(task, worktime),
+      class: [:btn, 'btn-mini'] do %>
+        <i class="icon-pencil"></i>
+    <% end %>
+    <%= link_to task_worktime_path(task, worktime),
+      { method: :delete , confirm: 'Are you sure?',
+      class: [:btn, 'btn-mini', 'btn-danger'] } do %>
+        <i class="icon-remove"></i>
+    <% end %>
   </td>
 <% end %>
