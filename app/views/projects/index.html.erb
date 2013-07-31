@@ -12,13 +12,19 @@
     <% @projects.each do |project| %>
       <tr>
         <td><%= project.name %></td>
-        <td>
-          <%= link_to '<i class="icon-time"></i>'.html_safe, report_project_path(project) %>
+        <td class="btn-group">
+          <%= link_to report_project_path(project), class: [:btn, 'btn-mini'] do %>
+            <i class="icon-time"></i>
+          <% end %>
           <% if current_user.admin? project %>
-            <%= link_to '<i class="icon-pencil"></i>'.html_safe,
-              edit_project_path(project)  %>
-            <%= link_to '<i class="icon-remove"></i>'.html_safe,
-              project_path(project), {method: :delete , confirm: 'Are you sure?'} %>
+            <%= link_to edit_project_path(project), class: [:btn, 'btn-mini'] do %>
+              <i class="icon-pencil"></i>
+            <% end %>
+            <%= link_to project_path(project),
+              { method: :delete , confirm: 'Are you sure?',
+              class: [:btn, 'btn-mini', 'btn-danger'] } do %>
+                <i class="icon-remove"></i>
+            <% end %>
           <% end %>
         </td>
       </tr>
