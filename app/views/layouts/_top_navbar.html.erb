@@ -2,17 +2,19 @@
   <div class="navbar-inner">
 
     <div class="container">
+      <a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
       <%= link_to 'TicTraking', root_path, class: 'brand' %>
 
-      <div class="nav-collapse collapse">
-        <!-- counter -->
-          <ul class="nav" id="nav-bar-counter">
-          <li>
-            <a class="counter"></a>
-          </li>
-        </ul>
-        <!-- /counter -->
+      <!-- counter -->
+      <ul class="nav" id="nav-bar-counter"><li><a class="counter"></a></li></ul>
+      <!-- /counter -->
 
+      <div class="nav-collapse navbar-responsive-collapse collapse">
         <!-- <ul class="pull-right"> -->
           <ul class="nav pull-right">
             <% if user_signed_in? %>
