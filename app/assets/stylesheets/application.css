@@ -26,16 +26,6 @@ li.account-with-image span.text-account {
   padding-top:60px;
 }
 
-a.brand:nth-child(2), a.brand:nth-child(3) {
-  font-size: 14px;
-  margin-left: 3px;
-  padding-top: 12px;
-}
-
-a.brand:nth-child(3) {
-  margin-left: -10px;
-}
-
 .span12 > ul > div:nth-child(3) > div:nth-child(1) > li {
   float: left;
   margin-left: 15px;
