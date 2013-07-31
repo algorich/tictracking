@@ -16,5 +16,6 @@
 //= require twitter/bootstrap
 //= require select2
 //= require bootstrap-datetimepicker
+//= require countdown.min
 //= require_tree .
 //= require_self

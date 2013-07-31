@@ -6,3 +6,6 @@ appShowFlashMessage('<%= flash_message %>');
 
 $('div[data-id="<%= @task.id.to_s %>"] a[data-method="post"]').hide();
 $('div[data-id="<%= @task.id %>"] a[data-method="put"]').show();
+
+// start countdown
+<%= render partial: 'site/start_countdown' %>

@@ -1,0 +1,18 @@
+<% worktime = current_user.latest(:worktimes).first %>
+
+<% if worktime && !worktime.finished? %>
+  var year = <%= worktime.beginning.year %>;
+  var month = <%= worktime.beginning.month %>;
+  var day = <%= worktime.beginning.day %>;
+  var hour = <%= worktime.beginning.hour %>;
+  var min = <%= worktime.beginning.min %>;
+  var sec = <%= worktime.beginning.sec %>;
+
+  var timerId =
+    countdown(
+      new Date(year, month - 1 , day, hour, min, sec),
+      function(ts) {
+        $('.counter').html(ts.toHTML("strong"));
+      },
+      countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+<% end %>

@@ -8,7 +8,6 @@
   <meta charset="utf-8" />
 
   <%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= javascript_include_tag 'application',  defer: 'defer' %>
   <%= csrf_meta_tags %>
 </head>
 
@@ -45,6 +44,11 @@
   </footer>
   <!-- FOOTER END -->
 
+
+  <%= javascript_include_tag 'application' %>
+  <script type="text/javascript" defer="defer">
+    <%= render partial: 'site/start_countdown', formats: :js %>
+  </script>
 </body>
 
 </html>
