@@ -1,7 +1,7 @@
 <% w_id = worktime.id %>
 
 <td>
-  <%= image_tag avatar_url(current_user), alt: current_user.name,
+  <%= image_tag avatar_url(worktime.user), alt: worktime.user.name,
      size: '22x22', class: 'img-rounded pull-left' %>
 </td>
 
