@@ -15,12 +15,13 @@ class Ability
 
     #Task
     can [:manage], Task do |t|
-      user.member? t.project
+      user.member?(t.project) && !user.observer?(t.project)
     end
+
 
     #Worktime
     can [:create, :read], Worktime do |w|
-      user.member? w.task.project
+      user.member?(w.task.project)
     end
 
     can [:update, :destroy, :edit, :stop], Worktime do |w|

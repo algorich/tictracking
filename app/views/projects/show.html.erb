@@ -1,10 +1,9 @@
+<%= content_for :title do @project.name end %>
 <%= content_for :page_id do 'project_page' end %>
 
 <div class="row-fluid">
 
-  <div id="app-project-name-wrapper" data-url="<%= project_path(@project, format: 'json') %>">
-    <h1 class="pull-left" ><%= @project.name %></h1>
-  </div>
+  <h1 class="pull-left" ><%= @project.name %></h1>
 
   <div class="app-header-actions btn-group pull-right">
     <%= link_to report_project_path(@project), class: :btn do %>
@@ -18,7 +17,7 @@
   </div>
 </div>
 
-<div class="row-fluid">
+<% if can? :manage, @task %>
   <%= simple_form_for @task, remote: true do |f| %>
     <div class="input-append app-new-task">
       <%= f.input_field :name, autofocus: true, placeholder: 'New task' %>
@@ -26,7 +25,8 @@
     </div>
     <%= f.input :project_id, as: :hidden, input_html: { value: @project.id } %>
   <% end %>
-</div>
+<% end %>
+
 
 
 <div id="app-tasks">

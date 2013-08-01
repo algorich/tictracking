@@ -7,7 +7,9 @@
           <small>(<%= link_to(task.project.name, project_path(task.project)) %>)</small>
         <% end %>
       </span>
-      <span class="pull-right" id="actions"><%= play_or_stop_task(task) %></span>
+      <% if can? :manage, task %>
+        <span class="pull-right" id="actions"><%= play_or_stop_task(task) %></span>
+      <% end %>
     </h3>
   </div>
 

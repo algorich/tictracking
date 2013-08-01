@@ -73,4 +73,16 @@ describe User do
       expect(goku.exists_pending_worktimes?(task)).to be_true
     end
   end
+
+  describe '#observer?' do
+    it 'should return true or false' do
+      observer = create(:user_confirmed)
+      project = create(:project)
+      create(:membership, project: project, user: observer)
+      expect(observer.observer?(project)).to be_false
+
+      create(:membership, project: project, user: observer, observer: true)
+      expect(observer.observer?(project)).to be_true
+    end
+  end
 end

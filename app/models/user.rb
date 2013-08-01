@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
     memberships.where(project_id: project).any?
   end
 
+  def observer?(project)
+    memberships.where(project_id: project, observer: true).any?
+  end
+
   def latest(n=1, stuffs)
     self.send(stuffs).order('updated_at DESC').first(n)
   end
