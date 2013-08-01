@@ -9,12 +9,19 @@
   <%= l worktime.beginning, format: :short  %>
 </td>
 
+<% if worktime.finish.present? %>
+  <% finished_at = l(worktime.finish, format: :short) %>
+  <% time_worked = distance_of_time_in_words( worktime.beginning, worktime.finish, false) %>
+<% else %>
+  <% finished_at = time_worked = 'working...' %>
+<% end %>
+
 <td id="end_<%= w_id %>">
-  <%= worktime.finish.present? ? l(worktime.finish, format: :short) : 'working...' %>
+  <%= finished_at %>
 </td>
 
 <td id="time_worked_<%= w_id %>">
-  <%= worktime.time_worked_formatted %>
+  <%= time_worked %>
 </td>
 
 <% if can? :update, worktime %>

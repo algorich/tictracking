@@ -60,6 +60,8 @@ GEM
       railties (~> 3.1)
       warden (~> 1.2.1)
     diff-lcs (1.2.4)
+    dotiw (1.1.1)
+      actionpack (~> 3)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (1.4.0)
@@ -212,6 +214,7 @@ DEPENDENCIES
   cancan (~> 1.6.10)
   capybara (~> 2.1.0)
   devise (= 2.2.4)
+  dotiw (~> 1.1.1)
   factory_girl_rails (~> 4.2.1)
   jquery-rails
   jquery-ui-rails
