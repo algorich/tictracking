@@ -1,5 +1,10 @@
 <% w_id = worktime.id %>
 
+<td>
+  <%= image_tag avatar_url(current_user), alt: current_user.name,
+     size: '20x20', class: 'img-rounded pull-left' %>
+</td>
+
 <td id="begin_<%= w_id %>">
   <%= l worktime.beginning, format: :short  %>
 </td>
