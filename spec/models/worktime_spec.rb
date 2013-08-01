@@ -90,13 +90,6 @@ describe Worktime do
     end
   end
 
-  describe '#time_worked_formatted' do
-    it 'should show the time in minutes' do
-      worktime = create :worktime, beginning: Time.now, finish: Time.now + 30.minutes
-      expect(worktime.time_worked_formatted).to eq('30 minutes')
-    end
-  end
-
   describe '.find_by_time' do
     it 'filter worktimes by time' do
       today = Time.now

@@ -135,5 +135,18 @@ feature 'Worktime' do
         expect(page).to have_content I18n.l(@worktime.beginning, format: :short)
       end
     end
+
+    scenario 'should show the time worked on a workime' do
+      worktime = create :worktime, beginning: Time.now,
+                                   finish: Time.now + 1.hour + 30.minutes,
+                                   user: @user,
+                                   task: @task
+
+      visit project_path(@project)
+
+      within("#time_worked_#{worktime.id}") do
+        expect(page).to have_content('1 hour and 30 minutes')
+      end
+    end
   end
 end

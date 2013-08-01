@@ -35,11 +35,6 @@ class Worktime < ActiveRecord::Base
     self.finish_was.present?
   end
 
-  def time_worked_formatted
-    time = self.time_worked.nil? ? 0 : self.time_worked
-    (time/(1.0).minute).round.to_s + ' minutes'
-  end
-
   private
 
   def timer_create_project
