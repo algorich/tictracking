@@ -53,6 +53,7 @@ li.account-with-image span.text-account {
   background-color: rgb(245,245,245);
   border-radius: 4px;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
+  margin-bottom: 25px;
 }
 
 .nav-header > h4:nth-child(1) {

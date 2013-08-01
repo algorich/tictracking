@@ -14,7 +14,6 @@
   <% else %>
       <% @tasks.each do |t| %>
         <%= render 'tasks/show', task: t, worktime: Worktime.new %>
-      <br />
       <% end %>
   <% end %>
 </div>
