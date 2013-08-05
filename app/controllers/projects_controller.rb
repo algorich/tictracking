@@ -89,6 +89,7 @@ class ProjectsController < ApplicationController
     user = User.find(params[:user_id])
     if @project.can_add? user
       @project.users << user
+      UserMailer.mail_add_user(user, @project).deliver
       params[:message] = { type: 'success', text: 'User was added to this project' }
     else
       params[:message] = { type: 'error', text: 'User already in this project' }
