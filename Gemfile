@@ -42,4 +42,5 @@ group :development do
   gem 'better_errors' # replaces the standard Rails error page with a much better and more useful error page
   gem 'binding_of_caller' # add advanced feature to better_errors
   gem 'xray-rails'
+  gem 'letter_opener', '~> 1.1.2'
 end
