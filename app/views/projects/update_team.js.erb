@@ -1,5 +1,5 @@
 $('.team').html(
-  "<%= escape_javascript render 'projects/team' %>");
+  "<%= escape_javascript(render 'projects/team', edit_page: true)%>");
 
 <% if params[:message] %>
   app_show_flash_message("<%= params[:message][:type] %>",

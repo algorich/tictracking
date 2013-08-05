@@ -6,12 +6,13 @@ feature 'Project team' do
       user_1 = create(:user_confirmed)
       user_2 = create(:user_confirmed)
       user_3 = create(:user_confirmed)
-      project = create(:project, users: [user_1])
+      project = create(:project, users: [user_1]) #project's admin
       create(:membership, project: project, user: user_2, admin: false)
       membership_3 = create(:membership, project: project, user: user_3, admin: false)
 
       login_as user_1
-      visit team_project_path(project)
+      visit edit_project_path(project)
+      click_link 'Team'
       user_1_box = find("#user-#{user_1.id}")
       user_2_box = find("#user-#{user_2.id}")
       user_3_box = find("#user-#{user_3.id}")
@@ -20,7 +21,8 @@ feature 'Project team' do
       expect(user_3_box).not_to be_checked
 
       check("user-#{user_2.id}")
-      visit team_project_path(project)
+      visit edit_project_path(project)
+      click_link 'Team'
       expect(user_1_box).to be_checked
       expect(user_2_box).to be_checked
       expect(user_3_box).not_to be_checked
@@ -28,7 +30,8 @@ feature 'Project team' do
       click_link 'Remove', href: membership_path(membership_3)
       uncheck("user-#{user_2.id}")
 
-      visit team_project_path(project)
+      visit edit_project_path(project)
+      click_link 'Team'
       expect(user_1_box).to be_checked
       expect(user_2_box).not_to be_checked
     end
@@ -38,7 +41,9 @@ feature 'Project team' do
       user = project.memberships.first.user
 
       login_as user
-      visit team_project_path(project)
+      visit edit_project_path(project)
+      click_link 'Team'
+
       user_box = find("#user-#{user.id}")
 
       uncheck("user-#{user.id}")
@@ -78,7 +83,7 @@ feature 'Project team' do
     scenario 'as an admin' do
       login_as @admin
 
-      visit team_project_path(@project)
+      visit edit_project_path(@project)
       user_box = find("#user-#{@user.id}")
       admin_box = find("#user-#{@admin.id}")
 
@@ -96,7 +101,9 @@ feature 'Project team' do
 
   scenario 'remove user', js: true do
     login_as @admin
-    visit team_project_path(@project)
+    visit edit_project_path(@project)
+    click_link 'Team'
+
     expect(page).to have_content(@user.email)
 
     admin_membership = Membership.where(user_id: @admin.id, project_id: @project.id).first
@@ -104,17 +111,17 @@ feature 'Project team' do
     expect(page).to have_content(@admin.email)
     expect(page).to have_content('Project should have at least one admin!')
 
-    click_link 'Remove', href: membership_path(@user_membership.id)
+    click_link 'Remove', href: membership_path(@user_membership)
     expect(page).to_not have_content(@user.email)
     expect(page).to have_content('User was removed from this project')
     expect(page).to_not have_content('Project should have at least one admin!')
 
     user_membership = create(:membership, project: @project, user: @user, admin: true)
-    visit team_project_path(@project)
+    visit edit_project_path(@project)
+    click_link 'Team'
     click_link 'Remove', href: membership_path(admin_membership)
-    within '.team' do
-      expect(page).to_not have_content(@admin.email)
-    end
+
+    expect(page).to_not have_content(@admin.email)
     expect(page).to have_content('User was removed from this project')
   end
 end

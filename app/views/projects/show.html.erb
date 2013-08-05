@@ -9,6 +9,9 @@
     <%= link_to report_project_path(@project), class: :btn do %>
       <i class="icon-time"></i> Time Worked
     <% end %>
+    <%= link_to team_project_path(@project), class: :btn do %>
+      <i class="icon-user"></i> Team
+    <% end %>
     <% if current_user.admin? @project %>
       <%= link_to edit_project_path(@project), class: :btn do %>
         <i class="icon-wrench"></i> Settings

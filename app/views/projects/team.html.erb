@@ -1,9 +1,6 @@
-<p class="alert hide"></p>
+<% edit_page ||= current_page?(edit_project_path(@project)) %>
 
-<h2>Team</h2>
-</br>
-
-<% if current_user.admin?(@project) %>
+<% if edit_page %>
   <form class="form-inline" id="user_to_add">
     <label>Add Users:</label>
     <%= collection_select 'post', 'user', User.all, :id, :email, { include_blank: true },
@@ -11,9 +8,10 @@
         id: 'add_user_to_project',
         data: { url: add_user_project_path(@project) } } %>
   </form>
+<% else %>
+  <h2>Team</h2>
 <% end %>
-</br>
 
 <div class="team">
-  <%= render 'team' %>
+  <%= render 'team', edit_page: edit_page %>
 </div>

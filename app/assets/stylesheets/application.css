@@ -17,9 +17,14 @@
 ** Header
 */
 
-li.account-with-image span.text-account {
+.text-account {
   margin-left: 5px;
   display: inline-block;
+}
+
+.text-account.in-team {
+  line-height: 15px;
+  height: 30px;
 }
 
 #app-content {
@@ -107,4 +112,12 @@ li.account-with-image span.text-account {
 
 #times_worked .app-inner-acccordion {
   margin-left: 20px;
+}
+
+#team-table td:nth-child(2) {
+  text-align: center;
+}
+
+#team-table td:nth-child(3) {
+  text-align: right;
 }
