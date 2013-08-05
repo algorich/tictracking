@@ -73,54 +73,7 @@ feature 'Times worked' do
     end
   end
 
-  context 'search' do
-    scenario 'search between times' do
-      yesterday = @day_before_yesterday + 1.day
-      Timecop.freeze(yesterday) do
-        now = Time.now
-        @task = create(:task, project: @resurrect_kuririn, name: 'Foo')
-        worktime = create(:worktime, task: @task, beginning: now,
-         finish: now + 10.minutes, user: @goku )
-      end
-
-      login_as @goku
-      visit report_project_path(@resurrect_kuririn)
-
-      within("#user-#{@goku.id}") do
-        expect(page).to have_content @goku.name
-        expect(page).to have_content '215 minutes' #time worked at project
-
-        within("#tasks #task-#{@find_dragon_balls.id}") do
-          expect(page).to have_content @find_dragon_balls.name
-          expect(page).to have_content '200 minutes'
-        end
-
-        within("#tasks #task-#{@invoke_shenlong.id}") do
-          expect(page).to have_content @invoke_shenlong.name
-          expect(page).to have_content '5 minutes'
-        end
-      end
-    end
-
-    scenario 'common user' do
-      login_as @kuririn
-      visit report_project_path(@resurrect_kuririn)
-
-      within("#user-#{@kuririn.id}") do
-        expect(page).to have_content @kuririn.name
-        expect(page).to have_content '2 minutes' #time worked at project
-
-        within('#tasks') do
-          expect(page).to have_content @die.name
-          expect(page).to have_content '2 minutes' #time worked at task
-        end
-      end
-
-      expect(page).to_not have_css("#user-#{@goku.id}")
-    end
-  end
-
-  context 'search like an admin' do
+  context 'filter by user' do
     scenario 'admin', js: true do
       login_as @goku
       visit report_project_path(@resurrect_kuririn)
@@ -152,6 +105,208 @@ feature 'Times worked' do
       login_as @kuririn
       visit report_project_path(@resurrect_kuririn)
       expect(page).to_not have_select('filter_user_id')
+    end
+  end
+
+  context 'filter by time' do
+    before(:each) do
+      @yesterday = @day_before_yesterday + 1.day
+      Timecop.freeze(@yesterday) do
+        now = Time.now
+        @task = create(:task, project: @resurrect_kuririn, name: 'Foo')
+        worktime = create(:worktime, task: @task, beginning: now,
+         finish: now + 10.minutes, user: @goku )
+      end
+
+      login_as @goku
+      visit report_project_path(@resurrect_kuririn)
+    end
+
+    scenario 'initial' do
+      #goku
+      within("#user-#{@goku.id}") do
+        expect(page).to have_content @goku.name
+        expect(page).to have_content '215 minutes' #time worked at project
+
+        within("#tasks #task-#{@find_dragon_balls.id}") do
+          expect(page).to have_content @find_dragon_balls.name
+          expect(page).to have_content '200 minutes'
+        end
+
+        within("#tasks #task-#{@invoke_shenlong.id}") do
+          expect(page).to have_content @invoke_shenlong.name
+          expect(page).to have_content '5 minutes'
+        end
+
+        within("#tasks #task-#{@task.id}") do
+          expect(page).to have_content @task.name
+          expect(page).to have_content '10 minutes'
+        end
+      end
+
+      #kuririn
+      within("#user-#{@kuririn.id}") do
+        expect(page).to have_content @kuririn.name
+        expect(page).to have_content '2 minutes' #time worked at project
+
+        within("#tasks #task-#{@die.id}") do
+          expect(page).to have_content @die.name
+          expect(page).to have_content '2 minutes'
+        end
+      end
+    end
+
+    scenario 'begin_at' do
+      fill_in 'Begin at:', with: @yesterday + 1.day
+      click_button 'Filter'
+
+      within("#user-#{@goku.id}") do
+        expect(page).to have_content @goku.name
+        expect(page).to have_content '0 minutes'
+
+        expect(page).to_not have_css("#tasks #task-#{@find_dragon_balls.id}")
+        expect(page).to_not have_css("#tasks #task-#{@invoke_shenlong.id}")
+        expect(page).to_not have_css("#tasks #task-#{@task.id}")
+      end
+
+      within("#user-#{@kuririn.id}") do
+        expect(page).to have_content @kuririn.name
+        expect(page).to have_content '0 minutes' #time worked at project
+
+        expect(page).to_not have_css("#tasks #task-#{@die.id}")
+      end
+
+      fill_in 'Begin at:', with: @yesterday
+      click_button 'Filter'
+
+      within("#user-#{@goku.id}") do
+        expect(page).to have_content @goku.name
+        expect(page).to have_content '10 minutes'
+        expect(page).to_not have_css("#tasks #task-#{@find_dragon_balls.id}")
+        expect(page).to_not have_css("#tasks #task-#{@invoke_shenlong.id}")
+
+        within("#tasks #task-#{@task.id}") do
+          expect(page).to have_content @task.name
+          expect(page).to have_content '10 minutes'
+        end
+      end
+
+      within("#user-#{@kuririn.id}") do
+        expect(page).to have_content @kuririn.name
+        expect(page).to have_content '0 minutes' #time worked at project
+
+        expect(page).to_not have_css("#tasks #task-#{@die.id}")
+      end
+
+      fill_in 'Begin at:', with: @day_before_yesterday
+      click_button 'Filter'
+
+       #goku
+      within("#user-#{@goku.id}") do
+        expect(page).to have_content @goku.name
+        expect(page).to have_content '215 minutes' #time worked at project
+
+        within("#tasks #task-#{@find_dragon_balls.id}") do
+          expect(page).to have_content @find_dragon_balls.name
+          expect(page).to have_content '200 minutes'
+        end
+
+        within("#tasks #task-#{@invoke_shenlong.id}") do
+          expect(page).to have_content @invoke_shenlong.name
+          expect(page).to have_content '5 minutes'
+        end
+
+        within("#tasks #task-#{@task.id}") do
+          expect(page).to have_content @task.name
+          expect(page).to have_content '10 minutes'
+        end
+      end
+
+      #kuririn
+      within("#user-#{@kuririn.id}") do
+        expect(page).to have_content @kuririn.name
+        expect(page).to have_content '2 minutes' #time worked at project
+
+        within("#tasks #task-#{@die.id}") do
+          expect(page).to have_content @die.name
+          expect(page).to have_content '2 minutes'
+        end
+      end
+    end
+
+    scenario 'end_at' do
+      fill_in 'End at:', with: @day_before_yesterday
+      click_button 'Filter'
+
+      within("#user-#{@goku.id}") do
+        expect(page).to have_content @goku.name
+        expect(page).to have_content '0 minutes'
+
+        expect(page).to_not have_css("#tasks #task-#{@find_dragon_balls.id}")
+        expect(page).to_not have_css("#tasks #task-#{@invoke_shenlong.id}")
+        expect(page).to_not have_css("#tasks #task-#{@task.id}")
+      end
+
+      within("#user-#{@kuririn.id}") do
+        expect(page).to have_content @kuririn.name
+        expect(page).to have_content '0 minutes' #time worked at project
+
+        expect(page).to_not have_css("#tasks #task-#{@die.id}")
+      end
+
+      fill_in 'End at:', with: @yesterday
+      click_button 'Filter'
+
+      within("#user-#{@goku.id}") do
+        expect(page).to have_content @goku.name
+        expect(page).to have_content '205 minutes'
+        expect(page).to have_css("#tasks #task-#{@find_dragon_balls.id}")
+        expect(page).to have_css("#tasks #task-#{@invoke_shenlong.id}")
+
+        expect(page).to_not have_css("#tasks #task-#{@task.id}")
+      end
+
+      within("#user-#{@kuririn.id}") do
+        expect(page).to have_content @kuririn.name
+        expect(page).to have_content '2 minutes' #time worked at project
+
+        expect(page).to have_css("#tasks #task-#{@die.id}")
+      end
+
+      fill_in 'End at:', with: Time.now
+      click_button 'Filter'
+
+       #goku
+      within("#user-#{@goku.id}") do
+        expect(page).to have_content @goku.name
+        expect(page).to have_content '215 minutes' #time worked at project
+
+        within("#tasks #task-#{@find_dragon_balls.id}") do
+          expect(page).to have_content @find_dragon_balls.name
+          expect(page).to have_content '200 minutes'
+        end
+
+        within("#tasks #task-#{@invoke_shenlong.id}") do
+          expect(page).to have_content @invoke_shenlong.name
+          expect(page).to have_content '5 minutes'
+        end
+
+        within("#tasks #task-#{@task.id}") do
+          expect(page).to have_content @task.name
+          expect(page).to have_content '10 minutes'
+        end
+      end
+
+      #kuririn
+      within("#user-#{@kuririn.id}") do
+        expect(page).to have_content @kuririn.name
+        expect(page).to have_content '2 minutes' #time worked at project
+
+        within("#tasks #task-#{@die.id}") do
+          expect(page).to have_content @die.name
+          expect(page).to have_content '2 minutes'
+        end
+      end
     end
   end
 end
