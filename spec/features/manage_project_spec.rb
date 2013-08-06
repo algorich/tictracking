@@ -18,10 +18,8 @@ feature 'manage project' do
       expect(page).to have_content('Project_1')
       click_link "Settings"
 
-      admin_box = find("#user-#{@user.id}")
-
       within('.team') do
-        expect(admin_box).to be_checked
+        expect(page).to have_select("select_user_#{@user.id}", selected: ('Admin'))
         expect(page).to have_content(@user.email)
         expect(page).not_to have_content(user_2.email)
       end
@@ -56,7 +54,7 @@ feature 'manage project' do
     scenario 'name  cant be blank' do
       project = create(:project, name: 'Project_1')
       membership = project.memberships.first
-      membership.toggle_admin!
+      expect(membership).to be_admin
       user = membership.user
       login_as user
 
@@ -102,10 +100,10 @@ feature 'manage project' do
     end
 
     scenario 'only members can show projects' do
-      membership = create(:membership, project: @project)
       visit project_path(@project)
       expect(page).to have_content 'You are not authorized to access this page.'
 
+      membership = create(:membership, project: @project)
       login_as membership.user
       visit project_path(@project)
       expect(page).not_to have_content 'You are not authorized to access this page.'

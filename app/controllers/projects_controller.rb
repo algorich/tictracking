@@ -69,10 +69,12 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def change_admin
+  def change_role
     project = Project.find(params[:id])
-    membership = project.memberships.where(user_id: params[:admin_id]).first
-    if membership.toggle_admin!
+    membership = project.memberships.find(params[:membership_id])
+    role = params[:role]
+
+    if membership.set_role!(role)
       render json: { success: true }
     else
       render json: { success: false, message: 'Project should have at least one admin!'}

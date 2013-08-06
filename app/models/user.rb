@@ -9,16 +9,24 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :projects, through: :memberships
 
+  def membership(project)
+    memberships.find_by_project_id(project.id)
+  end
+
   def admin?(project)
-    memberships.where(project_id: project, role: 'admin').any?
+    membership(project).try(:admin?)
   end
 
   def member?(project)
-    memberships.where(project_id: project).any?
+    membership(project).present?
   end
 
   def observer?(project)
-    memberships.where(project_id: project, role: 'observer').any?
+    membership(project).try(:observer?)
+  end
+
+  def role_in?(project)
+    membership(project).try(:role)
   end
 
   def latest(n=1, stuffs)

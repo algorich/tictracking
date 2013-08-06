@@ -85,4 +85,28 @@ describe User do
       expect(observer.observer?(project)).to be_true
     end
   end
+
+  describe '#role_in' do
+    it 'should return the role in the project' do
+      project = create(:project)
+      user = create(:user_confirmed)
+      expect(user.role_in?(project)).to be_nil
+
+      membership = create(:membership, project: project, user: user, role: 'common_user')
+      expect(user.role_in?(project)).to eq('common_user')
+
+      membership.update_attribute(:role, 'admin')
+      expect(user.role_in?(project)).to eq('admin')
+    end
+  end
+
+  describe '#membership' do
+    it 'should return the membership of the project' do
+      project = create(:project)
+      user = create(:user_confirmed)
+      membership = create(:membership, project: project, user: user)
+
+      expect(user.membership(project)).to eq(membership)
+    end
+  end
 end
