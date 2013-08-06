@@ -9,8 +9,8 @@ describe User do
       project_1 = create(:project)
       project_2 = create(:project)
 
-      create(:membership, user: user, project: project_1, admin: true)
-      create(:membership, user: user, project: project_2, admin: false)
+      create(:membership, user: user, project: project_1, role: 'admin')
+      create(:membership, user: user, project: project_2, role: 'common_user')
 
       expect(user.admin?(project_1)).to eq(true)
       expect(user.admin?(project_2)).to eq(false)
@@ -81,7 +81,7 @@ describe User do
       create(:membership, project: project, user: observer)
       expect(observer.observer?(project)).to be_false
 
-      create(:membership, project: project, user: observer, observer: true)
+      create(:membership, project: project, user: observer, role: 'observer')
       expect(observer.observer?(project)).to be_true
     end
   end

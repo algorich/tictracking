@@ -40,7 +40,7 @@ feature 'manage project' do
   context "edit" do
     scenario 'successfully', js:true do
       project = create(:project, name: 'Project_1')
-      membership = create(:membership, admin: true, project: project)
+      membership = create(:membership, role: 'admin', project: project)
       login_as membership.user
       visit project_path(project)
       expect(page).to have_content('Project_1')
@@ -71,7 +71,7 @@ feature 'manage project' do
 
   scenario 'should be deletable' do
     project = create(:project, name: 'Project_1')
-    membership = create(:membership, admin: true, project: project)
+    membership = create(:membership, role: 'admin', project: project)
     login_as membership.user
     visit edit_project_path(project)
     link_destroy = page.find(:xpath, ".//a[@href=\"/projects/#{project.id}\" and @data-method=\"delete\"]")
@@ -87,7 +87,7 @@ feature 'manage project' do
     end
 
     scenario 'only project admin can show links settings' do
-      membership = create(:membership, admin: true, project: @project)
+      membership = create(:membership, role: 'admin', project: @project)
       login_as membership.user
       visit project_path(@project)
 

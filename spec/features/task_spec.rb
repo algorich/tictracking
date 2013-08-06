@@ -133,13 +133,13 @@ feature 'Task' do
       user = create(:user_confirmed)
       login_as user
       membership = create(:membership, project: @project, user: user,
-       admin: false)
+       role: 'common_user')
       task2 = create(:task, project: @project, name: 'Task2')
       visit project_path(@project)
       click_link 'Sign'
 
       membership = create(:membership, project: @project, user: @user,
-       admin: true)
+       role: 'admin')
       login_as @user
       task = create(:task, project: @project)
       visit project_path(@project)

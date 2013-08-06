@@ -28,7 +28,7 @@ feature 'Dashboard' do
 
     #observer
     @client = create(:user_confirmed)
-    create(:membership, project: @resurrect_kuririn, user: @client, observer: true)
+    create(:membership, project: @resurrect_kuririn, user: @client, role: 'observer')
     login_as @client
   end
 

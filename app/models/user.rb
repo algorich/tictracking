@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :projects, through: :memberships
 
   def admin?(project)
-    memberships.where(project_id: project, admin: true).any?
+    memberships.where(project_id: project, role: 'admin').any?
   end
 
   def member?(project)
@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   end
 
   def observer?(project)
-    memberships.where(project_id: project, observer: true).any?
+    memberships.where(project_id: project, role: 'observer').any?
   end
 
   def latest(n=1, stuffs)

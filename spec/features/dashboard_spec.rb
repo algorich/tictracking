@@ -14,7 +14,7 @@ feature 'Dashboard' do
   scenario 'should a message if user dont have tasks' do
     login_as @user
     project = create :project
-    membership = create :membership, project: project, user: @user, admin: true
+    membership = create :membership, project: project, user: @user, role: 'admin'
     visit root_path
     expect(page).to have_content('Create a task')
   end

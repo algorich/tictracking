@@ -7,8 +7,8 @@ feature 'Project team' do
       user_2 = create(:user_confirmed)
       user_3 = create(:user_confirmed)
       project = create(:project, users: [user_1]) #project's admin
-      create(:membership, project: project, user: user_2, admin: false)
-      membership_3 = create(:membership, project: project, user: user_3, admin: false)
+      create(:membership, project: project, user: user_2, role: 'common_user')
+      membership_3 = create(:membership, project: project, user: user_3, role: 'common_user')
 
       login_as user_1
       visit edit_project_path(project)
@@ -56,7 +56,7 @@ feature 'Project team' do
     @user = create(:user_confirmed)
     @admin = create(:user_confirmed)
     @project = create(:project, users: [@admin])
-    @user_membership = create(:membership, project: @project, user: @user, admin: false)
+    @user_membership = create(:membership, project: @project, user: @user, role: 'common_user')
 
     visit team_project_path(@project)
     expect(current_path).to eq(new_user_session_path)
@@ -116,7 +116,7 @@ feature 'Project team' do
     expect(page).to have_content('User was removed from this project')
     expect(page).to_not have_content('Project should have at least one admin!')
 
-    user_membership = create(:membership, project: @project, user: @user, admin: true)
+    user_membership = create(:membership, project: @project, user: @user, role: 'admin')
     visit edit_project_path(@project)
     click_link 'Team'
     click_link 'Remove', href: membership_path(admin_membership)
