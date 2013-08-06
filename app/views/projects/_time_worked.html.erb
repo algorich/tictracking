@@ -1,10 +1,12 @@
+<% time_worked_at_task = @project.
+  time_worked(user: user, begin_at: @begin_at, end_at: @end_at)  %>
+
 <div id="user-<%= user.id %>">
   <tr class="info">
     <td><%= image_tag avatar_url(user), alt: user.name,
      size: '30x30', class: 'img-rounded pull-left' %>
      <h5><%= user.name || user.email %></h5></td>
-    <td><h5><%= to_minutes @project.
-      time_worked(user: user, begin_at: @begin_at, end_at: @end_at) %>
+    <td><h5><%= distance_of_time_in_words(0, time_worked_at_task, false) %>
     </h5></td>
   </tr>
 
@@ -12,7 +14,7 @@
     <% @project.tasks_times_array.each do |task| %>
       <tr id="task-<%= task[:id] %>">
         <td><%= task[:name] %></td>
-        <td><%= to_minutes task[:time] %></td>
+        <td><%= distance_of_time_in_words( 0, task[:time], false) %></td>
       </tr>
     <% end %>
   </div>
