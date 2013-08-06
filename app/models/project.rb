@@ -11,9 +11,9 @@ class Project < ActiveRecord::Base
   def set_admin(user)
     membership = memberships.where(user_id: user.id).first
     if membership
-      membership.update_attribute(:admin, true)
+      membership.update_attribute(:role, 'admin')
     else
-      memberships.build(admin: true, user: user)
+      memberships.build(role: 'admin', user: user)
     end
   end
 

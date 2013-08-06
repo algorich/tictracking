@@ -14,7 +14,7 @@ describe Project do
     it 'if user already have a membership, set it as admin' do
       user = create(:user)
       project = Project.new(name: 'some')
-      project.memberships.build(user: user, admin: false)
+      project.memberships.build(user: user, role: :common_user)
       project.save!
 
       membership = Membership.where(project_id: project.id, user_id: user.id).first
@@ -31,7 +31,7 @@ describe Project do
       project.set_admin(user)
 
       membership = project.memberships.last
-      expect(membership.admin).to be_true
+      expect(membership.admin?).to be_true
       expect(membership.user).to eq(user)
     end
   end
@@ -39,7 +39,7 @@ describe Project do
   describe '#can_add?' do
     it 'should return true if the user is not in the project' do
       project = create(:project)
-      user = create(:user)
+      user = create(:user_confirmed)
 
       expect(project.can_add?(user)).to be_true
       project.users << user
@@ -54,7 +54,7 @@ describe Project do
       project = create(:project)
       task = create(:task, project: project)
       worktime = create(:worktime, user: user, task: task )
-      membership = create(:membership, user: user, project: project, admin: true)
+      membership = create(:membership, user: user, project: project, role: 'admin')
       project.destroy
       expect { Project.find(project.id) }.to raise_error(ActiveRecord::RecordNotFound)
       expect { Task.find(task.id) }.to raise_error(ActiveRecord::RecordNotFound)
