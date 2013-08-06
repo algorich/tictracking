@@ -105,6 +105,11 @@ class ProjectsController < ApplicationController
     @end_at = Time.now
     @users = @project.users
     @users.reject! { |user| user.observer?(@project) } if current_user.observer?(@project)
+    @values = {
+      user_id: nil,
+      begin_at: nil,
+      end_at: nil
+    }
   end
 
   def filter
@@ -114,7 +119,11 @@ class ProjectsController < ApplicationController
     @end_at = params[:filter][:end_at].to_time || Time.now
     @users = @project.users
     @user_filtered = @users.find_by_id(params[:filter][:user_id])
-
+    @values = {
+      user_id: params[:filter][:user_id],
+      begin_at: params[:filter][:begin_at],
+      end_at: params[:filter][:end_at]
+    }
     @users = [@user_filtered] if !@user_filtered.nil?
     render 'report'
   end
