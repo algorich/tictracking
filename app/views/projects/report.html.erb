@@ -7,13 +7,13 @@
       <label for="user_id">User</label>
       <%= f.input_field :user_id, collection: @project.users, as: :select,
         value_method: :id,
-        label_method: :email,
+        label_method: :email, selected: @values[:user_id], include_blank: true,
         class: "select_users_by_select2" %>
     <% end %>
 
     <label for="filter_begin_at">Begin at:</label>
     <div class="datetimepicker input-append">
-      <%= f.input_field :begin_at, as: :string %>
+      <%= f.input_field :begin_at, as: :string, value: @values[:begin_at] %>
       <span class="add-on">
        <i data-time-icon="icon-time" data-date-icon="icon-calendar" ></i>
       </span>
@@ -21,7 +21,7 @@
 
     <label for="filter_end_at">End at:</label>
     <div class="datetimepicker input-append">
-      <%= f.input_field :end_at, as: :string %>
+      <%= f.input_field :end_at, as: :string, value: @values[:end_at] %>
 
       <span class="add-on">
        <i data-time-icon="icon-time" data-date-icon="icon-calendar" ></i>
@@ -34,7 +34,7 @@
   <% end %>
 
 
-  <table class="table table-striped" id="time_worked">
+  <table class="table table-striped app_timeworked" id="time_worked">
     <thead>
       <tr>
         <th><h4>Name</h4></th>

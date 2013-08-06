@@ -1,19 +1,20 @@
 <div id="user-<%= user.id %>">
-  <tr class="info">
-    <td><%= image_tag avatar_url(user), alt: user.name,
-     size: '30x30', class: 'img-rounded pull-left' %>
-     <h5><%= user.name || user.email %></h5></td>
-    <td><h5><%= to_minutes @project.
-      time_worked(user: user, begin_at: @begin_at, end_at: @end_at) %>
-    </h5></td>
-  </tr>
 
-  <div id="tasks">
-    <% @project.tasks_times_array.each do |task| %>
-      <tr id="task-<%= task[:id] %>">
-        <td><%= task[:name] %></td>
-        <td><%= to_minutes task[:time] %></td>
+      <tr class="info">
+        <td><%= image_tag avatar_url(user), alt: user.name,
+         size: '30x30', class: 'img-rounded pull-left' %>
+         <h5><%= user.name || user.email %></h5></td>
+        <td><h5><%= to_minutes @project.
+          time_worked(user: user, begin_at: @begin_at, end_at: @end_at) %>
+        </h5></td>
       </tr>
-    <% end %>
-  </div>
+
+      <div id="tasks">
+        <% @project.tasks_times_array.each do |task| %>
+          <tr id="task-<%= task[:id] %>">
+            <td><%= task[:name] %></td>
+            <td><%= to_minutes task[:time] %></td>
+          </tr>
+        <% end %>
+      </div>
 </div>
