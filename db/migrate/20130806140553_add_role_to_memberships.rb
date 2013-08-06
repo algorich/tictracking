@@ -4,9 +4,9 @@ class AddRoleToMemberships < ActiveRecord::Migration
 
     #migrating old data
     Membership.all.each do |m|
-      if m.admin?
+      if m.admin == true
         m.role = 'admin'
-      elsif m.observer?
+      elsif m.observer == true
         m.role = 'observer'
       else
         m.role = 'common_user'

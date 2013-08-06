@@ -5,8 +5,8 @@ class Membership < ActiveRecord::Base
   belongs_to :project
 
   #TODO: adicionar :admin e comentar role para fazer o deploy
-  attr_accessible :project, :user, :role
-  validates :role, presence: true
+  attr_accessible :project, :user, :admin#:role
+  # validates :role, presence: true
 
   def set_role!(role)
     return nil if role != 'admin' and !can_remove_admin?
