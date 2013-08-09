@@ -107,10 +107,11 @@ class ProjectsController < ApplicationController
     @end_at = Time.now
     @users = @project.users
     @users.reject! { |user| user.observer?(@project) }
+
     @values = {
       user_id: nil,
-      begin_at: nil,
-      end_at: nil
+      begin_at: l(@begin_at, format: :datetimepicker),
+      end_at: l(@end_at, format: :datetimepicker)
     }
   end
 
