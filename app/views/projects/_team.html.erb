@@ -12,16 +12,20 @@
           </td>
 
           <td class="span4">
-            <%= collection_select 'post', 'role', Membership::ROLES, :to_s, :humanize,
-              {selected: user.role_in?(@project)},
-              { class: 'set_admin',
-                id: 'select_user_' + user.id.to_s,
-                data: {
-                  url: change_role_project_path(@project),
-                  membership_id: user.membership(@project).id
-                },
-                disabled: !edit_page
-              } %>
+            <% role = user.role_in?(@project) %>
+            <% if edit_page %>
+              <%= collection_select 'post', 'role', Membership::ROLES, :to_s, :humanize,
+                {selected: role},
+                { class: 'set_admin',
+                  id: 'select_user_' + user.id.to_s,
+                  data: {
+                    url: change_role_project_path(@project),
+                    membership_id: user.membership(@project).id
+                  }
+                } %>
+            <% else %>
+              <%= role.humanize %>
+            <% end %>
           </td>
 
           <% if edit_page %>
