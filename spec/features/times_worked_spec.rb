@@ -54,6 +54,9 @@ feature 'Times worked' do
 
   context 'show' do
     scenario 'admin' do
+      observer = create(:user_confirmed, name: 'observer')
+      create :membership, user: observer, project: @resurrect_kuririn, role: 'observer'
+
       login_as @goku
       visit report_project_path(@resurrect_kuririn)
 
@@ -70,6 +73,8 @@ feature 'Times worked' do
           expect(page).to have_content '2 minutes' #time worked at task
         end
       end
+
+      expect(page).to_not have_css("#user-#{observer.id}")
     end
   end
 

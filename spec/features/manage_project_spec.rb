@@ -122,10 +122,10 @@ feature 'manage project' do
       visit projects_path
 
       expect(page).not_to have_content project.name
-      expect(page).to have_content project_1.name
-      expect(page).to have_content project_2.name
-      expect(page).to have_content project_3.name
-      expect(page).to have_content project_4.name
+      expect(page).to have_link project_1.name, href: project_path(project_1)
+      expect(page).to have_link project_2.name, href: project_path(project_2)
+      expect(page).to have_link project_3.name, href: project_path(project_3)
+      expect(page).to have_link project_4.name, href: project_path(project_4)
     end
   end
 end

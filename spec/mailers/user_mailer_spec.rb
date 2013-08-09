@@ -2,18 +2,19 @@ require "spec_helper"
 
 describe UserMailer do
   describe "mail_add_user" do
-    let(:mail) { UserMailer.mail_add_user(nil, nil) }
+    let(:project) { create(:project) }
+    let(:user) { create(:user_confirmed) }
+    let(:mail) { UserMailer.mail_add_user(user, project) }
 
     it "renders the headers" do
-      pending('do it')
-      mail.subject.should eq("Mail add user")
-      mail.to.should eq(["to@example.org"])
-      mail.from.should eq(["from@example.com"])
+      mail.subject.should eq('You have been added to a project at TicTracking')
+      mail.to.should include(user.email)
+      mail.from.should include('no-reply@tictracking.com')
     end
 
     it "renders the body" do
-      pending('do it')
-      mail.body.encoded.should match("Hi")
+      mail.body.encoded.should have_content("You have been added to the project #{project.name}")
+      mail.body.encoded.should have_link(project.name, href: project_url(project))
     end
   end
 end

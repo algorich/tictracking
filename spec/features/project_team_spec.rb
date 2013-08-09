@@ -25,8 +25,8 @@ feature 'Project team' do
       expect(page).to have_link 'Remove', href: membership_path(@user_membership)
       expect(page).to have_link 'Remove', href: membership_path(@admin_membership)
 
-      expect(page).to have_select("select_user_#{@admin.id}", selected: ('Admin'), disabled: false)
-      expect(page).to have_select("select_user_#{@user.id}", selected: ('Common user'),  disabled: false)
+      expect(page).to have_select("select_user_#{@admin.id}", selected: ('Admin'))
+      expect(page).to have_select("select_user_#{@user.id}", selected: ('Common user'))
     end
 
     scenario 'remove user', js: true do
@@ -98,7 +98,7 @@ feature 'Project team' do
   end
 
   context 'team at project#team' do
-    scenario 'show as a comum user' do
+    scenario 'show' do
       login_as @user
 
       visit team_project_path(@project)
@@ -106,20 +106,10 @@ feature 'Project team' do
 
       expect(page).to_not have_link 'Remove'
 
-      expect(page).to have_select("select_user_#{@admin.id}", selected: ('Admin'), disabled: true)
-      expect(page).to have_select("select_user_#{@user.id}", selected: ('Common user'),  disabled: true)
-    end
-
-    scenario 'show as a comum admin' do
-      login_as @admin
-
-      visit team_project_path(@project)
-      expect(page).not_to have_select('post[user]')
-
-      expect(page).to_not have_link 'Remove'
-
-      expect(page).to have_select("select_user_#{@admin.id}", selected: ('Admin'), disabled: true)
-      expect(page).to have_select("select_user_#{@user.id}", selected: ('Common user'),  disabled: true)
+      expect(page).to have_content("#{@project.name}'s team")
+      expect(page).to have_link(@project.name, href: project_path(@project))
+      expect(page).to have_content('Admin')
+      expect(page).to have_content('Common user')
     end
   end
 end
