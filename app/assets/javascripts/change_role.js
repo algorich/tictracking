@@ -11,9 +11,9 @@ jQuery(function() {
         }).done(function(data) {
             if (data.success === false) {
                 $that.val('admin');
-                app_show_flash_message('error', data.message)
+                app_show_flash_message('error', data.message);
             } else {
-                $('.alert').addClass('hide');
+                app_show_flash_message('success', data.message);
             };
         });
     });

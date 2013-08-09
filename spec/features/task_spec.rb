@@ -76,6 +76,21 @@ feature 'Task' do
       visit project_path(@project)
       expect(page).to_not have_content(text)
     end
+
+    scenario 'should show the time worked at all worktimes' do
+      now = Time.now
+      create(:membership, user: @goku, project: @project)
+      create(:worktime, task: @task_1, beginning: now - 30.minutes, finish: now, user: @user)
+      create(:worktime, task: @task_1, beginning: now - 40.minutes, finish: now, user: @goku)
+
+      visit project_path(@project)
+
+      task = find("[data-id='#{@task_1.id}']")
+      within(task) do
+        expect(page).to have_content(@task_1.name)
+        expect(page).to have_content('Total time worked: 1 hour and 10 minutes')
+      end
+    end
   end
 
   context 'edit' do

@@ -128,6 +128,9 @@ feature 'Times worked' do
     end
 
     scenario 'initial' do
+      find_field('filter_begin_at').value.should eq(I18n.l(@resurrect_kuririn.created_at, format: :datetimepicker))
+      find_field('filter_end_at').value.should eq(I18n.l(Time.now, format: :datetimepicker))
+
       #goku
       within("#user-#{@goku.id}") do
         expect(page).to have_content @goku.name

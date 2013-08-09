@@ -6,4 +6,8 @@ class Task < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { scope: :project_id }
   validates :project, presence: true
+
+  def time_worked
+    self.worktimes.reduce(0) { |total, worktime| total += worktime.time_worked }
+  end
 end
