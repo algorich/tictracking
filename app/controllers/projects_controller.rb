@@ -104,7 +104,7 @@ class ProjectsController < ApplicationController
     @begin_at = @project.created_at
     @end_at = Time.now
     @users = @project.users
-    @users.reject! { |user| user.observer?(@project) } if current_user.observer?(@project)
+    @users.reject! { |user| user.observer?(@project) }
     @values = {
       user_id: nil,
       begin_at: nil,
