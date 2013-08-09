@@ -58,7 +58,7 @@ feature 'Project team' do
     context 'Change users roles', js:true do
       scenario 'should have a select to set the admins, user and observers on project#team' do
         user_1 = create(:user_confirmed)
-        user_2 = create(:user_confirmed)
+        user_2 = create(:user_confirmed, name: 'BOSS_2')
         user_3 = create(:user_confirmed)
         project = create(:project, users: [user_1]) #project's admin
         create(:membership, project: project, user: user_2, role: 'common_user')
@@ -72,7 +72,11 @@ feature 'Project team' do
         expect(page).to have_select("select_user_#{user_3.id}", selected: ('Observer'))
 
         select 'Admin', from: "select_user_#{user_2.id}"
+        expect(page).to have_content "Change the #{user_2.name}'s role with success!"
+
         select 'Common user', from: "select_user_#{user_3.id}"
+        expect(page).to have_content "Change the #{user_3.email}'s role with success!"
+
         visit edit_project_path(project)
         click_link 'Team'
         expect(page).to have_select("select_user_#{user_1.id}", selected: ('Admin'))

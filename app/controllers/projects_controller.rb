@@ -75,7 +75,9 @@ class ProjectsController < ApplicationController
     role = params[:role]
 
     if membership.set_role!(role)
-      render json: { success: true }
+      user = membership.user
+      indentification = user.name || user.email
+      render json: { success: true, message: "Change the #{indentification}'s role with success!" }
     else
       render json: { success: false, message: 'Project should have at least one admin!'}
     end
