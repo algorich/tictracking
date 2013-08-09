@@ -2,6 +2,9 @@
   <% admin_or_observer = current_user.admin?(@project) || current_user.observer?(@project)  %>
 
   <h1>Time Worked at <%= link_to @project.name, project_path(@project) %></h1>
+
+  <hr />
+
   <%= simple_form_for :filter, url: 'filter', method: 'get', html: {class: 'form-inline' } do |f| %>
     <% if admin_or_observer %>
       <label for="user_id">User</label>
@@ -33,6 +36,7 @@
     <% end %>
   <% end %>
 
+  <hr />
 
   <table class="table table-striped app_timeworked" id="time_worked">
     <thead>

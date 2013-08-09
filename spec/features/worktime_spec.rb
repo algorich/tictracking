@@ -66,6 +66,13 @@ feature 'Worktime' do
       end
     end
 
+    scenario 'should edit unfinished worktime' do
+      login_as @user
+      worktime = create :worktime, user: @user, task: @task, beginning: @begin_time, finish: nil
+      visit edit_task_worktime_path(@task, worktime)
+      find_field('worktime_finish').value.should eq(I18n.l(Time.now, format: :datetimepicker))
+    end
+
     scenario 'users that do not belong to project' do
       login_as @yoda
       visit edit_task_worktime_path(@task, @worktime)
