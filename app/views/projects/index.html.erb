@@ -11,7 +11,7 @@
   <tbody>
     <% @projects.each do |project| %>
       <tr>
-        <td><%= project.name %></td>
+        <td><%= link_to project.name, project %></td>
         <td class="btn-group">
           <%= link_to report_project_path(project), class: [:btn, 'btn-mini'] do %>
             <i class="icon-time"></i>
