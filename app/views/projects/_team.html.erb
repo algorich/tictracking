@@ -3,12 +3,7 @@
       <% @project.users.each do |user| %>
         <tr id="user_<%= user.id %>">
           <td class="user_info span4">
-            <%= image_tag avatar_url(user), alt: user.name,
-              size: '30x30', class: 'img-rounded pull-left' %>
-            <span class="text-account in-team">
-              <strong><%= user.email %></strong><br />
-              <small><%= user.try(:name) %></small>
-            </span>
+            <%= user_info(user) %>
           </td>
 
           <td class="span4">

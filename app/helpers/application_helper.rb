@@ -19,7 +19,12 @@ module ApplicationHelper
     end
   end
 
-  def to_minutes(seconds)
-    (seconds/1.minute).round.to_s + ' minutes'
+  def user_info(user)
+    image_tag(avatar_url(user), alt: user.name, size: '30x30',
+      class: 'img-rounded pull-left') +
+    content_tag(:span,
+      content_tag(:strong, user.email) + '<br />'.html_safe +
+      content_tag(:small, user.try(:name)),
+      class: 'text-account in-team')
   end
 end
