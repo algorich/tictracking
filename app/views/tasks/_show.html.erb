@@ -36,7 +36,9 @@
     </table>
   </section>
 
-
+  <div id="total_time_worked">
+    <span>Total time worked: <%= distance_of_time_in_words( 0, task.time_worked, false) %></span>
+  </div>
   <div class="btn-group">
     <% if can? :update, task %>
       <%= link_to edit_task_path(task), class: :btn do %>
