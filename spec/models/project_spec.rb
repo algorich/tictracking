@@ -88,38 +88,6 @@ describe Project do
       end
     end
 
-    describe '#set_time_worked_by_user' do
-      it 'should set the time worked by user in all tasks' do
-        tasks_by_user = @world_salvation.send(:set_time_worked_by_user, user: @goku,
-          begin_at: @world_salvation.created_at,
-          end_at: Time.now)
-
-        expect(tasks_by_user[:time_worked_at_all]).to eq(15.minutes)
-        expect(tasks_by_user[:tasks].size).to eq(2)
-      end
-    end
-
-    describe '#set_tasks_times_by_user' do
-      it "should return an array with task's id, name and time_worked" do
-
-        array = @world_salvation.send(:set_tasks_times_by_user, @goku, @world_salvation.created_at, Time.now)
-        expect(array.size).to eq(2)
-
-        expect(array).to eq(
-          [
-            {
-              id: @task.id,
-              name: @task.name,
-              time:  5.minutes
-            },
-            {
-              id: @task_2.id,
-              name: @task_2.name,
-              time: 10.minutes
-            }
-          ])
-      end
-    end
 
     describe '#get_all_time_worked' do
       it 'should return the sum of all time worked by projects users' do

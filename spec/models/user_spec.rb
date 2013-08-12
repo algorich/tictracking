@@ -109,4 +109,57 @@ describe User do
       expect(user.membership(project)).to eq(membership)
     end
   end
+
+  context 'time worked' do
+    before(:each) do
+      Timecop.freeze(Time.now - 1.day) do
+        @goku = create(:user_confirmed)
+        @world_salvation = create(:project, name: 'World Salvation', users: [@goku])
+        @task = create(:task, project: @world_salvation, name: 'Task 1')
+        now = Time.now
+        worktime = create(:worktime, task: @task, beginning: now, finish: now + 2.minutes,
+          user: @goku )
+        worktime = create(:worktime, task: @task, beginning: now, finish: now + 3.minutes,
+          user: @goku )
+
+        @task_2 = create(:task, project: @world_salvation, name: 'Task 2')
+        worktime = create(:worktime, task: @task_2, beginning: now, finish: now + 10.minutes,
+          user: @goku )
+      end
+    end
+
+    describe '#time_worked_on' do
+      it 'should return an hash with the all time worked in all tasks and the tasks' do
+        world_salvation_time_worked = @goku.time_worked_on(
+          project: @world_salvation,
+          begin_at: @world_salvation.created_at,
+          end_at: Time.now)
+
+        expect(world_salvation_time_worked[:time_worked_at_all]).to eq(15.minutes)
+        expect(world_salvation_time_worked[:tasks].size).to eq(2)
+      end
+    end
+
+    describe '#get_tasks_time_worked' do
+      it "should return an array with task's id, name and time_worked" do
+
+        array = @goku.send(:get_tasks_time_worked, @world_salvation, @world_salvation.created_at, Time.now)
+        expect(array.size).to eq(2)
+
+        expect(array).to eq(
+          [
+            {
+              id: @task.id,
+              name: @task.name,
+              time:  5.minutes
+            },
+            {
+              id: @task_2.id,
+              name: @task_2.name,
+              time: 10.minutes
+            }
+          ])
+      end
+    end
+  end
 end
