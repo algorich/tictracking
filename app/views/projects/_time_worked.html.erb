@@ -1,10 +1,10 @@
-<% time_worked_at_task = @project.
+<% total_time_worked = @project.
   time_worked_by(user: user, begin_at: @begin_at, end_at: @end_at)  %>
 
 <div id="user-<%= user.id %>">
   <tr class="info">
     <td><%= user_info(user) %></td>
-    <td><h5><%= distance_of_time_in_words(0, time_worked_at_task, false) %></h5></td>
+    <td><h5><%= distance_of_time_in_words(0, total_time_worked, false) %></h5></td>
   </tr>
 
   <div id="tasks">
