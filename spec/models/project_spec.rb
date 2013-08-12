@@ -14,7 +14,7 @@ describe Project do
     it 'if user already have a membership, set it as admin' do
       user = create(:user)
       project = Project.new(name: 'some')
-      project.memberships.build(user: user, admin: false)
+      project.memberships.build(user: user, role: :common_user)
       project.save!
 
       membership = Membership.where(project_id: project.id, user_id: user.id).first
@@ -31,7 +31,7 @@ describe Project do
       project.set_admin(user)
 
       membership = project.memberships.last
-      expect(membership.admin).to be_true
+      expect(membership.admin?).to be_true
       expect(membership.user).to eq(user)
     end
   end
@@ -39,7 +39,7 @@ describe Project do
   describe '#can_add?' do
     it 'should return true if the user is not in the project' do
       project = create(:project)
-      user = create(:user)
+      user = create(:user_confirmed)
 
       expect(project.can_add?(user)).to be_true
       project.users << user
@@ -54,7 +54,7 @@ describe Project do
       project = create(:project)
       task = create(:task, project: project)
       worktime = create(:worktime, user: user, task: task )
-      membership = create(:membership, user: user, project: project, admin: true)
+      membership = create(:membership, user: user, project: project, role: 'admin')
       project.destroy
       expect { Project.find(project.id) }.to raise_error(ActiveRecord::RecordNotFound)
       expect { Task.find(task.id) }.to raise_error(ActiveRecord::RecordNotFound)
@@ -77,39 +77,26 @@ describe Project do
         @task_2 = create(:task, project: @world_salvation, name: 'Task 2')
         worktime = create(:worktime, task: @task_2, beginning: now, finish: now + 10.minutes,
           user: @goku )
+
+        @kuririn = create(:user_confirmed, name: 'kuririn')
+        create(:membership, project: @world_salvation, user: @kuririn)
+        @nothing = create(:task, project: @world_salvation, name: 'nothing')
+        worktime = create(:worktime, task: @nothing, beginning: now, finish: now + 2.minutes,
+          user: @kuririn )
+
+        @yesterday = Time.now
       end
     end
 
-    describe '#time_worked' do
-      it 'should return the all time worked by user in all tasks' do
-        time_worked = @world_salvation.time_worked(user: @goku,
+
+    describe '#get_all_time_worked' do
+      it 'should return the sum of all time worked by projects users' do
+        project_info = @world_salvation.reload.get_all_time_worked(
           begin_at: @world_salvation.created_at,
           end_at: Time.now)
-        expect(time_worked).to eq(15.minutes)
-      end
-    end
 
-    describe '#set_tasks_times' do
-      it 'should return an hash with tasks name and time_worked' do
-        kuririn = create(:user_confirmed, name: 'kuririn')
-        create(:membership, project: @world_salvation, user: kuririn)
-        die = create(:task, project: @world_salvation, name: 'die')
-        worktime = create(:worktime, task: die, user: kuririn )
-
-        hash = @world_salvation.send(:set_tasks_times, @goku, @world_salvation.created_at, Time.now)
-        expect(hash).to eq(
-          [
-            {
-              id: @task.id,
-              name: @task.name,
-              time:  5.minutes
-            },
-            {
-              id: @task_2.id,
-              name: @task_2.name,
-              time: 10.minutes
-            }
-          ])
+        expect(project_info[:time_worked_by_all]).to eq 17.minutes
+        expect(project_info[:users].keys).to eq @world_salvation.users
       end
     end
   end

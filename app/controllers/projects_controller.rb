@@ -69,11 +69,15 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def change_admin
+  def change_role
     project = Project.find(params[:id])
-    membership = project.memberships.where(user_id: params[:admin_id]).first
-    if membership.toggle_admin!
-      render json: { success: true }
+    membership = project.memberships.find(params[:membership_id])
+    role = params[:role]
+
+    if membership.set_role!(role)
+      user = membership.user
+      indentification = user.name || user.email
+      render json: { success: true, message: "Change the #{indentification}'s role with success!" }
     else
       render json: { success: false, message: 'Project should have at least one admin!'}
     end
@@ -102,11 +106,12 @@ class ProjectsController < ApplicationController
     @begin_at = @project.created_at
     @end_at = Time.now
     @users = @project.users
-    @users.reject! { |user| user.observer?(@project) } if current_user.observer?(@project)
+    @users.reject! { |user| user.observer?(@project) }
+
     @values = {
       user_id: nil,
-      begin_at: nil,
-      end_at: nil
+      begin_at: l(@begin_at, format: :datetimepicker),
+      end_at: l(@end_at, format: :datetimepicker)
     }
   end
 

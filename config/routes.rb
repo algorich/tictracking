@@ -14,7 +14,7 @@ TicTracking::Application.routes.draw do
 
   resources :projects do
     member do
-      post :change_admin
+      post :change_role
       get :team
       post :add_user
       get :report

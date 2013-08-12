@@ -1,23 +1,26 @@
-<b>Admins (If the check box was checked, user is an admin):</b>
-
 <table class="table table-striped" id="team-table">
     <tbody>
       <% @project.users.each do |user| %>
         <tr id="user_<%= user.id %>">
           <td class="user_info span4">
-            <%= image_tag avatar_url(user), alt: user.name,
-              size: '30x30', class: 'img-rounded pull-left' %>
-            <span class="text-account in-team">
-              <strong><%= user.email %></strong><br />
-              <small><%= user.try(:name) %></small>
-            </span>
+            <%= user_info(user) %>
           </td>
 
           <td class="span4">
-            <input type='checkbox' id='user-<%= user.id %>' class='set_admin'
-              data-user-id='<%= user.id %>' data-url='<%= change_admin_project_path(@project) %>'
-              <%= 'checked' if user.admin?(@project) %>
-              <%= 'disabled' if !edit_page %>>
+            <% role = user.role_in?(@project) %>
+            <% if edit_page %>
+              <%= collection_select 'post', 'role', Membership::ROLES, :to_s, :humanize,
+                {selected: role},
+                { class: 'set_admin',
+                  id: 'select_user_' + user.id.to_s,
+                  data: {
+                    url: change_role_project_path(@project),
+                    membership_id: user.membership(@project).id
+                  }
+                } %>
+            <% else %>
+              <%= role.humanize %>
+            <% end %>
           </td>
 
           <% if edit_page %>

@@ -3,7 +3,7 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
     @project = @membership.project
 
-    if @membership.can_toggle_admin?
+    if @membership.can_remove_admin?
       @membership.destroy
       params[:message] = { type: 'success', text: 'User was removed from this project' }
     else

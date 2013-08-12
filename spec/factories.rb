@@ -32,7 +32,7 @@ FactoryGirl.define do
   end
 
   factory :membership do
-    admin false
+    role :common_user
 
     before(:create) do |membership, evaluator|
       user = evaluator.user || create(:user_confirmed)

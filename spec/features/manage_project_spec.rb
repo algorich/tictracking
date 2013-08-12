@@ -18,10 +18,8 @@ feature 'manage project' do
       expect(page).to have_content('Project_1')
       click_link "Settings"
 
-      admin_box = find("#user-#{@user.id}")
-
       within('.team') do
-        expect(admin_box).to be_checked
+        expect(page).to have_select("select_user_#{@user.id}", selected: ('Admin'))
         expect(page).to have_content(@user.email)
         expect(page).not_to have_content(user_2.email)
       end
@@ -40,7 +38,7 @@ feature 'manage project' do
   context "edit" do
     scenario 'successfully', js:true do
       project = create(:project, name: 'Project_1')
-      membership = create(:membership, admin: true, project: project)
+      membership = create(:membership, role: 'admin', project: project)
       login_as membership.user
       visit project_path(project)
       expect(page).to have_content('Project_1')
@@ -56,7 +54,7 @@ feature 'manage project' do
     scenario 'name  cant be blank' do
       project = create(:project, name: 'Project_1')
       membership = project.memberships.first
-      membership.toggle_admin!
+      expect(membership).to be_admin
       user = membership.user
       login_as user
 
@@ -71,7 +69,7 @@ feature 'manage project' do
 
   scenario 'should be deletable' do
     project = create(:project, name: 'Project_1')
-    membership = create(:membership, admin: true, project: project)
+    membership = create(:membership, role: 'admin', project: project)
     login_as membership.user
     visit edit_project_path(project)
     link_destroy = page.find(:xpath, ".//a[@href=\"/projects/#{project.id}\" and @data-method=\"delete\"]")
@@ -87,7 +85,7 @@ feature 'manage project' do
     end
 
     scenario 'only project admin can show links settings' do
-      membership = create(:membership, admin: true, project: @project)
+      membership = create(:membership, role: 'admin', project: @project)
       login_as membership.user
       visit project_path(@project)
 
@@ -102,10 +100,10 @@ feature 'manage project' do
     end
 
     scenario 'only members can show projects' do
-      membership = create(:membership, project: @project)
       visit project_path(@project)
       expect(page).to have_content 'You are not authorized to access this page.'
 
+      membership = create(:membership, project: @project)
       login_as membership.user
       visit project_path(@project)
       expect(page).not_to have_content 'You are not authorized to access this page.'
@@ -124,10 +122,10 @@ feature 'manage project' do
       visit projects_path
 
       expect(page).not_to have_content project.name
-      expect(page).to have_content project_1.name
-      expect(page).to have_content project_2.name
-      expect(page).to have_content project_3.name
-      expect(page).to have_content project_4.name
+      expect(page).to have_link project_1.name, href: project_path(project_1)
+      expect(page).to have_link project_2.name, href: project_path(project_2)
+      expect(page).to have_link project_3.name, href: project_path(project_3)
+      expect(page).to have_link project_4.name, href: project_path(project_4)
     end
   end
 end

@@ -1,9 +1,15 @@
-<section id="project">
-  <% admin_or_observer = current_user.admin?(@project) || current_user.observer?(@project)  %>
+<%= content_for :page_id do 'report' end %>
 
-  <h1>Time Worked at <%= link_to @project.name, project_path(@project) %></h1>
-  <%= simple_form_for :filter, url: 'filter', method: 'get', html: {class: 'form-inline' } do |f| %>
+<% admin_or_observer = current_user.admin?(@project) || current_user.observer?(@project)  %>
+<% project_info = @project.get_all_time_worked(begin_at: @begin_at, end_at: @end_at) %>
+
+<%= content_for :sidebar do %>
+  <%= simple_form_for :filter, url: 'filter', method: 'get' do |f| %>
     <% if admin_or_observer %>
+      <span><b>Time worked by all users:</b>
+        <%= distance_of_time_in_words( 0, project_info[:time_worked_by_all], false) %>
+      </span>
+
       <label for="user_id">User</label>
       <%= f.input_field :user_id, collection: @project.users, as: :select,
         value_method: :id,
@@ -33,6 +39,11 @@
     <% end %>
   <% end %>
 
+<% end %>
+
+<section id="project">
+
+  <h1>Time Worked at <%= link_to @project.name, project_path(@project) %></h1>
 
   <table class="table table-striped app_timeworked" id="time_worked">
     <thead>
@@ -45,10 +56,10 @@
     <tbody>
       <% if admin_or_observer %>
         <% @users.each do |user| %>
-          <%= render 'time_worked', user: user %>
+          <%= render 'time_worked', user: user, tasks_info: project_info[:users][user] %>
         <% end %>
       <% else %>
-        <%= render 'time_worked', user: current_user %>
+        <%= render 'time_worked', user: current_user, tasks_info: project_info[:users][current_user] %>
       <% end %>
     </tbody>
   </table>

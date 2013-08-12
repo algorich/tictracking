@@ -17,6 +17,10 @@
 ** Header
 */
 
+.brand sub {
+  font-size: 60%;
+}
+
 .text-account {
   margin-left: 5px;
   display: inline-block;

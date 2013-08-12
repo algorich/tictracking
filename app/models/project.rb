@@ -4,16 +4,15 @@ class Project < ActiveRecord::Base
   has_many :users, through: :memberships
 
   attr_accessible :name, :user_ids
-  attr_reader :tasks_times_array
 
   validates :name, :memberships, presence: true
 
   def set_admin(user)
     membership = memberships.where(user_id: user.id).first
     if membership
-      membership.update_attribute(:admin, true)
+      membership.update_attribute(:role, 'admin')
     else
-      memberships.build(admin: true, user: user)
+      memberships.build(role: 'admin', user: user)
     end
   end
 
@@ -21,24 +20,15 @@ class Project < ActiveRecord::Base
     !users.include? user
   end
 
-  def time_worked(user: user, begin_at: begin_at, end_at: end_at)
-    set_tasks_times(user, begin_at, end_at).reduce(0) { |total, hash| total += hash[:time] }
-  end
+  def get_all_time_worked(begin_at: begin_at, end_at: end_at)
+    project_info = { users: {} }
 
-  private
+    project_info[:time_worked_by_all] = users.reduce(0) do |total, user|
+      project_info[:users][user] = user.time_worked_on(project: self, begin_at: begin_at, end_at: end_at)
 
-  def set_tasks_times(user, begin_at, end_at)
-    @tasks_times_array = []
-    self.tasks.each do |task|
-      worktimes = Worktime.find_by_time(user: user, begin_at: begin_at, end_at: end_at, task: task)
-      if worktimes.present?
-        @tasks_times_array << {
-          id: task.id,
-          name: task.name,
-          time: worktimes.reduce(0) { |total,worktime| total += worktime.time_worked}
-        }
-      end
+      total += project_info[:users][user][:time_worked_at_all]
     end
-    @tasks_times_array
+
+    project_info
   end
 end

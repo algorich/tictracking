@@ -9,16 +9,24 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :projects, through: :memberships
 
+  def membership(project)
+    memberships.find_by_project_id(project.id)
+  end
+
   def admin?(project)
-    memberships.where(project_id: project, admin: true).any?
+    membership(project).try(:admin?)
   end
 
   def member?(project)
-    memberships.where(project_id: project).any?
+    membership(project).present?
   end
 
   def observer?(project)
-    memberships.where(project_id: project, observer: true).any?
+    membership(project).try(:observer?)
+  end
+
+  def role_in?(project)
+    membership(project).try(:role)
   end
 
   def latest(n=1, stuffs)
@@ -27,5 +35,34 @@ class User < ActiveRecord::Base
 
   def exists_pending_worktimes?(task)
     Worktime.where(user_id: self, task_id: task, finish: nil).any?
+  end
+
+  def time_worked_on(project: project, begin_at: begin_at, end_at: end_at)
+    tasks_and_time = {}
+    tasks_and_time[:tasks] = get_tasks_time_worked(project, begin_at, end_at)
+
+    tasks_and_time[:time_worked_at_all] = tasks_and_time[:tasks].reduce(0) do |total, task|
+      total += task[:time] if task.present?
+    end
+
+    tasks_and_time
+  end
+
+  private
+
+  def get_tasks_time_worked(project, begin_at, end_at)
+    tasks = []
+
+    project.tasks.each do |task|
+      worktimes = Worktime.find_by_time(user: self, begin_at: begin_at, end_at: end_at, task: task)
+      if worktimes.present?
+        tasks << {
+          id: task.id,
+          name: task.name,
+          time: worktimes.reduce(0) { |total,worktime| total += worktime.time_worked}
+        }
+      end
+    end
+    tasks
   end
 end
