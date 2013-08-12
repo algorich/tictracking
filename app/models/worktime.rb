@@ -38,15 +38,19 @@ class Worktime < ActiveRecord::Base
   private
 
   def timer_create_project
-    if self.beginning <= self.task.project.created_at or self.finish <= task.project.created_at
+    if self.finish.present? and (self.beginning <= self.task.project.created_at or self.finish <= task.project.created_at)
+      errors.add(:base, 'End time or last time cant be less than time of the create project')
+    elsif self.beginning <= self.task.project.created_at
       errors.add(:base, 'End time or last time cant be less than time of the create project')
     end
   end
 
   def positive_time
-    if self.beginning > self.finish
+    if self.finish.present? and self.beginning > self.finish
       errors.add(:base, "End time can't be less than beginning time")
+      return false
     end
+    return true
   end
 
   def stopped_worktime

@@ -18,10 +18,18 @@ describe Worktime do
       task = create :task
       worktime = Worktime.create(:beginning => Time.now, user: user, task: task)
       worktime.update_attributes(finish: Time.now + 2.minutes)
-      expect(worktime.send(:positive_time)).to be_false
+      expect(worktime.send(:positive_time)).to be_true
 
       worktime = Worktime.create(:finish => Time.now - 20.minutes,
         :beginning => Time.now, user: User.new, task: Task.new)
+      expect(worktime.send(:positive_time)).to be_false
+    end
+
+    it 'should time beginning bigger time nil' do
+      user = create :user_confirmed
+      task = create :task
+      worktime = Worktime.create(:beginning => Time.now, user: user, task: task)
+      worktime.update_attributes(finish: nil)
       expect(worktime.send(:positive_time)).to be_true
     end
 
