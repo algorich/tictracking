@@ -61,7 +61,7 @@ feature 'Times worked' do
       visit report_project_path(@resurrect_kuririn)
 
       expect(page).to have_content @resurrect_kuririn.name
-      expect(page).to have_content 'Time worked for all users: 3 hours and 2 minutes'
+      expect(page).to have_content 'Time worked by all users: 3 hours and 2 minutes'
 
       #goku
       within("#user-#{@goku.id}") do

@@ -88,9 +88,9 @@ describe Project do
       end
     end
 
-    describe '#time_worked' do
+    describe '#time_worked_for' do
       it 'should return the all time worked by user in all tasks' do
-        time_worked = @world_salvation.time_worked(user: @goku,
+        time_worked = @world_salvation.time_worked_by(user: @goku,
           begin_at: @world_salvation.created_at,
           end_at: Time.now)
         expect(time_worked).to eq(15.minutes)
@@ -123,7 +123,7 @@ describe Project do
 
     describe '#time_worked_for_all_users' do
       it 'should return the sum of all time worked by projects users' do
-        time_worked = @world_salvation.reload.time_worked_for_all_users(
+        time_worked = @world_salvation.reload.time_worked_by_all_users(
           begin_at: @world_salvation.created_at,
           end_at: Time.now)
 
