@@ -77,6 +77,14 @@ describe Project do
         @task_2 = create(:task, project: @world_salvation, name: 'Task 2')
         worktime = create(:worktime, task: @task_2, beginning: now, finish: now + 10.minutes,
           user: @goku )
+
+        @kuririn = create(:user_confirmed, name: 'kuririn')
+        create(:membership, project: @world_salvation, user: @kuririn)
+        @die = create(:task, project: @world_salvation, name: 'die')
+        worktime = create(:worktime, task: @die, beginning: now, finish: now + 2.minutes,
+          user: @kuririn )
+
+        @yesterday = Time.now
       end
     end
 
@@ -110,6 +118,16 @@ describe Project do
               time: 10.minutes
             }
           ])
+      end
+    end
+
+    describe '#time_worked_for_all_users' do
+      it 'should return the sum of all time worked by projects users' do
+        time_worked = @world_salvation.reload.time_worked_for_all_users(
+          begin_at: @world_salvation.created_at,
+          end_at: Time.now)
+
+        expect(time_worked).to eq 17.minutes
       end
     end
   end

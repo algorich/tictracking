@@ -25,6 +25,12 @@ class Project < ActiveRecord::Base
     set_tasks_times(user, begin_at, end_at).reduce(0) { |total, hash| total += hash[:time] }
   end
 
+  def time_worked_for_all_users(begin_at: begin_at, end_at: end_at)
+    users.reduce(0) do |total, user|
+      total += time_worked(user: user, begin_at: begin_at, end_at: end_at)
+    end
+  end
+
   private
 
   def set_tasks_times(user, begin_at, end_at)

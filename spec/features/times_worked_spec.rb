@@ -60,10 +60,25 @@ feature 'Times worked' do
       login_as @goku
       visit report_project_path(@resurrect_kuririn)
 
-      within('#project') do
-        expect(page).to have_content @resurrect_kuririn.name
+      expect(page).to have_content @resurrect_kuririn.name
+
+      #goku
+      within("#user-#{@goku.id}") do
+        expect(page).to have_content @goku.name
+        expect(page).to have_content '3 hours and 10 minutes' #time worked at project
+
+        within("#tasks #task-#{@find_dragon_balls.id}") do
+          expect(page).to have_content @find_dragon_balls.name
+          expect(page).to have_content '2 hours'
+        end
+
+        within("#tasks #task-#{@invoke_shenlong.id}") do
+          expect(page).to have_content @invoke_shenlong.name
+          expect(page).to have_content '1 hour'
+        end
       end
 
+      #kuririn
       within("#user-#{@kuririn.id}") do
         expect(page).to have_content @kuririn.name
         expect(page).to have_content '2 minutes' #time worked at project
@@ -75,6 +90,13 @@ feature 'Times worked' do
       end
 
       expect(page).to_not have_css("#user-#{observer.id}")
+    end
+
+    scenario 'should show all time worked at the project' do
+      login_as @goku
+      visit report_project_path(@world_salvation)
+
+      expect(page).to have_content 'Time worked at all project: 15 minutes'
     end
   end
 

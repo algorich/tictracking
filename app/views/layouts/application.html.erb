@@ -17,7 +17,7 @@
   <%= csrf_meta_tags %>
 </head>
 
-<body>
+<body <%= "id=\"app-#{yield(:page_id)}-page\"".html_safe unless yield(:page_id).blank? %>>
 
   <!-- HEADER BEGIN -->
   <%= render 'layouts/top_navbar' %>
@@ -28,6 +28,7 @@
   <section id="app-content" class="container <%= yield :page_id %>">
     <div class="row-fluid">
 
+
       <div class="<%= yield(:sidebar).blank? ? 'span12'.html_safe : 'span8'.html_safe %>">
         <%= flash_message %>
 
@@ -35,11 +36,10 @@
       </div>
 
       <% unless (yield :sidebar).blank? %>
-        <aside class="span4 well">
+        <aside class="span4 well" id="app-sidebar" data-spy="affix" data-offset-top="200">
           <%= yield :sidebar %>
         </aside>
       <% end %>
-
     </div>
   </section>
   <!-- CONTENT END -->

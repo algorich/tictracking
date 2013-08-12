@@ -1,12 +1,16 @@
-<section id="project">
-  <% admin_or_observer = current_user.admin?(@project) || current_user.observer?(@project)  %>
+<%= content_for :page_id do 'report' end %>
 
-  <h1>Time Worked at <%= link_to @project.name, project_path(@project) %></h1>
+<% admin_or_observer = current_user.admin?(@project) || current_user.observer?(@project)  %>
 
-  <hr />
-
-  <%= simple_form_for :filter, url: 'filter', method: 'get', html: {class: 'form-inline' } do |f| %>
+<%= content_for :sidebar do %>
+  <%= simple_form_for :filter, url: 'filter', method: 'get' do |f| %>
     <% if admin_or_observer %>
+      <span><b>Time worked at all project:</b>
+        <%= distance_of_time_in_words( 0,
+          @project.time_worked_for_all_users(begin_at: @begin_at, end_at: @end_at),
+          false) %>
+      </span>
+
       <label for="user_id">User</label>
       <%= f.input_field :user_id, collection: @project.users, as: :select,
         value_method: :id,
@@ -36,7 +40,11 @@
     <% end %>
   <% end %>
 
-  <hr />
+<% end %>
+
+<section id="project">
+
+  <h1>Time Worked at <%= link_to @project.name, project_path(@project) %></h1>
 
   <table class="table table-striped app_timeworked" id="time_worked">
     <thead>
