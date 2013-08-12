@@ -5,7 +5,7 @@
 <%= content_for :sidebar do %>
   <%= simple_form_for :filter, url: 'filter', method: 'get' do |f| %>
     <% if admin_or_observer %>
-      <span><b>Time worked at all project:</b>
+      <span><b>Time worked for all users:</b>
         <%= distance_of_time_in_words( 0,
           @project.time_worked_for_all_users(begin_at: @begin_at, end_at: @end_at),
           false) %>

@@ -80,8 +80,8 @@ describe Project do
 
         @kuririn = create(:user_confirmed, name: 'kuririn')
         create(:membership, project: @world_salvation, user: @kuririn)
-        @die = create(:task, project: @world_salvation, name: 'die')
-        worktime = create(:worktime, task: @die, beginning: now, finish: now + 2.minutes,
+        @nothing = create(:task, project: @world_salvation, name: 'nothing')
+        worktime = create(:worktime, task: @nothing, beginning: now, finish: now + 2.minutes,
           user: @kuririn )
 
         @yesterday = Time.now
