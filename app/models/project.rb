@@ -4,7 +4,6 @@ class Project < ActiveRecord::Base
   has_many :users, through: :memberships
 
   attr_accessible :name, :user_ids
-  attr_reader :tasks_times_array
 
   validates :name, :memberships, presence: true
 
@@ -21,30 +20,44 @@ class Project < ActiveRecord::Base
     !users.include? user
   end
 
-  def time_worked_by(user: user, begin_at: begin_at, end_at: end_at)
-    set_tasks_times(user, begin_at, end_at).reduce(0) { |total, hash| total += hash[:time] }
-  end
+  def get_all_time_worked(begin_at: begin_at, end_at: end_at)
+    project_info = { users: {} }
 
-  def time_worked_by_all_users(begin_at: begin_at, end_at: end_at)
-    users.reduce(0) do |total, user|
-      total += time_worked_by(user: user, begin_at: begin_at, end_at: end_at)
+    project_info[:time_worked_by_all] = users.reduce(0) do |total, user|
+      project_info[:users][user] = set_time_worked_by_user(user: user, begin_at: begin_at, end_at: end_at)
+
+      total += project_info[:users][user][:time_worked_at_all]
     end
+
+    project_info
   end
 
   private
 
-  def set_tasks_times(user, begin_at, end_at)
-    @tasks_times_array = []
+  def set_time_worked_by_user(user: user, begin_at: begin_at, end_at: end_at)
+    tasks_by_user = {}
+    tasks_by_user[:tasks] = set_tasks_times_by_user(user, begin_at, end_at)
+
+    tasks_by_user[:time_worked_at_all] = tasks_by_user[:tasks].reduce(0) do |total, task|
+      total += task[:time] if task.present?
+    end
+
+    tasks_by_user
+  end
+
+  def set_tasks_times_by_user(user, begin_at, end_at)
+    tasks_by_user = []
+
     self.tasks.each do |task|
       worktimes = Worktime.find_by_time(user: user, begin_at: begin_at, end_at: end_at, task: task)
       if worktimes.present?
-        @tasks_times_array << {
+        tasks_by_user << {
           id: task.id,
           name: task.name,
           time: worktimes.reduce(0) { |total,worktime| total += worktime.time_worked}
         }
       end
     end
-    @tasks_times_array
+    tasks_by_user
   end
 end

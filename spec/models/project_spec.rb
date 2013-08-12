@@ -88,24 +88,24 @@ describe Project do
       end
     end
 
-    describe '#time_worked_for' do
-      it 'should return the all time worked by user in all tasks' do
-        time_worked = @world_salvation.time_worked_by(user: @goku,
+    describe '#set_time_worked_by_user' do
+      it 'should set the time worked by user in all tasks' do
+        tasks_by_user = @world_salvation.send(:set_time_worked_by_user, user: @goku,
           begin_at: @world_salvation.created_at,
           end_at: Time.now)
-        expect(time_worked).to eq(15.minutes)
+
+        expect(tasks_by_user[:time_worked_at_all]).to eq(15.minutes)
+        expect(tasks_by_user[:tasks].size).to eq(2)
       end
     end
 
-    describe '#set_tasks_times' do
-      it 'should return an hash with tasks name and time_worked' do
-        kuririn = create(:user_confirmed, name: 'kuririn')
-        create(:membership, project: @world_salvation, user: kuririn)
-        die = create(:task, project: @world_salvation, name: 'die')
-        worktime = create(:worktime, task: die, user: kuririn )
+    describe '#set_tasks_times_by_user' do
+      it "should return an array with task's id, name and time_worked" do
 
-        hash = @world_salvation.send(:set_tasks_times, @goku, @world_salvation.created_at, Time.now)
-        expect(hash).to eq(
+        array = @world_salvation.send(:set_tasks_times_by_user, @goku, @world_salvation.created_at, Time.now)
+        expect(array.size).to eq(2)
+
+        expect(array).to eq(
           [
             {
               id: @task.id,
@@ -121,13 +121,14 @@ describe Project do
       end
     end
 
-    describe '#time_worked_for_all_users' do
+    describe '#get_all_time_worked' do
       it 'should return the sum of all time worked by projects users' do
-        time_worked = @world_salvation.reload.time_worked_by_all_users(
+        project_info = @world_salvation.reload.get_all_time_worked(
           begin_at: @world_salvation.created_at,
           end_at: Time.now)
 
-        expect(time_worked).to eq 17.minutes
+        expect(project_info[:time_worked_by_all]).to eq 17.minutes
+        expect(project_info[:users].keys).to eq @world_salvation.users
       end
     end
   end

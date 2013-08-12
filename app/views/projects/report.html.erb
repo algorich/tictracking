@@ -1,14 +1,13 @@
 <%= content_for :page_id do 'report' end %>
 
 <% admin_or_observer = current_user.admin?(@project) || current_user.observer?(@project)  %>
+<% project_info = @project.get_all_time_worked(begin_at: @begin_at, end_at: @end_at) %>
 
 <%= content_for :sidebar do %>
   <%= simple_form_for :filter, url: 'filter', method: 'get' do |f| %>
     <% if admin_or_observer %>
       <span><b>Time worked by all users:</b>
-        <%= distance_of_time_in_words( 0,
-          @project.time_worked_by_all_users(begin_at: @begin_at, end_at: @end_at),
-          false) %>
+        <%= distance_of_time_in_words( 0, project_info[:time_worked_by_all], false) %>
       </span>
 
       <label for="user_id">User</label>
@@ -57,10 +56,10 @@
     <tbody>
       <% if admin_or_observer %>
         <% @users.each do |user| %>
-          <%= render 'time_worked', user: user %>
+          <%= render 'time_worked', user: user, tasks_info: project_info[:users][user] %>
         <% end %>
       <% else %>
-        <%= render 'time_worked', user: current_user %>
+        <%= render 'time_worked', user: current_user, tasks_info: project_info[:users][current_user] %>
       <% end %>
     </tbody>
   </table>
