@@ -146,7 +146,7 @@ feature 'Observer' do
       end
 
       scenario 'begin_at' do
-        fill_in 'Begin at:', with: @yesterday + 1.day
+        fill_in 'filter_begin_at', with: @yesterday + 1.day
         click_button 'Filter'
 
         within("#user-#{@goku.id}") do
@@ -165,7 +165,7 @@ feature 'Observer' do
           expect(page).to_not have_css("#tasks #task-#{@die.id}")
         end
 
-        fill_in 'Begin at:', with: @yesterday
+        fill_in 'filter_begin_at', with: @yesterday
         click_button 'Filter'
 
         within("#user-#{@goku.id}") do
@@ -187,7 +187,7 @@ feature 'Observer' do
           expect(page).to_not have_css("#tasks #task-#{@die.id}")
         end
 
-        fill_in 'Begin at:', with: @day_before_yesterday
+        fill_in 'filter_begin_at', with: @day_before_yesterday
         click_button 'Filter'
 
          #goku
@@ -224,7 +224,7 @@ feature 'Observer' do
       end
 
       scenario 'end_at' do
-        fill_in 'End at:', with: @day_before_yesterday
+        fill_in 'filter_end_at', with: @day_before_yesterday
         click_button 'Filter'
 
         within("#user-#{@goku.id}") do
@@ -243,7 +243,7 @@ feature 'Observer' do
           expect(page).to_not have_css("#tasks #task-#{@die.id}")
         end
 
-        fill_in 'End at:', with: @yesterday
+        fill_in 'filter_end_at', with: @yesterday
         click_button 'Filter'
 
         within("#user-#{@goku.id}") do
@@ -262,7 +262,7 @@ feature 'Observer' do
           expect(page).to have_css("#tasks #task-#{@die.id}")
         end
 
-        fill_in 'End at:', with: Time.now
+        fill_in 'filter_end_at', with: Time.now
         click_button 'Filter'
 
          #goku
