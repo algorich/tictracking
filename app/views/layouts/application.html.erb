@@ -36,7 +36,7 @@
       </div>
 
       <% unless (yield :sidebar).blank? %>
-        <aside class="span4 well" id="app-sidebar" data-spy="affix" data-offset-top="200">
+        <aside class="span4 well" id="app-sidebar" >
           <%= yield :sidebar %>
         </aside>
       <% end %>
