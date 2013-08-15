@@ -8,9 +8,9 @@
 p 'users created'
 
 User.delete_all
-USER_NUMBER=4
+USER_NUMBER=10
 USER_NUMBER.times do |i|
-  FactoryGirl.create :user_confirmed, email: "user#{i}@mail.com", password: '123456'
+  FactoryGirl.create :user_confirmed, email: "user#{i}@email.com", password: '123456'
 end
 
 p 'projects created'
@@ -18,7 +18,7 @@ p 'projects created'
 Project.delete_all
 users = User.all
 5.times do |i|
-  FactoryGirl.create :project, name: "Project #{i}", users: [users[rand(USER_NUMBER)]]
+  FactoryGirl.create :project, name: "Project #{i}", users: [*users.first(rand(USER_NUMBER))]
 end
 
 p 'tasks created'
@@ -27,8 +27,8 @@ Task.delete_all
 Worktime.delete_all
 
 Project.all.each do |p|
-  5.times do |i|
-    task = p.tasks.create(name: "Task #{i}")
+  50.times do |i|
+    p.tasks.create(name: "Task #{i}")
   end
 end
 
@@ -36,11 +36,7 @@ p 'worktime created'
 
 Task.all.each do |t|
   5.times do |i|
-    worktime = t.worktimes.create(beginning: Time.now + "#{i}".to_i.day,
-     finish: Time.now + "#{i+1}".to_i.day, user: users[rand(USER_NUMBER)])
+    t.worktimes.create beginning: Time.now + "#{i}".to_i.hour,
+      finish: Time.now + "#{i+1}".to_i.hour, user: t.project.users.sample
   end
 end
-
-
-# Worktime.create!(beginning: Time.now, finish: Time.now + 1.day, user: user, task: task)
-
