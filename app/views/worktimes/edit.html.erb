@@ -13,7 +13,7 @@
   <div class="datetimepicker input-append">
     <label>End at:</label>
     <%= w.input_field :finish, as: :string,
-      value: l(@worktime.finish || Time.now, format: :datetimepicker) %>
+      value: @worktime.finish.nil? ? nil : l(@worktime.finish , format: :datetimepicker)  %>
      <span class="add-on">
        <i data-time-icon="icon-time" data-date-icon="icon-calendar" ></i>
      </span>
