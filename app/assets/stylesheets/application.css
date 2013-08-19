@@ -140,3 +140,7 @@
 .simple_form {
   margin: 0 0 0 0;
 }
+
+.pagination {
+  text-align: center;
+}

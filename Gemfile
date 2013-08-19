@@ -15,6 +15,7 @@ gem 'select2-rails', '~> 3.4.2'
 gem 'bootstrap-datetimepicker-rails', '~> 0.0.11'
 gem 'squeel', '~> 1.1.0' #pretty search within database
 gem 'dotiw', '~> 1.1.1' #millisecons to words
+gem 'kaminari', '~> 0.14.1'
 
 group :assets do
   gem 'therubyracer', :platforms => :ruby

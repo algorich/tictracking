@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
-    @tasks = @project.tasks.order('updated_at DESC')
+    @tasks = @project.tasks.order('updated_at DESC').page(params[:page]).per(10)
     @worktime = Worktime.new
     @task = Task.new(project: @project)
 
