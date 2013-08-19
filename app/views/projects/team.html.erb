@@ -9,7 +9,7 @@
         data: { url: add_user_project_path(@project) } } %>
   </form>
 <% else %>
-  <h2><%= link_to @project.name, project_path(@project) %>'s team</h2>
+  <%= render 'header_to_project_views', title: link_to(@project.name, project_path(@project)) + "'s team" %>
 <% end %>
 
 <div class="team">

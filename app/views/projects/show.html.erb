@@ -1,24 +1,7 @@
 <%= content_for :title do @project.name end %>
 <%= content_for :page_id do 'project_page' end %>
 
-<div class="row-fluid">
-
-  <h1 class="pull-left" ><%= @project.name %></h1>
-
-  <div class="app-header-actions btn-group pull-right">
-    <%= link_to report_project_path(@project), class: :btn do %>
-      <i class="icon-time"></i> Time Worked
-    <% end %>
-    <%= link_to team_project_path(@project), class: :btn do %>
-      <i class="icon-user"></i> Team
-    <% end %>
-    <% if current_user.admin? @project %>
-      <%= link_to edit_project_path(@project), class: :btn do %>
-        <i class="icon-wrench"></i> Settings
-      <% end %>
-    <% end %>
-  </div>
-</div>
+<%= render 'header_to_project_views', title: @project.name %>
 
 <% if can? :manage, @task %>
   <%= simple_form_for @task, remote: true do |f| %>

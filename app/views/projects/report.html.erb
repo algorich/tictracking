@@ -52,8 +52,8 @@
   </aside>
 
   <section class="span8" id="project">
-
-    <h1>Time Worked at <%= link_to @project.name, project_path(@project) %></h1>
+    <%= render 'header_to_project_views',
+      title: 'Time Worked at ' + link_to(@project.name, project_path(@project)) %>
 
     <table class="table table-striped app_timeworked" id="time_worked">
       <thead>
