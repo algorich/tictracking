@@ -7,7 +7,7 @@
   <%= simple_form_for @task, remote: true do |f| %>
     <div class="input-append app-new-task">
       <%= f.input_field :name, autofocus: true, placeholder: 'New task' %>
-      <%= f.submit 'Start', class: 'btn app-add', id: "button-task" %>
+      <%= f.submit 'Start', class: 'btn app-add app-btn-loading', id: 'button-task' %>
     </div>
     <%= f.input :project_id, as: :hidden, input_html: { value: @project.id } %>
   <% end %>
