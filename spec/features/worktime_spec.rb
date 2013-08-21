@@ -19,33 +19,33 @@ feature 'Worktime' do
 
   context 'Start', js:true do
     scenario 'successfully play worktime' do
-      @start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
+      @start = find("#app-tasks button[data-url=\"/tasks/#{@task.id}/worktimes\"]")
       @start.click
       expect(page).to have_content I18n.l(Time.now, format: :short)
     end
 
     scenario 'should show only if not exist any open worktime' do
-      start = find("#actions a[data-method=\"post\"]")
+      start = find("#actions button[data-method=\"POST\"]")
       expect(start).to be_visible
-      expect(page).to_not have_css("#actions a[data-method=\"put\"]")
+      expect(page).to_not have_css("#actions button[data-method=\"PUT\"]")
 
       start.click
       sleep(1)
-      expect(page).to have_css("#actions a[data-method=\"put\"]")
+      expect(page).to have_css("#actions button[data-method=\"PUT\"]")
 
       visit project_path(@project)
-      expect(page).to_not have_css("#actions a[data-method=\"post\"]") #start
-      expect(page).to have_css("#actions a[data-method=\"put\"]") #stop
+      expect(page).to_not have_css("#actions button[data-method=\"POST\"]") #start
+      expect(page).to have_css("#actions button[data-method=\"PUT\"]") #stop
     end
   end
 
   context 'Stop', js:true do
     scenario 'successfully stop worktime' do
-      start = find("#app-tasks a[href=\"/tasks/#{@task.id}/worktimes\"]")
+      start = find("#app-tasks button[data-url=\"/tasks/#{@task.id}/worktimes\"]")
       start.click
       sleep(1)
 
-      stop = find("#app-tasks a[data-method=\"put\"]")
+      stop = find("#app-tasks button[data-method=\"PUT\"]")
       stop.click
       sleep(1)
 

@@ -8,19 +8,28 @@ module TaskHelper
       hide_stop, hide_play = 'hide', ''
     end
 
-    result += link_to task_worktimes_path(task),
-      { method: :post, remote: true, class: "btn #{hide_play} app-btn-loading" } do
-        '<i class="icon-play"></i>'.html_safe
-    end
+    result += remote_button(label: '<i class="icon-play"></i>',
+      url: task_worktimes_path(task),
+      hide: hide_play,
+      method: 'POST')
 
     unless current_user.worktimes.where(task_id: task).empty?
       worktime = task.worktimes.where(user_id: current_user).last
 
-      result += content_tag(:button, '<i class="icon-stop"></i>'.html_safe,
-        class: "btn #{hide_stop} app-btn-loading app-remote-button",
-        data: { url: stop_task_worktime_path(task, worktime)})
+      result += remote_button(label: '<i class="icon-stop"></i>',
+        url: stop_task_worktime_path(task, worktime),
+        hide: hide_stop,
+        method: 'PUT')
     end
 
     result.html_safe
+  end
+
+  private
+
+  def remote_button(label: label, url: url, hide: hide, method: method)
+    content_tag(:button, label.html_safe,
+      class: "btn #{hide} app-btn-loading app-remote-button",
+      data: { url: url, method: method })
   end
 end

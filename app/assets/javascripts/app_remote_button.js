@@ -3,7 +3,7 @@ $(document).ready(function() {
         var $button = $(this);
 
         $.ajax($button.data('url'), {
-            type: 'PUT'
+            type: $button.data('method')
         });
     });
 });
