@@ -6,14 +6,10 @@ module ApplicationHelper
 
   def flash_message
     unless flash.present?
-      result = ''
-      %w(success error).each do |type|
-        result += content_tag(:div,
-          content_tag(:button, raw('&times;'), :class => 'close', 'data-dismiss' => 'alert') +
-          content_tag(:span, 'message'),
-          :class => "alert fade in alert-#{type} hide")
-      end
-      result.html_safe
+      content_tag(:div,
+        content_tag(:button, raw('&times;'), :class => 'close', 'data-dismiss' => 'alert') +
+        content_tag(:span, 'message'),
+        :class => 'alert fade in hide').html_safe
     else
       bootstrap_flash
     end
