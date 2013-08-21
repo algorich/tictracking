@@ -1,13 +1,20 @@
 <% edit_page ||= current_page?(edit_project_path(@project)) %>
 
 <% if edit_page %>
-  <form class="form-inline" id="user_to_add">
-    <label>Add Users:</label>
-    <%= collection_select 'post', 'user', User.all, :id, :email, { include_blank: true },
-      { class: 'select_users_by_select2',
-        id: 'add_user_to_project',
-        data: { url: add_user_project_path(@project) } } %>
-  </form>
+
+  <div class="form-inline" id="user_to_add">
+    <label>Add Users:
+      <%= collection_select 'post', 'user', User.all, :id, :email, { include_blank: true },
+        { class: 'select_users_by_select2',
+          id: 'add_user_to_project' } %>
+    </label>
+
+    <%= content_tag(:button, 'Add!',
+      class: 'btn btn-primary app-btn-loading',
+      id: 'app_add_user_to_project',
+      data: { url: add_user_project_path(@project) }) %>
+  </div>
+
 <% else %>
   <%= render 'header_to_project_views', title: link_to(@project.name, project_path(@project)) + "'s team" %>
 <% end %>

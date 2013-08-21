@@ -1,12 +1,14 @@
 $(document).ready(function() {
     var $selector = $("#add_user_to_project");
+    var $add_button = $("#app_add_user_to_project");
 
-    $selector.change(function() {
-        var id = this.value
+    $add_button.click(function() {
+        var id = $selector.val();
+
         $.ajax($(this).data('url'), {
             data: {user_id: id},
             type: 'POST'
         });
-        $(this).select2('val', '');
+        $selector.select2('val', '');
     });
 });

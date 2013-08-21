@@ -90,13 +90,13 @@ class ProjectsController < ApplicationController
 
   def add_user
     @project = Project.find(params[:id])
-    user = User.find(params[:user_id])
-    if @project.can_add? user
+    user = User.find_by_id(params[:user_id])
+    if @project.can_add?(user)
       @project.users << user
       UserMailer.mail_add_user(user, @project).deliver
       params[:message] = { type: 'success', text: 'User was added to this project' }
     else
-      params[:message] = { type: 'error', text: 'User already in this project' }
+      params[:message] = { type: 'error', text: @project.errors[:user].first.html_safe }
     end
     render 'update_team'
   end

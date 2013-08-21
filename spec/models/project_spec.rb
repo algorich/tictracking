@@ -41,9 +41,13 @@ describe Project do
       project = create(:project)
       user = create(:user_confirmed)
 
+      expect(project.can_add?(nil)).to be_false
+      expect(project.errors[:user].first).to eq("User can't be blank!")
+
       expect(project.can_add?(user)).to be_true
       project.users << user
       expect(project.can_add?(user)).to be_false
+      expect(project.errors[:user].first).to eq('User already in this project')
     end
   end
 

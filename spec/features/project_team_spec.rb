@@ -29,6 +29,25 @@ feature 'Project team' do
       expect(page).to have_select("select_user_#{@user.id}", selected: ('Common user'))
     end
 
+    scenario 'add user', js: true do
+      user_2 = create(:user_confirmed)
+
+      login_as @admin
+      visit edit_project_path(@project)
+      click_link 'Team'
+
+      click_button 'Add!'
+      expect(page).to have_content "User can't be blank!"
+
+      select @user.email, from: 'add_user_to_project'
+      click_button 'Add!'
+      expect(page).to have_content 'User already in this project'
+
+      select user_2.email, from: 'add_user_to_project'
+      click_button 'Add!'
+      expect(page).to have_content 'User was added to this project'
+    end
+
     scenario 'remove user', js: true do
       login_as @admin
       visit edit_project_path(@project)

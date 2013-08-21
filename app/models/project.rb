@@ -17,7 +17,18 @@ class Project < ActiveRecord::Base
   end
 
   def can_add?(user)
-    !users.include? user
+    self.errors[:user].clear
+
+    if user.nil?
+      self.errors[:user] = "User can't be blank!"
+      return false
+
+    elsif users.include?(user)
+      self.errors[:user] = 'User already in this project'
+      return false
+    end
+
+    return true
   end
 
   def get_all_time_worked(begin_at: begin_at, end_at: end_at)
