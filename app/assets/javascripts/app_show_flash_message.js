@@ -1,3 +1,5 @@
+$old_alert = null;
+
 function app_show_flash_message (type, text) {
   clean_up();
   var element = $('.alert')[0];
@@ -8,10 +10,13 @@ function app_show_flash_message (type, text) {
 }
 
 function clean_up () {
-  var element = $('.alert')[0];
-  var $alert = $(element);
-  $alert.removeClass('alert-success alert-error')
-  $alert.addClass('hide');
-  $alert.children('span').text('');
-};
+  $('.alert').addClass('hide');;
+  if ($old_alert != null) {
+    $('#app_flash_message_container').html($old_alert);
+  };
 
+  var $alert = $('#app_flash_message');
+  $alert.removeClass('alert-success alert-error');
+  $alert.children('span').text('');
+  $old_alert = $alert.clone();
+};

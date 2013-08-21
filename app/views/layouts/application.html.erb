@@ -29,7 +29,10 @@
     <div class="row-fluid">
 
       <div class="<%= yield(:sidebar).blank? ? 'span12'.html_safe : 'span8'.html_safe %>">
-        <%= flash_message %>
+        <div id="app_flash_message_container">
+          <%= app_flash_message %>
+          <%= bootstrap_flash %>
+        </div>
 
         <%= yield %>
       </div>

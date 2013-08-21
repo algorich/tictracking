@@ -4,15 +4,12 @@ module ApplicationHelper
     "http://gravatar.com/avatar/#{gravatar_id}.png?s=48"
   end
 
-  def flash_message
-    unless flash.present?
-      content_tag(:div,
-        content_tag(:button, raw('&times;'), :class => 'close', 'data-dismiss' => 'alert') +
-        content_tag(:span, 'message'),
-        :class => 'alert fade in hide').html_safe
-    else
-      bootstrap_flash
-    end
+  def app_flash_message
+    content_tag(:div,
+      content_tag(:button, raw('&times;'), :class => 'close', 'data-dismiss' => 'alert') +
+      content_tag(:span, 'message'),
+      :class => 'alert fade in hide',
+      :id => 'app_flash_message').html_safe
   end
 
   def user_info(user)

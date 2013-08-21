@@ -2,8 +2,6 @@ var $worktimes = $('div[data-id="<%= @task.id %>"]');
 
 $worktimes.replaceWith("<%= escape_javascript(render 'tasks/show', task: @task, worktime: @worktime ) %>");
 
-appShowFlashMessage('<%= flash_message %>');
-
 $('div[data-id="<%= @task.id.to_s %>"] a[data-method="post"]').show();
 $('div[data-id="<%= @task.id %>"] a[data-method="put"]').hide();
 
