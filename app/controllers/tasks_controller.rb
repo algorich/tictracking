@@ -6,9 +6,10 @@ class TasksController < ApplicationController
     @task = Task.new(params[:task])
     @project = Project.where(project_id: @task.project_id)
     if @task.save
-      Worktime.create!(beginning: Time.now, user_id: current_user.id, task_id: @task.id)
-    end
+      Worktime.create(beginning: Time.now, user_id: current_user.id, task_id: @task.id)
+    else
       flash[:error] = @task.errors[:name].try(:first)
+    end
   end
 
   def edit
