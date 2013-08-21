@@ -9,7 +9,7 @@ class WorktimesController < ApplicationController
     @worktime = Worktime.new(task: @task, beginning: Time.now, user_id: current_user.id)
     authorize! :create, @worktime
     @worktime.save
-    flash[:error] = @worktime.errors[:base].try(:first)
+    params[:message] = { type: 'error', text: @worktime.errors[:base].try(:first) }
   end
 
   def edit

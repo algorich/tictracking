@@ -3,7 +3,8 @@
   $('#task_name').val('');
 <% else %>
   $('#task_name').val('');
-  appShowFlashMessage('<%= escape_javascript(flash_message) %>');
+  app_show_flash_message("<%= params[:message][:type] %>",
+    "<%= params[:message][:text].try(:html_safe) %>");
 <% end %>
 
 <%= render partial: 'site/start_countdown' %>
