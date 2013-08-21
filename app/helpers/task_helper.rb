@@ -3,9 +3,9 @@ module TaskHelper
     result = ''
 
     if current_user.exists_pending_worktimes? task
-      hide_stop, hide_play = '', 'hide'
+      hide_play = 'hide'
     else
-      hide_stop, hide_play = 'hide', ''
+      hide_stop = 'hide'
     end
 
     result += remote_button(label: '<i class="icon-play"></i>',
@@ -27,7 +27,7 @@ module TaskHelper
 
   private
 
-  def remote_button(label: label, url: url, hide: hide, method: method)
+  def remote_button(label: label, url: url, hide: nil, method: method)
     content_tag(:button, label.html_safe,
       class: "btn #{hide} app-btn-loading app-remote-button",
       data: { url: url, method: method })
