@@ -9,7 +9,8 @@ module TaskHelper
     end
 
     result += link_to task_worktimes_path(task),
-      { method: :post, remote: true, class: "btn #{hide_play}" } do
+      { method: :post, remote: true, class: "btn #{hide_play} app-btn-loading",
+        data: { 'loading-text' => 'loading...' } } do
         '<i class="icon-play"></i>'.html_safe
     end
 
@@ -17,7 +18,8 @@ module TaskHelper
       worktime = task.worktimes.where(user_id: current_user).last
 
       result += link_to stop_task_worktime_path(task, worktime),
-        { method: :put, remote: true, class: "btn #{hide_stop}" } do
+        { method: :put, remote: true, class: "btn #{hide_stop} app-btn-loading",
+          data: { 'loading-text' => 'loading...' } } do
           '<i class="icon-stop"></i>'.html_safe
       end
     end
