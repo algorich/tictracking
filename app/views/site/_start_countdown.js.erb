@@ -8,11 +8,13 @@
   var min = <%= worktime.beginning.min %>;
   var sec = <%= worktime.beginning.sec %>;
 
-  var timerId =
-    countdown(
-      new Date(year, month - 1 , day, hour, min, sec),
-      function(ts) {
-        $('.counter').html(ts.toHTML("strong"));
-      },
-      countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+  if (!timerId) {
+    var timerId =
+      countdown(
+        new Date(year, month - 1 , day, hour, min, sec),
+        function(ts) {
+          $('.counter').html(ts.toHTML("strong"));
+        },
+        countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+  }
 <% end %>

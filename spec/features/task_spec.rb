@@ -22,6 +22,22 @@ feature 'Task' do
       expect(page).to have_content I18n.l(time, format: :short)
     end
 
+    scenario 'successfully create task without worktime' do
+      fill_in 'New task', with: 'tarefa 1'
+      click_button 'Start'
+      sleep(1)
+
+      time = Time.now + 1.hour
+      Timecop.freeze(time) do
+        fill_in 'New task', with: 'tarefa x'
+        click_button 'Start'
+      end
+      sleep(1)
+
+      expect(page).to have_content('tarefa x')
+      expect(page).not_to have_content I18n.l(time, format: :short)
+    end
+
     scenario 'failure' do
       fill_in 'New task', with: ''
       click_button 'Start'

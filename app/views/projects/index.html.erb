@@ -1,34 +1,41 @@
 <h1>Projects</h1>
 
 
-<table id="projects" class="table table-striped ">
-  <thead>
-    <tr>
-      <th><h4>Name</h4></th>
-    </tr>
-  </thead>
+<% unless @projects.empty? %>
+  <table id="projects" class="table table-striped ">
 
-  <tbody>
-    <% @projects.each do |project| %>
+    <thead>
       <tr>
-        <td><%= link_to project.name, project %></td>
-        <td class="btn-group">
-          <%= link_to report_project_path(project), class: [:btn, 'btn-mini'] do %>
-            <i class="icon-time"></i>
-          <% end %>
-          <% if current_user.admin? project %>
-            <%= link_to edit_project_path(project), class: [:btn, 'btn-mini'] do %>
-              <i class="icon-pencil"></i>
-            <% end %>
-            <%= link_to project_path(project),
-              { method: :delete , confirm: 'Are you sure?',
-              class: [:btn, 'btn-mini', 'btn-danger'] } do %>
-                <i class="icon-trash"></i>
-            <% end %>
-          <% end %>
-        </td>
+        <th><h4>Name</h4></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @projects.each do |project| %>
+        <tr>
+          <td><%= link_to project.name, project %></td>
+          <td class="btn-group">
+            <%= link_to report_project_path(project), class: [:btn, 'btn-mini'] do %>
+              <i class="icon-time"></i>
+            <% end %>
+            <% if current_user.admin? project %>
+              <%= link_to edit_project_path(project), class: [:btn, 'btn-mini'] do %>
+                <i class="icon-pencil"></i>
+              <% end %>
+              <%= link_to project_path(project),
+                { method: :delete , confirm: 'Are you sure?',
+                class: [:btn, 'btn-mini', 'btn-danger'] } do %>
+                  <i class="icon-trash"></i>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <%= 'You must' %>
+  <%= link_to 'create', new_project_path %>
+  <%= 'a project' %>
+<% end %>
 
