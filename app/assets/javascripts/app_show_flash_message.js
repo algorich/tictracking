@@ -1,12 +1,15 @@
 var $window = $(window),
     $stickyEl = $('#app_flash_message'),
-    elTop = $stickyEl.offset().top,
     $old_alert = null;
 
-// sticky functions
-$window.scroll(function() {
-    toggle_sticky_class($stickyEl);
-});
+if ($stickyEl.length > 0 ) {
+  var elTop = $stickyEl.offset().top;
+
+  // sticky function
+  $window.scroll(function() {
+      toggle_sticky_class($stickyEl);
+  });
+};
 
 function toggle_sticky_class (element) {
     element.toggleClass('sticky', $window.scrollTop() > elTop);
