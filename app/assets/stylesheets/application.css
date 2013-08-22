@@ -144,3 +144,9 @@
 .pagination {
   text-align: center;
 }
+
+.alert.sticky {
+  margin: 60px 0 0 0;
+  position: fixed;
+  top:0;
+}
