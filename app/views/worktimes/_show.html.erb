@@ -11,7 +11,7 @@
 
 <% if worktime.finish.present? %>
   <% finished_at = l(worktime.finish, format: :short) %>
-  <% time_worked = distance_of_time_in_words( worktime.beginning, worktime.finish, false) %>
+  <% time_worked = precise_distance_of_time_in_words(worktime.beginning, worktime.finish) %>
 <% else %>
   <% finished_at = time_worked = 'working...' %>
 <% end %>

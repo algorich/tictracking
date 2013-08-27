@@ -14,9 +14,9 @@ gem 'twitter-bootstrap-rails', '~> 2.2.7'
 gem 'select2-rails', '~> 3.4.2'
 gem 'bootstrap-datetimepicker-rails', '~> 0.0.11'
 gem 'squeel', '~> 1.1.0' #pretty search within database
-gem 'dotiw', '~> 1.1.1' #millisecons to words
 gem 'kaminari', '~> 0.14.1'
 gem 'sass-rails', '~> 3.2.6'
+gem 'precise_distance_of_time_in_words', '~> 0.0.2'
 
 group :assets do
   gem 'therubyracer', :platforms => :ruby

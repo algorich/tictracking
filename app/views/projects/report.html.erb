@@ -9,7 +9,7 @@
         <% if admin_or_observer %>
           <p>
             <b>Time worked by all users:</b>
-            <%= distance_of_time_in_words( 0, project_info[:time_worked_by_all], false) %>
+            <%= precise_distance_of_time_in_words(0, project_info[:time_worked_by_all]) %>
           </p>
 
           <div class="app-input-sidebar" id="user_id">
