@@ -24,9 +24,9 @@ TicTracking::Application.routes.draw do
 
   devise_for :users
 
-  authenticated :user do
-    root :to => 'site#dashboard'
-  end
+  # authenticated :user do
+  #   root :to => 'site#dashboard'
+  # end
 
   root to: 'site#index'
 end
