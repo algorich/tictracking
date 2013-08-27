@@ -2,10 +2,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
    :trackable, :validatable, :confirmable
 
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
-
   has_many :worktimes
-  has_many :tasks, through: :worktimes, uniq: true
+  has_many :tasks, -> { uniq }, through: :worktimes
   has_many :memberships
   has_many :projects, through: :memberships
 

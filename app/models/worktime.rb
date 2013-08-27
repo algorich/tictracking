@@ -2,7 +2,6 @@ class Worktime < ActiveRecord::Base
   belongs_to :user
   belongs_to :task, touch: true
 
-  attr_accessible :beginning, :finish, :user, :user_id, :task, :task_id
   attr_accessor :skip_stopped_validation
 
   validates :beginning, presence: true

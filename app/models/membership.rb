@@ -4,7 +4,6 @@ class Membership < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
 
-  attr_accessible :project, :user, :role
   validates :role, presence: true
 
   def set_role!(role)
