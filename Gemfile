@@ -23,8 +23,8 @@ gem 'uglifier', '>= 2.0.0'
 
 group :test, :development do
   gem 'pry', '~> 0.9.12'
-  gem 'pry-rails', '~> 0.3.0'
-  gem 'rspec-rails', '~> 2.13.2'
+  gem 'pry-rails', '~> 0.3.2'
+  gem 'rspec-rails', '~> 2.14.0'
   gem 'factory_girl_rails', '~> 4.2.1'
 end
 
