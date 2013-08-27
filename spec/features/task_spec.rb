@@ -13,10 +13,8 @@ feature 'Task' do
 
     scenario 'successfully create task and worktime' do
       time = Time.now
-      Timecop.freeze(time) do
-        fill_in 'New task', with: 'tarefa x'
-        click_button 'Start'
-      end
+      fill_in 'New task', with: 'tarefa x'
+      click_button 'Start'
 
       expect(page).to have_content('tarefa x')
       expect(page).to have_content I18n.l(time, format: :short)
@@ -28,10 +26,8 @@ feature 'Task' do
       sleep(1)
 
       time = Time.now + 1.hour
-      Timecop.freeze(time) do
-        fill_in 'New task', with: 'tarefa x'
-        click_button 'Start'
-      end
+      fill_in 'New task', with: 'tarefa x'
+      click_button 'Start'
       sleep(1)
 
       expect(page).to have_content('tarefa x')
