@@ -28,7 +28,7 @@ class WorktimesController < ApplicationController
     @worktime = Worktime.find(params[:id])
     @worktime.skip_stopped_validation = true
 
-    if @worktime.update_attributes(params[:worktime])
+    if @worktime.update_attributes(worktime_params)
       redirect_to project_path(@task.project_id), notice: "Worktime updated with success."
      else
       redirect_to edit_task_worktime_path(@task, @worktime)
@@ -46,5 +46,9 @@ class WorktimesController < ApplicationController
 
   def destroy_flash
     flash.delete(:error)
+  end
+
+  def worktime_params
+    params.require(:worktime).permit(:beginning, :finish, :user, :user_id, :task, :task_id)
   end
 end

@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.new(params[:project])
+    @project = Project.new(project_params)
     @project.set_admin(current_user)
 
     respond_to do |format|
@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
 
     respond_to do |format|
-      if @project.update_attributes(params[:project])
+      if @project.update_attributes(project_params)
         format.html { redirect_to @project, notice: 'Project was successfully update.' }
       else
         format.html { render action: "edit" }
@@ -106,7 +106,7 @@ class ProjectsController < ApplicationController
     @begin_at = @project.created_at
     @end_at = Time.now
     @users = @project.users
-    @users.reject! { |user| user.observer?(@project) }
+    @users = @users.reject { |user| user.observer?(@project) }
 
     @values = {
       user_id: nil,
@@ -129,5 +129,11 @@ class ProjectsController < ApplicationController
     }
     @users = [@user_filtered] if !@user_filtered.nil?
     render 'report'
+  end
+
+  private
+
+  def project_params
+    params.require(:project).permit(:name)
   end
 end

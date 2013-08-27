@@ -31,4 +31,10 @@ class TasksController < ApplicationController
     Task.destroy(params[:id])
     redirect_to project_path(@task.project_id), notice: 'Delete successfully'
   end
+
+  private
+
+  def task_params
+    params.require(:task).permit(:name, :project, :project_id)
+  end
 end
