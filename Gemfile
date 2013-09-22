@@ -4,22 +4,26 @@ ruby '2.0.0'
 
 gem 'rails', '4.0.0'
 gem 'pg'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'unicorn'
 gem 'devise', '3.1.0.rc2'
 gem 'cancan', '~> 1.6.10'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form'
-gem 'twitter-bootstrap-rails', '~> 2.2.7'
-gem 'select2-rails', '~> 3.4.2'
-gem 'bootstrap-datetimepicker-rails', '~> 0.0.11'
-gem 'squeel', '~> 1.1.0' #pretty search within database
+gem 'squeel', '~> 1.1.0' # pretty search within database
 gem 'kaminari', '~> 0.14.1'
 gem 'precise_distance_of_time_in_words', '~> 0.0.2'
 
-
+# assets
+gem 'twitter-bootstrap-rails', '~> 2.2.7'
+gem 'select2-rails', '~> 3.4.2'
+gem 'bootstrap-datetimepicker-rails', '~> 0.0.11'
 gem 'therubyracer', :platforms => :ruby
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 2.0.0'
+
+# just because heroku
+gem 'rails_12factor', group: :production
 
 group :test, :development do
   gem 'pry', '~> 0.9.12'
