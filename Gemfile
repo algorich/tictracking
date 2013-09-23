@@ -5,7 +5,7 @@ ruby '2.0.0'
 gem 'rails', '4.0.0'
 gem 'pg'
 gem 'unicorn'
-gem 'devise', '3.1.0.rc2'
+gem 'devise', '3.1.0'
 gem 'cancan', '~> 1.6.10'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form'
 gem 'squeel', '~> 1.1.0' # pretty search within database

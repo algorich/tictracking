@@ -1,17 +1,18 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :set_latests_projects
-
   layout :layout_by_resource
 
+  before_filter :set_latests_projects
+
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+
+  #for cancan in rails 4
   before_filter do
     resource = controller_path.singularize.gsub('/', '_').to_sym
     method = "#{resource}_params"
     params[resource] &&= send(method) if respond_to?(method, true)
   end
-
-  before_filter :configure_permitted_parameters, if: :devise_controller?
 
   def set_latests_projects
     if current_user
@@ -20,20 +21,17 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
-  end
-
-  def layout_by_resource
-    if devise_controller?
-      'login'
-    else
-      'application'
-    end
+    redirect_to root_url, alert: exception.message
   end
 
   protected
 
+  def layout_by_resource
+    devise_controller? ? 'login' : 'application'
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:account_update) << :name
+    devise_parameter_sanitizer.for(:sign_up) << :name
   end
 end
