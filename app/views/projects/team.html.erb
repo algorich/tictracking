@@ -9,6 +9,11 @@
           id: 'add_user_to_project' } %>
     </label>
 
+    <label>Role:
+      <%= collection_select :post, :role, Membership::ROLES.reverse, :to_s, :humanize,
+        {}, {id: 'add_user_role_to_project'} %>
+    </label>
+
     <%= content_tag(:button, 'Add!',
       class: 'btn btn-primary app-btn-loading',
       id: 'app_add_user_to_project',

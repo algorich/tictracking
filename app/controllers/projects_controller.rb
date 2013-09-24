@@ -92,7 +92,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     user = User.find_by_id(params[:user_id])
     if @project.can_add?(user)
-      @project.users << user
+      @project.memberships.create(user: user, role: params[:user_role])
       UserMailer.mail_add_user(user, @project).deliver
       params[:message] = { type: 'success', text: 'User was added to this project' }
     else

@@ -44,8 +44,11 @@ feature 'Project team' do
       expect(page).to have_content 'User already in this project'
 
       select user_2.email, from: 'add_user_to_project'
+      select 'Observer', from: 'add_user_role_to_project'
       click_button 'Add!'
+
       expect(page).to have_content 'User was added to this project'
+      expect(page).to have_select("select_user_#{user_2.id}", selected: ('Observer'))
     end
 
     scenario 'remove user', js: true do
