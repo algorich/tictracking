@@ -55,23 +55,14 @@
     <%= render 'header_to_project_views',
       title: 'Time Worked at ' + link_to(@project.name, project_path(@project)) %>
 
-    <table class="table table-striped app_timeworked" id="time_worked">
-      <thead>
-        <tr>
-          <th><h4>Name</h4></th>
-          <th><h4>Time</h4></th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% if admin_or_observer %>
-          <% @users.each do |user| %>
-            <%= render 'time_worked', user: user, tasks_info: project_info[:users][user] %>
-          <% end %>
-        <% else %>
-          <%= render 'time_worked', user: current_user, tasks_info: project_info[:users][current_user] %>
+    <div class="accordion" id="time_worked">
+      <% if admin_or_observer %>
+        <% @users.each do |user| %>
+          <%= render 'time_worked', user: user, tasks_info: project_info[:users][user] %>
         <% end %>
-      </tbody>
-    </table>
+      <% else %>
+        <%= render 'time_worked', user: current_user, tasks_info: project_info[:users][current_user] %>
+      <% end %>
+    </div>
   </section>
 </div>

@@ -1,17 +1,22 @@
-<div id="user-<%= user.id %>">
-  <tr class="info">
-    <td><%= user_info(user) %></td>
-    <td><h5>
-      <%= precise_distance_of_time_in_words(0, tasks_info[:time_worked_at_all]) %>
-    </h5></td>
-  </tr>
+<div class="accordion-group" id="user-<%= user.id %>">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#time_worked"
+      href="#user-<%= user.id %>-tasks">
+      <%= user_info(user) %>
+      <h5>
+        <%= precise_distance_of_time_in_words(0, tasks_info[:time_worked_at_all]) %>
+      </h5>
+    </a>
+  </div>
 
-  <div id="tasks">
-    <% tasks_info[:tasks].each do |task| %>
-      <tr id="task-<%= task[:id] %>">
-        <td><%= task[:name] %></td>
-        <td><%= precise_distance_of_time_in_words(0, task[:time]) %></td>
-      </tr>
-    <% end %>
+  <div id="user-<%= user.id %>-tasks" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <% tasks_info[:tasks].each do |task| %>
+        <div id="task-<%= task[:id] %>">
+          <%= task[:name] %>
+          <%= precise_distance_of_time_in_words(0, task[:time]) %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

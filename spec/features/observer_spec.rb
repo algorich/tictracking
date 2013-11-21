@@ -59,12 +59,12 @@ feature 'Observer' do
         expect(page).to have_content @goku.name
         expect(page).to have_content '7 minutes' #time worked at project
 
-        within("#tasks #task-#{@find_dragon_balls.id}") do
+        within("#task-#{@find_dragon_balls.id}") do
           expect(page).to have_content @find_dragon_balls.name
           expect(page).to have_content '2 minutes'
         end
 
-        within("#tasks #task-#{@invoke_shenlong.id}") do
+        within("#task-#{@invoke_shenlong.id}") do
           expect(page).to have_content @invoke_shenlong.name
           expect(page).to have_content '5 minutes'
         end
@@ -75,7 +75,7 @@ feature 'Observer' do
         expect(page).to have_content @kuririn.name
         expect(page).to have_content '2 minutes' #time worked at project
 
-        within("#tasks #task-#{@die.id}") do
+        within("#task-#{@die.id}") do
           expect(page).to have_content @die.name
           expect(page).to have_content '2 minutes'
         end
@@ -135,16 +135,16 @@ feature 'Observer' do
           expect(page).to have_content @goku.name
           expect(page).to have_content ''
 
-          expect(page).to_not have_css("#tasks #task-#{@find_dragon_balls.id}")
-          expect(page).to_not have_css("#tasks #task-#{@invoke_shenlong.id}")
-          expect(page).to_not have_css("#tasks #task-#{@task.id}")
+          expect(page).to_not have_css("#task-#{@find_dragon_balls.id}")
+          expect(page).to_not have_css("#task-#{@invoke_shenlong.id}")
+          expect(page).to_not have_css("#task-#{@task.id}")
         end
 
         within("#user-#{@kuririn.id}") do
           expect(page).to have_content @kuririn.name
           expect(page).to have_content '' #time worked at project
 
-          expect(page).to_not have_css("#tasks #task-#{@die.id}")
+          expect(page).to_not have_css("#task-#{@die.id}")
         end
 
         fill_in 'filter_begin_at', with: @yesterday
@@ -153,10 +153,10 @@ feature 'Observer' do
         within("#user-#{@goku.id}") do
           expect(page).to have_content @goku.name
           expect(page).to have_content '10 minutes'
-          expect(page).to_not have_css("#tasks #task-#{@find_dragon_balls.id}")
-          expect(page).to_not have_css("#tasks #task-#{@invoke_shenlong.id}")
+          expect(page).to_not have_css("#task-#{@find_dragon_balls.id}")
+          expect(page).to_not have_css("#task-#{@invoke_shenlong.id}")
 
-          within("#tasks #task-#{@task.id}") do
+          within("#task-#{@task.id}") do
             expect(page).to have_content @task.name
             expect(page).to have_content '10 minutes'
           end
@@ -166,7 +166,7 @@ feature 'Observer' do
           expect(page).to have_content @kuririn.name
           expect(page).to have_content '' #time worked at project
 
-          expect(page).to_not have_css("#tasks #task-#{@die.id}")
+          expect(page).to_not have_css("#task-#{@die.id}")
         end
 
         fill_in 'filter_begin_at', with: @day_before_yesterday
@@ -177,17 +177,17 @@ feature 'Observer' do
           expect(page).to have_content @goku.name
           expect(page).to have_content '17 minutes' #time worked at project
 
-          within("#tasks #task-#{@find_dragon_balls.id}") do
+          within("#task-#{@find_dragon_balls.id}") do
             expect(page).to have_content @find_dragon_balls.name
             expect(page).to have_content '2 minutes'
           end
 
-          within("#tasks #task-#{@invoke_shenlong.id}") do
+          within("#task-#{@invoke_shenlong.id}") do
             expect(page).to have_content @invoke_shenlong.name
             expect(page).to have_content '5 minutes'
           end
 
-          within("#tasks #task-#{@task.id}") do
+          within("#task-#{@task.id}") do
             expect(page).to have_content @task.name
             expect(page).to have_content '10 minutes'
           end
@@ -198,7 +198,7 @@ feature 'Observer' do
           expect(page).to have_content @kuririn.name
           expect(page).to have_content '2 minutes' #time worked at project
 
-          within("#tasks #task-#{@die.id}") do
+          within("#task-#{@die.id}") do
             expect(page).to have_content @die.name
             expect(page).to have_content '2 minutes'
           end
@@ -214,16 +214,16 @@ feature 'Observer' do
           expect(page).to have_content @goku.name
           expect(page).to have_content ''
 
-          expect(page).to_not have_css("#tasks #task-#{@find_dragon_balls.id}")
-          expect(page).to_not have_css("#tasks #task-#{@invoke_shenlong.id}")
-          expect(page).to_not have_css("#tasks #task-#{@task.id}")
+          expect(page).to_not have_css("#task-#{@find_dragon_balls.id}")
+          expect(page).to_not have_css("#task-#{@invoke_shenlong.id}")
+          expect(page).to_not have_css("#task-#{@task.id}")
         end
 
         within("#user-#{@kuririn.id}") do
           expect(page).to have_content @kuririn.name
           expect(page).to have_content '' #time worked at project
 
-          expect(page).to_not have_css("#tasks #task-#{@die.id}")
+          expect(page).to_not have_css("#task-#{@die.id}")
         end
 
         fill_in 'filter_end_at', with: @yesterday
@@ -232,17 +232,17 @@ feature 'Observer' do
         within("#user-#{@goku.id}") do
           expect(page).to have_content @goku.name
           expect(page).to have_content '7 minutes'
-          expect(page).to have_css("#tasks #task-#{@find_dragon_balls.id}")
-          expect(page).to have_css("#tasks #task-#{@invoke_shenlong.id}")
+          expect(page).to have_css("#task-#{@find_dragon_balls.id}")
+          expect(page).to have_css("#task-#{@invoke_shenlong.id}")
 
-          expect(page).to_not have_css("#tasks #task-#{@task.id}")
+          expect(page).to_not have_css("#task-#{@task.id}")
         end
 
         within("#user-#{@kuririn.id}") do
           expect(page).to have_content @kuririn.name
           expect(page).to have_content '2 minutes' #time worked at project
 
-          expect(page).to have_css("#tasks #task-#{@die.id}")
+          expect(page).to have_css("#task-#{@die.id}")
         end
 
         fill_in 'filter_end_at', with: Time.now
@@ -253,17 +253,17 @@ feature 'Observer' do
           expect(page).to have_content @goku.name
           expect(page).to have_content '17 minutes' #time worked at project
 
-          within("#tasks #task-#{@find_dragon_balls.id}") do
+          within("#task-#{@find_dragon_balls.id}") do
             expect(page).to have_content @find_dragon_balls.name
             expect(page).to have_content '2 minutes'
           end
 
-          within("#tasks #task-#{@invoke_shenlong.id}") do
+          within("#task-#{@invoke_shenlong.id}") do
             expect(page).to have_content @invoke_shenlong.name
             expect(page).to have_content '5 minutes'
           end
 
-          within("#tasks #task-#{@task.id}") do
+          within("#task-#{@task.id}") do
             expect(page).to have_content @task.name
             expect(page).to have_content '10 minutes'
           end
@@ -274,7 +274,7 @@ feature 'Observer' do
           expect(page).to have_content @kuririn.name
           expect(page).to have_content '2 minutes' #time worked at project
 
-          within("#tasks #task-#{@die.id}") do
+          within("#task-#{@die.id}") do
             expect(page).to have_content @die.name
             expect(page).to have_content '2 minutes'
           end
