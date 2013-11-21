@@ -16,7 +16,6 @@
 /*
 ** Header
 */
-
 .brand sub {
   font-size: 60%;
 }
@@ -31,36 +30,6 @@
   height: 30px;
 }
 
-.span12 > ul > div:nth-child(3) > div:nth-child(1) > li {
-  float: left;
-  margin-left: 15px;
-  list-style: none;
-  font-size: 18px;
-  padding: 1px 4px;
-}
-
-.tasks > ul {
-  list-style: none;
-  margin-left: 0;
-}
-
-.background-tasks > ul:nth-child(1) {
-  list-style: none;
-}
-
-.span12 > ul > div:nth-child(3) > div:nth-child(1) > li:nth-child(1) {
-  margin-left: -1px;
-}
-
-.app-task {
-  padding: 19px;
-  border: 1px solid rgb(227,227,227);
-  background-color: rgb(245,245,245);
-  border-radius: 4px;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
-  margin-bottom: 25px;
-}
-
 .nav-header > h4:nth-child(1) {
   color: black;
   margin-top: 0;
@@ -70,6 +39,21 @@
   margin: 15px 0;
 }
 
+/*
+** Tasks
+*/
+.app-task {
+  padding: 19px;
+  border: 1px solid rgb(227,227,227);
+  background-color: rgb(245,245,245);
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
+  margin-bottom: 25px;
+}
+
+/*
+** New Task
+*/
 .app-new-task {
   margin-top: 25px;
   width: 100%;
@@ -93,10 +77,9 @@
   padding: 10px;
 }
 
-.well {
-  margin-top: 8px;
-}
-
+/*
+** myTabContent
+*/
 #myTabContent p {
   padding-top: 15px;
   margin-left: 20px;
@@ -106,6 +89,9 @@
   margin-bottom: 15px;
 }
 
+/*
+** Time Worked
+*/
 #times_worked h3 {
   border-left: 4px solid #98b3fa;
 }
@@ -114,6 +100,32 @@
   margin-left: 20px;
 }
 
+/*
+** simple_form overrides
+*/
+.simple_form {
+  margin: 0 0 0 0;
+}
+
+/*
+** pagination
+*/
+.pagination {
+  text-align: center;
+}
+
+/*
+** Alerts
+*/
+.alert.sticky {
+  margin: 60px 0 0 0;
+  position: fixed;
+  top:0;
+}
+
+/*
+** team-table
+*/
 #team-table td:nth-child(2) {
   text-align: center;
 }
@@ -122,7 +134,9 @@
   text-align: right;
 }
 
-/* Portrait tablet to landscape and desktop */
+/*
+** Portrait tablet to landscape and desktop
+*/
 @media (min-width: 768px) {
   #app-report-page #app-sidebar {
     margin: 80px 20px 0 0;
@@ -134,19 +148,4 @@
   #app-content {
     padding-top:60px;
   }
-}
-
-/*simple_form overrides*/
-.simple_form {
-  margin: 0 0 0 0;
-}
-
-.pagination {
-  text-align: center;
-}
-
-.alert.sticky {
-  margin: 60px 0 0 0;
-  position: fixed;
-  top:0;
 }
