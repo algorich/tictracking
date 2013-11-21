@@ -135,6 +135,14 @@
 }
 
 /*
+** Time worked
+*/
+.tasks-table td:nth-child(2){
+  text-align: right;
+}
+
+
+/*
 ** Portrait tablet to landscape and desktop
 */
 @media (min-width: 768px) {
