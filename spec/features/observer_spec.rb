@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature 'Observer' do
   before(:each) do
-    Timecop.freeze(Time.now - 2.day) do
+    Timecop.freeze(Time.local(2008, 12, 12, 6, 6, 6) - 2.day) do
       now = Time.now
 
       #user goku

@@ -2,11 +2,11 @@ require 'spec_helper'
 
 feature 'Times worked' do
   scenario 'authenticate_user' do
-    Timecop.freeze(Time.now - 1.day) { @project = create :project }
+    Timecop.freeze(Time.local(2008, 12, 12, 6, 0, 0) - 1.day) { @project = create :project }
     visit report_project_path(@project)
     expect(page).to have_content('You need to sign in or sign up before continuing.')
 
-    Timecop.freeze(Time.now - 1.day) do
+    Timecop.freeze(Time.local(2008, 12, 12, 6, 0, 0) - 1.day) do
       @user = create(:user_confirmed)
       create(:membership, user: @user, project: @project)
     end
@@ -17,7 +17,7 @@ feature 'Times worked' do
   end
 
   before(:each) do
-    Timecop.freeze(Time.now - 2.day) do
+    Timecop.freeze(Time.local(2008, 12, 12, 6, 0, 0) - 2.day) do
       now = Time.now
       #user goku
       @goku = create(:user_confirmed)
@@ -54,7 +54,7 @@ feature 'Times worked' do
 
   context 'show' do
     scenario 'admin' do
-      Timecop.travel(@day_before_yesterday + 10.hours)
+      Timecop.travel(@day_before_yesterday + 6.hours)
 
       observer = create(:user_confirmed, name: 'observer')
       create :membership, user: observer, project: @resurrect_kuririn, role: 'observer'
