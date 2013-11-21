@@ -46,7 +46,7 @@ feature 'Observer' do
       Timecop.travel(@day_before_yesterday + 10.hours)
 
       visit report_project_path(@resurrect_kuririn)
-      expect(page).to have_select 'filter_user_id'
+      expect(page).to have_select 'filter_user_ids'
 
       within('#project') do
         expect(page).to have_content @goku.email
@@ -92,7 +92,7 @@ feature 'Observer' do
         expect(page).to have_content @kuririn.name
       end
 
-      select(@kuririn.email, from: 'filter_user_id')
+      select(@kuririn.email, from: 'filter_user_ids')
       click_button 'Filter'
 
       within('#time_worked') do

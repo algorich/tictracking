@@ -12,13 +12,13 @@
             <%= precise_distance_of_time_in_words(0, project_info[:time_worked_by_all]) %>
           </p>
 
-          <div class="app-input-sidebar" id="user_id">
-            <span class="span4">User:</span>
+          <div class="app-input-sidebar" id="user_ids">
+            <span class="span4">Users:</span>
             <div class="span6">
-              <%= f.input_field :user_id, collection: @project.users, as: :select,
-                value_method: :id,
-                label_method: :email, selected: @values[:user_id], include_blank: true,
-                class: "select_users_by_select2" %>
+              <%= f.input_field :user_ids, collection: @project.users, as: :select,
+                value_method: :id, label_method: :email,
+                selected: @values[:user_ids], include_blank: true,
+                class: "select_users_by_select2", multiple: true %>
             </div>
           </div>
         <% end %>

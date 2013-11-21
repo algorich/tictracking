@@ -121,13 +121,13 @@ class ProjectsController < ApplicationController
     @begin_at = params[:filter][:begin_at].to_time || @project.created_at
     @end_at = params[:filter][:end_at].to_time || Time.now
     @users = @project.users
-    @user_filtered = @users.find_by_id(params[:filter][:user_id])
+    @users_filtered = @users.where(id: params[:filter][:user_ids])
     @values = {
-      user_id: params[:filter][:user_id],
+      user_ids: params[:filter][:user_ids],
       begin_at: params[:filter][:begin_at],
       end_at: params[:filter][:end_at]
     }
-    @users = [@user_filtered] if !@user_filtered.nil?
+    @users = @users_filtered if !@users_filtered.empty?
     render 'report'
   end
 

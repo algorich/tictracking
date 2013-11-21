@@ -102,14 +102,14 @@ feature 'Times worked' do
     scenario 'admin', js: true do
       login_as @goku
       visit report_project_path(@resurrect_kuririn)
-      expect(page).to have_select('filter_user_id')
+      expect(page).to have_select('filter_user_ids')
 
       within('#time_worked') do
         expect(page).to have_content @goku.email
         expect(page).to have_content @kuririn.name
       end
 
-      select(@kuririn.email, from: 'filter_user_id')
+      select(@kuririn.email, from: 'filter_user_ids')
       click_button 'Filter'
 
       within('#time_worked') do
@@ -117,19 +117,19 @@ feature 'Times worked' do
         expect(page).to have_content @kuririn.name
       end
 
-      select(@goku.email, from: 'filter_user_id')
+      select(@goku.email, from: 'filter_user_ids')
       click_button 'Filter'
 
       within('#time_worked') do
         expect(page).to have_content @goku.email
-        expect(page).to_not have_content @kuririn.name
+        expect(page).to have_content @kuririn.name
       end
     end
 
     scenario 'common user', js: true do
       login_as @kuririn
       visit report_project_path(@resurrect_kuririn)
-      expect(page).to_not have_select('filter_user_id')
+      expect(page).to_not have_select('filter_user_ids')
     end
   end
 
