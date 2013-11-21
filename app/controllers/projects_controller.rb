@@ -103,7 +103,7 @@ class ProjectsController < ApplicationController
 
   def report
     @project = Project.find(params[:id])
-    @begin_at = @project.created_at
+    @begin_at = Time.now.beginning_of_day
     @end_at = Time.now
     @users = @project.users
     @users = @users.reject { |user| user.observer?(@project) }

@@ -43,6 +43,8 @@ feature 'Observer' do
 
   context 'Project#report' do
     scenario 'show' do
+      Timecop.travel(@day_before_yesterday + 10.hours)
+
       visit report_project_path(@resurrect_kuririn)
       expect(page).to have_select 'filter_user_id'
 
@@ -78,6 +80,8 @@ feature 'Observer' do
           expect(page).to have_content '2 minutes'
         end
       end
+
+      Timecop.return
     end
 
     scenario 'filter by user' do
@@ -115,33 +119,11 @@ feature 'Observer' do
         #goku
         within("#user-#{@goku.id}") do
           expect(page).to have_content @goku.name
-          expect(page).to have_content '17 minutes' #time worked at project
-
-          within("#tasks #task-#{@find_dragon_balls.id}") do
-            expect(page).to have_content @find_dragon_balls.name
-            expect(page).to have_content '2 minutes'
-          end
-
-          within("#tasks #task-#{@invoke_shenlong.id}") do
-            expect(page).to have_content @invoke_shenlong.name
-            expect(page).to have_content '5 minutes'
-          end
-
-          within("#tasks #task-#{@task.id}") do
-            expect(page).to have_content @task.name
-            expect(page).to have_content '10 minutes'
-          end
         end
 
         #kuririn
         within("#user-#{@kuririn.id}") do
           expect(page).to have_content @kuririn.name
-          expect(page).to have_content '2 minutes' #time worked at project
-
-          within("#tasks #task-#{@die.id}") do
-            expect(page).to have_content @die.name
-            expect(page).to have_content '2 minutes'
-          end
         end
       end
 
@@ -224,6 +206,7 @@ feature 'Observer' do
       end
 
       scenario 'end_at' do
+        fill_in 'filter_begin_at', with: @resurrect_kuririn.created_at
         fill_in 'filter_end_at', with: @day_before_yesterday
         click_button 'Filter'
 
@@ -297,6 +280,7 @@ feature 'Observer' do
           end
         end
       end
+
     end
   end
 end

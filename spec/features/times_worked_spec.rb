@@ -18,12 +18,12 @@ feature 'Times worked' do
 
   before(:each) do
     Timecop.freeze(Time.now - 2.day) do
+      now = Time.now
       #user goku
       @goku = create(:user_confirmed)
       @world_salvation = create(:project, name: 'World Salvation', users: [@goku])
 
       @task = create(:task, project: @world_salvation, name: 'Task 1')
-      now = Time.now
       worktime = create(:worktime, task: @task, beginning: now, finish: now + 2.minutes,
         user: @goku )
       worktime = create(:worktime, task: @task, beginning: now, finish: now + 3.minutes,
@@ -54,6 +54,8 @@ feature 'Times worked' do
 
   context 'show' do
     scenario 'admin' do
+      Timecop.travel(@day_before_yesterday + 10.hours)
+
       observer = create(:user_confirmed, name: 'observer')
       create :membership, user: observer, project: @resurrect_kuririn, role: 'observer'
 
@@ -91,6 +93,8 @@ feature 'Times worked' do
       end
 
       expect(page).to_not have_css("#user-#{observer.id}")
+
+      Timecop.return
     end
   end
 
@@ -144,39 +148,17 @@ feature 'Times worked' do
     end
 
     scenario 'initial' do
-      find_field('filter_begin_at').value.should eq(I18n.l(@resurrect_kuririn.created_at, format: :datetimepicker))
+      find_field('filter_begin_at').value.should eq(I18n.l(Time.now.beginning_of_day, format: :datetimepicker))
       find_field('filter_end_at').value.should eq(I18n.l(Time.now, format: :datetimepicker))
 
       #goku
       within("#user-#{@goku.id}") do
         expect(page).to have_content @goku.name
-        expect(page).to have_content '3 hours and 10 minutes' #time worked at project
-
-        within("#tasks #task-#{@find_dragon_balls.id}") do
-          expect(page).to have_content @find_dragon_balls.name
-          expect(page).to have_content '2 hours'
-        end
-
-        within("#tasks #task-#{@invoke_shenlong.id}") do
-          expect(page).to have_content @invoke_shenlong.name
-          expect(page).to have_content '1 hour'
-        end
-
-        within("#tasks #task-#{@task.id}") do
-          expect(page).to have_content @task.name
-          expect(page).to have_content '10 minutes'
-        end
       end
 
       #kuririn
       within("#user-#{@kuririn.id}") do
         expect(page).to have_content @kuririn.name
-        expect(page).to have_content '2 minutes' #time worked at project
-
-        within("#tasks #task-#{@die.id}") do
-          expect(page).to have_content @die.name
-          expect(page).to have_content '2 minutes'
-        end
       end
     end
 
@@ -259,6 +241,7 @@ feature 'Times worked' do
     end
 
     scenario 'end_at' do
+      fill_in 'filter_begin_at', with: @resurrect_kuririn.created_at
       fill_in 'filter_end_at', with: @day_before_yesterday
       click_button 'Filter'
 
