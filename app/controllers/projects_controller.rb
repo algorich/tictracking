@@ -105,8 +105,9 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @begin_at = Time.now.beginning_of_day
     @end_at = Time.now
-    @users = @project.users
-    @users = @users.reject { |user| user.observer?(@project) }
+    @users = @project.users.joins(:memberships).where.not(memberships: {role: 'observer'}).distinct
+
+    @users_with_filtered_tasks = @project.filter(users: @users, begin_at: @begin_at, end_at: @end_at)
 
     @values = {
       user_id: nil,
@@ -120,14 +121,17 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @begin_at = params[:filter][:begin_at].to_time || @project.created_at
     @end_at = params[:filter][:end_at].to_time || Time.now
-    @users = @project.users
-    @users_filtered = @users.where(id: params[:filter][:user_ids])
+
     @values = {
       user_ids: params[:filter][:user_ids],
       begin_at: params[:filter][:begin_at],
       end_at: params[:filter][:end_at]
     }
-    @users = @users_filtered if !@users_filtered.empty?
+
+    @users_filtered = @project.users.where(id: params[:filter][:user_ids])
+    @users = @users_filtered.present? ? @users_filtered : @project.users
+
+    @users_with_filtered_tasks = @project.filter(users: @users, begin_at: @begin_at, end_at: @end_at)
     render 'report'
   end
 

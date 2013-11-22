@@ -129,36 +129,10 @@ describe User do
     end
 
     describe '#time_worked_on' do
-      it 'should return an hash with the all time worked in all tasks and the tasks' do
-        world_salvation_time_worked = @goku.time_worked_on(
-          project: @world_salvation,
-          begin_at: @world_salvation.created_at,
-          end_at: Time.now)
-
-        expect(world_salvation_time_worked[:time_worked_at_all]).to eq(15.minutes)
-        expect(world_salvation_time_worked[:tasks].size).to eq(2)
-      end
-    end
-
-    describe '#get_tasks_time_worked' do
-      it "should return an array with task's id, name and time_worked" do
-
-        array = @goku.send(:get_tasks_time_worked, @world_salvation, @world_salvation.created_at, Time.now)
-        expect(array.size).to eq(2)
-
-        expect(array).to eq(
-          [
-            {
-              id: @task.id,
-              name: @task.name,
-              time:  5.minutes
-            },
-            {
-              id: @task_2.id,
-              name: @task_2.name,
-              time: 10.minutes
-            }
-          ])
+      it 'should return the time worked on all tasks' do
+        expect(@goku.time_worked_on(nil)).to eq(0)
+        expect(@goku.time_worked_on([])).to eq(0)
+        expect(@goku.time_worked_on([@task, @task_2])).to eq(15.minutes)
       end
     end
   end

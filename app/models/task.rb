@@ -6,6 +6,6 @@ class Task < ActiveRecord::Base
   validates :project, presence: true
 
   def time_worked
-    self.worktimes.reduce(0) { |total, worktime| total += worktime.time_worked }
+    worktimes.reduce(0) { |total, worktime| total += worktime.time_worked }
   end
 end

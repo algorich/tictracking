@@ -68,16 +68,25 @@ describe Project do
 
   context 'calculation time worked' do
     before(:each) do
-      Timecop.freeze(Time.now - 1.day) do
+      @some_day = Time.local(2001, 2, 3, 1, 2, 3)
+
+      Timecop.freeze(@some_day - 1.day) do
+        @day_before_some_day = now = Time.now
+
         @goku = create(:user_confirmed)
         @world_salvation = create(:project, name: 'World Salvation', users: [@goku])
         @task = create(:task, project: @world_salvation, name: 'Task 1')
-        now = Time.now
+
         worktime = create(:worktime, task: @task, beginning: now, finish: now + 2.minutes,
           user: @goku )
         worktime = create(:worktime, task: @task, beginning: now, finish: now + 3.minutes,
           user: @goku )
+      end
 
+      Timecop.freeze(@some_day) do
+        now = Time.now
+
+        #goku
         @task_2 = create(:task, project: @world_salvation, name: 'Task 2')
         worktime = create(:worktime, task: @task_2, beginning: now, finish: now + 10.minutes,
           user: @goku )
@@ -87,20 +96,48 @@ describe Project do
         @nothing = create(:task, project: @world_salvation, name: 'nothing')
         worktime = create(:worktime, task: @nothing, beginning: now, finish: now + 2.minutes,
           user: @kuririn )
-
-        @yesterday = Time.now
       end
     end
 
+    describe '#filter' do
+      it 'should return a hash with key eq user and value eq to tasks filtered by time' do
+        hash = @world_salvation.filter(users: [@goku, @kuririn], begin_at: @some_day, end_at: (@some_day + 1.day))
+        expect(hash).to eq({
+          @goku => [@task_2],
+          @kuririn => [@nothing]
+        })
 
-    describe '#get_all_time_worked' do
-      it 'should return the sum of all time worked by projects users' do
-        project_info = @world_salvation.reload.get_all_time_worked(
-          begin_at: @world_salvation.created_at,
-          end_at: Time.now)
+        @piccolo = create(:user_confirmed, name: 'piccolo')
+        create(:membership, project: @world_salvation, user: @piccolo)
 
-        expect(project_info[:time_worked_by_all]).to eq 17.minutes
-        expect(project_info[:users].keys).to eq @world_salvation.users
+        hash = @world_salvation.filter(users: [@piccolo], begin_at: Time.now, end_at: (Time.now + 1.day))
+        expect(hash).to eq({ @piccolo => [] })
+      end
+    end
+
+    describe '#filter_tasks_by' do
+      it  "should return user's tasks and worktimes between times" do
+        tasks = @world_salvation.send(:filter_tasks_by, @goku, @day_before_some_day, @some_day - 1.minute)
+        expect(tasks).to include(@task)
+        expect(tasks).to_not include(@task_2, @nothing)
+
+        tasks = @world_salvation.send(:filter_tasks_by, @goku, @some_day, @some_day + 1.day)
+        expect(tasks).to include(@task_2)
+        expect(tasks).to_not include(@task, @nothing)
+
+        tasks = @world_salvation.send(:filter_tasks_by, @kuririn, @some_day, @some_day + 1.day)
+        expect(tasks).to include(@nothing)
+        expect(tasks).to_not include(@task, @task_2)
+      end
+    end
+
+    describe '#time_worked_by_all' do
+      it 'should return the time worked by all users for a hash like { user: tasks }' do
+        hash = @world_salvation.filter(users: [@goku], begin_at: (@some_day - 3.days), end_at: (@some_day + 1.day))
+        expect(@world_salvation.time_worked_by_all(hash)).to eq(15.minutes)
+
+        hash = @world_salvation.filter(users: [@goku, @kuririn], begin_at: (@some_day - 3.days), end_at: (@some_day + 1.day))
+        expect(@world_salvation.time_worked_by_all(hash)).to eq(17.minutes)
       end
     end
   end

@@ -30,6 +30,8 @@ group :test, :development do
   gem 'pry-rails', '~> 0.3.2'
   gem 'rspec-rails', '~> 2.14.0'
   gem 'factory_girl_rails', '~> 4.2.1'
+  gem 'zeus'
+  gem 'rack-mini-profiler'
 end
 
 group :test do

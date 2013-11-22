@@ -1,12 +1,17 @@
 require 'spec_helper'
 
 feature 'Times worked' do
+  before do
+    @yesterday = Time.local(2008, 12, 12, 6, 6, 6) - 1.day
+  end
+
   scenario 'authenticate_user' do
-    Timecop.freeze(Time.local(2008, 12, 12, 6, 0, 0) - 1.day) { @project = create :project }
+    Timecop.freeze(@yesterday) { @project = create :project }
+
     visit report_project_path(@project)
     expect(page).to have_content('You need to sign in or sign up before continuing.')
 
-    Timecop.freeze(Time.local(2008, 12, 12, 6, 0, 0) - 1.day) do
+    Timecop.freeze(@yesterday) do
       @user = create(:user_confirmed)
       create(:membership, user: @user, project: @project)
     end
@@ -17,7 +22,9 @@ feature 'Times worked' do
   end
 
   before(:each) do
-    Timecop.freeze(Time.local(2008, 12, 12, 6, 0, 0) - 2.day) do
+    @day_before_yesterday = (@yesterday - 1.day)
+
+    Timecop.freeze(@day_before_yesterday) do
       now = Time.now
       #user goku
       @goku = create(:user_confirmed)
@@ -47,8 +54,6 @@ feature 'Times worked' do
       @die = create(:task, project: @resurrect_kuririn, name: 'die')
       worktime = create(:worktime, task: @die, beginning: now, finish: now + 2.minutes,
         user: @kuririn )
-
-      @day_before_yesterday = now
     end
   end
 
@@ -135,7 +140,6 @@ feature 'Times worked' do
 
   context 'filter by time' do
     before(:each) do
-      @yesterday = @day_before_yesterday + 1.day
       Timecop.freeze(@yesterday) do
         now = Time.now
         @task = create(:task, project: @resurrect_kuririn, name: 'Foo')
@@ -241,22 +245,20 @@ feature 'Times worked' do
     end
 
     scenario 'end_at' do
-      fill_in 'filter_begin_at', with: @resurrect_kuririn.created_at
+      fill_in 'filter_begin_at', with: @day_before_yesterday
       fill_in 'filter_end_at', with: @day_before_yesterday
       click_button 'Filter'
 
       within("#user-#{@goku.id}") do
         expect(page).to have_content @goku.name
-        expect(page).to have_content ''
 
-        expect(page).to_not have_css("#task-#{@find_dragon_balls.id}")
-        expect(page).to_not have_css("#task-#{@invoke_shenlong.id}")
         expect(page).to_not have_css("#task-#{@task.id}")
+        expect(page).to_not have_css("#task-#{@invoke_shenlong.id}")
+        expect(page).to_not have_css("#task-#{@find_dragon_balls.id}")
       end
 
       within("#user-#{@kuririn.id}") do
         expect(page).to have_content @kuririn.name
-        expect(page).to have_content '' #time worked at project
 
         expect(page).to_not have_css("#task-#{@die.id}")
       end

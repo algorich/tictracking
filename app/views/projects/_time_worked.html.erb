@@ -4,7 +4,7 @@
       data-parent="#time_worked" href="#user-<%= user.id %>-tasks">
       <%= user_info(user) %>
       <span class="pull-right">
-        <%= precise_distance_of_time_in_words(0, tasks_info[:time_worked_at_all]) %>
+        <%= precise_distance_of_time_in_words(0, user.time_worked_on(tasks)) %>
       </span>
     </a>
   </div>
@@ -12,10 +12,10 @@
   <div id="user-<%= user.id %>-tasks" class=" collapse">
     <table class="table table-striped tasks-table">
       <tbody>
-        <% tasks_info[:tasks].each do |task| %>
-          <tr id="task-<%= task[:id] %>">
-            <td><%= task[:name] %></td>
-            <td><%= precise_distance_of_time_in_words(0, task[:time]) %></td>
+        <% tasks.each do |task| %>
+          <tr id="task-<%= task.id %>">
+            <td><%= task.name %></td>
+            <td><%= precise_distance_of_time_in_words(0, task.time_worked) %></td>
           </tr>
         <% end %>
       </tbody>

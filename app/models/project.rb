@@ -29,15 +29,27 @@ class Project < ActiveRecord::Base
     return true
   end
 
-  def get_all_time_worked(begin_at: begin_at, end_at: end_at)
-    project_info = { users: {} }
+  def filter(users: users, begin_at: begin_at, end_at: end_at)
+    users_tasks = {}
+    users.each { |u| users_tasks[u] = filter_tasks_by(u,begin_at,end_at) }
+    users_tasks
+  end
 
-    project_info[:time_worked_by_all] = users.reduce(0) do |total, user|
-      project_info[:users][user] = user.time_worked_on(project: self, begin_at: begin_at, end_at: end_at)
+  # users_tasks = { user_1: [ task1, task2 ], ... }
+  def time_worked_by_all(users_tasks)
+    all_tasks = users_tasks.values.flatten
+    all_tasks.reduce(0) { |total, task| total + task.time_worked }
+  end
 
-      total += project_info[:users][user][:time_worked_at_all]
-    end
+  private
 
-    project_info
+  def filter_tasks_by(user, begin_at, end_at)
+    tasks.joins(:worktimes).where(
+      'worktimes.beginning >= :begin_at AND worktimes.finish <= :end_at AND worktimes.user_id = :user_id',
+      {
+        user_id: user.id,
+        begin_at: begin_at,
+        end_at: end_at
+      }).distinct.includes(:worktimes)
   end
 end
